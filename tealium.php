@@ -9,7 +9,7 @@
  * Plugin Name:       Tealium
  * Plugin URI:        https://github.com/jaredhislop30/tealium-wordpress-plugin
  * Description:       Tealium Plugin
- * Version:           2.1.12
+ * Version:           2.1.13
  * Author:            Jared Hislop
  * Author URI:        https://github.com/jaredhislop30
  * License:           Public
@@ -219,7 +219,6 @@ function tealiumWooCommerceData( $utagdata ) {
 	$woocart = (array) $woocommerce->cart;
 	$productData = array();
 
-	print_r($woocart);
 
 	if ( !empty( $woocart['cart_contents'] ) ) {
 
@@ -236,6 +235,15 @@ function tealiumWooCommerceData( $utagdata ) {
 		}
 	}
 
+	print(wc_get_product( $post->ID ));
+	print($product->get_id());
+	print($product->get_type());
+	print($product->get_name());
+	print($product->get_price());
+	print($product->get_regular_price());
+	print($product->get_sale_price());
+
+	
 	// Remove the extensive individual product details
 	unset( $woocart['cart_contents'] );
 	unset( $woocart['cart_session_data'] );
