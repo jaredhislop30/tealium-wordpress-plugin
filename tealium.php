@@ -214,11 +214,11 @@ add_filter( 'tealium_convertCamelCase', 'tealiumConvertCamelCase' );
  */
 function tealiumWooCommerceData( $utagdata ) {
 	global $woocommerce;
-	global $product;
-	global $product_id;
+	global $post;
 
-	print $product_id;
-	print($product);
+	$product = wc_get_product( $post->ID );
+
+	print_r($product);
 
 	// Get cart details
 	$woocart = (array) $woocommerce->cart;
