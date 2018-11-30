@@ -236,12 +236,7 @@ function tealiumWooCommerceData( $utagdata ) {
 		}
 	}
 
-	print($product->get_id());
-	print($product->get_type());
-	print($product->get_name());
-	print($product->get_price());
-	print($product->get_regular_price());
-	print($product->get_sale_price());
+	print($product);
 
 
 	// Remove the extensive individual product details
