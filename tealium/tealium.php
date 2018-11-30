@@ -1,10 +1,28 @@
 <?php
+/**
+ * Challenger Server Browser
+ * @link              https://github.com/jaredhislop30
+ * @since             0.1.0
+ * @package           Tealium Plugin
+ *
+ * @wordpress-plugin
+ * Plugin Name:       Tealium
+ * Plugin URI:        https://github.com/jaredhislop30/tealium-wordpress-plugin
+ * Description:       Tealium Plugin
+ * Version:           2.1.12
+ * Author:            Jared Hislop
+ * Author URI:        https://github.com/jaredhislop30
+ * License:           Public
+ * Text Domain:       Tealium
+ * GitHub Plugin URI: https://github.com/jaredhislop30/tealium-wordpress-plugin
+ *
+ */
 /*
-Plugin Name: Tealium
+Plugin Name: Tealium - Backup
 Plugin URI: http://tealium.com
-Description: Adds the Tealium tag and creates a data layer for your WordPress site.
-Version: 2.1.12
-Author: Ian Hampton - Tealium EMEA
+Description: TEMP - Adds the Tealium tag and creates a data layer for your WordPress site.
+Version: 2.1.11
+Author: Jared Hislop
 Author URI: http://tealium.com
 Text Domain: tealium
 Domain Path: /languages
