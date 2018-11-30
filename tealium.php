@@ -9,7 +9,7 @@
  * Plugin Name:       Tealium
  * Plugin URI:        https://github.com/jaredhislop30/tealium-wordpress-plugin
  * Description:       Tealium Plugin
- * Version:           2.1.15
+ * Version:           2.1.122
  * Author:            Jared Hislop
  * Author URI:        https://github.com/jaredhislop30
  * License:           Public
