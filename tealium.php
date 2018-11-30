@@ -9,7 +9,7 @@
  * Plugin Name:       Tealium
  * Plugin URI:        https://github.com/jaredhislop30/tealium-wordpress-plugin
  * Description:       Tealium Plugin
- * Version:           2.1.122
+ * Version:           2.1.123
  * Author:            Jared Hislop
  * Author URI:        https://github.com/jaredhislop30
  * License:           Public
@@ -214,7 +214,7 @@ add_filter( 'tealium_convertCamelCase', 'tealiumConvertCamelCase' );
  */
 function tealiumWooCommerceData( $utagdata ) {
 	global $woocommerce;
-	global $product;
+	print_r($woocommerce);
 
 	// Get cart details
 	$woocart = (array) $woocommerce->cart;
