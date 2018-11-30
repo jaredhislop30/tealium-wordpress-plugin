@@ -215,13 +215,16 @@ add_filter( 'tealium_convertCamelCase', 'tealiumConvertCamelCase' );
 function tealiumWooCommerceData( $utagdata ) {
 	global $woocommerce;
 	global $product;
+	global $product_id;
+
+	print $product_id;
+	print($product);
 
 	// Get cart details
 	$woocart = (array) $woocommerce->cart;
-	$wooproduct = (array) $woocommerce->product;
 	$productData = array();
 
-	print_r($wooproduct);
+	
 
 	if ( !empty( $woocart['cart_contents'] ) ) {
 
@@ -238,7 +241,7 @@ function tealiumWooCommerceData( $utagdata ) {
 		}
 	}
 
-	print($product);
+	
 
 
 	// Remove the extensive individual product details
