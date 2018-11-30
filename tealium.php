@@ -219,6 +219,8 @@ function tealiumWooCommerceData( $utagdata ) {
 	$woocart = (array) $woocommerce->cart;
 	$productData = array();
 
+	print_r($woocart);
+
 	if ( !empty( $woocart['cart_contents'] ) ) {
 
 		// Get cart product IDs, SKUs, Titles etc.
