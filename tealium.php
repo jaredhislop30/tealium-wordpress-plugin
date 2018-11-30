@@ -9,7 +9,7 @@
  * Plugin Name:       Tealium
  * Plugin URI:        https://github.com/jaredhislop30/tealium-wordpress-plugin
  * Description:       Tealium Plugin
- * Version:           2.1.14
+ * Version:           2.1.121
  * Author:            Jared Hislop
  * Author URI:        https://github.com/jaredhislop30
  * License:           Public
@@ -235,7 +235,6 @@ function tealiumWooCommerceData( $utagdata ) {
 		}
 	}
 
-	print(wc_get_product( $post->ID ));
 	print($product->get_id());
 	print($product->get_type());
 	print($product->get_name());
