@@ -222,21 +222,21 @@ function tealiumWooCommerceData( $utagdata ) {
 	$productData = array();
 
 	
+	// Set cart contents. Replacing with Product data on product pages. 
+	// if ( !empty( $woocart['cart_contents'] ) ) {
 
-	if ( !empty( $woocart['cart_contents'] ) ) {
-
-		// Get cart product IDs, SKUs, Titles etc.
-		foreach ( $woocart['cart_contents'] as $cartItem ) {
-			$productMeta = new WC_Product( $cartItem['product_id'] );
-			$productData['product_id'][] = $cartItem['product_id'];
-			$productData['product_sku'][] = $productMeta->post->sku;
-			$productData['product_name'][] = $productMeta->post->post_title;
-			$productData['product_quantity'][] = $cartItem['quantity'];
-			$productData['product_regular_price'][] = get_post_meta( $cartItem['product_id'], '_regular_price', true );
-			$productData['product_sale_price'][] = get_post_meta( $cartItem['product_id'], '_sale_price', true );
-			$productData['product_type'][] = $productMeta->post->product_type;
-		}
-	}
+	// 	// Get cart product IDs, SKUs, Titles etc.
+	// 	foreach ( $woocart['cart_contents'] as $cartItem ) {
+	// 		$productMeta = new WC_Product( $cartItem['product_id'] );
+	// 		$productData['product_id'][] = $cartItem['product_id'];
+	// 		$productData['product_sku'][] = $productMeta->post->sku;
+	// 		$productData['product_name'][] = $productMeta->post->post_title;
+	// 		$productData['product_quantity'][] = $cartItem['quantity'];
+	// 		$productData['product_regular_price'][] = get_post_meta( $cartItem['product_id'], '_regular_price', true );
+	// 		$productData['product_sale_price'][] = get_post_meta( $cartItem['product_id'], '_sale_price', true );
+	// 		$productData['product_type'][] = $productMeta->post->product_type;
+	// 	}
+	// }
 
 	
 
@@ -273,6 +273,20 @@ function tealiumWooCommerceData( $utagdata ) {
 		}
 
 		$utagdata = array_merge( $utagdata, $orderData );
+	}else if($utagdata['pageType']=="product"){
+	    $product = wc_get_product( $post->ID );
+	    $productData['product_id'][] = $product->get_id();
+	    $productData['product_sku'][] = $product->get_sku();
+	    $productData['product_type'][] = $product->get_type();
+	    $productData['product_name'][] = $product->get_name();
+	    $productData['product_unit_price'][] = $product->get_price();
+	    $productData['product_list_price'][] = $product->get_regular_price();
+	    $productData['product_sale_price'][] = $product->get_sale_price();
+	    $productData['product_image_url'][] = get_the_post_thumbnail_url( $product->get_id(), 'full' );
+	    $categories = wc_get_product_category_list($product->get_id()
+	    $productData['product_cateogry'][]=$categories[0];
+	    $productData['product_subcateogry'][]=$categories[1];
+	    $productData['product_subcateogry2'][]=$categories[2];
 	}
 
 
