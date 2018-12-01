@@ -224,9 +224,8 @@ function tealiumWooCommerceData( $utagdata ) {
 	print($product->get_price());
 	print($product->get_regular_price());
 	print($product->get_sale_price());
-	print($product->get_categories());
-	print($product->get_category_ids());
-	print($product->get_image_id());
+	print(wc_get_product_category_list($product->get_id()));
+	print(get_the_post_thumbnail_url( $product->get_id(), 'full' ));
 	// Get cart details
 	$woocart = (array) $woocommerce->cart;
 	$productData = array();
