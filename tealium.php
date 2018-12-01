@@ -283,7 +283,7 @@ function tealiumWooCommerceData( $utagdata ) {
 	    $productData['product_list_price'][] = $product->get_regular_price();
 	    $productData['product_sale_price'][] = $product->get_sale_price();
 	    $productData['product_image_url'][] = get_the_post_thumbnail_url( $product->get_id(), 'full' );
-	    print($product->get_categories());
+	    print($product->get_category_ids());
 	    // $productData['product_cateogry'][] = $categories[0];
 	    // $productData['product_subcateogry'][] = $categories[1];
 	    // $productData['product_subcateogry2'][] = $categories[2];
