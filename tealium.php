@@ -341,12 +341,12 @@ function tealiumDataObject() {
 		$utagdata['postDate'] = get_the_time( 'Y/m/d' );
 
 		// Get and merge post meta data
-		if ( "1" !== get_option( 'tealiumExcludeMetaData' ) ) {
-			$meta = get_post_meta( get_the_ID() );
-			if ( $meta ) {
-				$utagdata = array_merge( $utagdata, $meta );
-			}
-		}
+		// if ( "1" !== get_option( 'tealiumExcludeMetaData' ) ) {
+		// 	$meta = get_post_meta( get_the_ID() );
+		// 	if ( $meta ) {
+		// 		$utagdata = array_merge( $utagdata, $meta );
+		// 	}
+		// }
 
 	}
 	else if ( is_category() ) {
