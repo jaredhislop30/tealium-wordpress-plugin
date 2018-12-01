@@ -284,9 +284,14 @@ function tealiumWooCommerceData( $utagdata ) {
 	    $productData['product_sale_price'][] = $product->get_sale_price();
 	    $productData['product_image_url'][] = get_the_post_thumbnail_url( $product->get_id(), 'full' );
 	    $categories = explode(",", wc_get_product_category_list($product->get_id()));
-	    $productData['product_cateogry'][] = strip_tags($categories[0]);
-	    $productData['product_subcateogry'][] = strip_tags($categories[1]);
-	    $productData['product_subcateogry2'][] = $categories[2]!=null?strip_tags($categories[2]):"";
+	    if(sizeof($categories)==2){
+		    $productData['product_cateogry'][] = strip_tags($categories[1]);
+		    $productData['product_subcateogry'][] = strip_tags($categories[0]);
+	    }else{
+	    	$productData['product_cateogry'][] = strip_tags($categories[0]);
+	    	$productData['product_subcateogry'][] = "";
+	    }
+	    
 	}
 
 
