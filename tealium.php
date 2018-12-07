@@ -276,16 +276,16 @@ function tealiumWooCommerceData( $utagdata ) {
 	// Add product data on product details page	
 	}else if($utagdata['pageType']=="product"){
 	    $product = wc_get_product( $post->ID );
-	    $productData['product_id'][] = $product->get_id();
+	    $productData['product_id'][] = strval($product->get_id());
 	    $productData['product_sku'][] = $product->get_sku();
 	    $productData['product_type'][] = $product->get_type();
 	    $productData['product_name'][] = $product->get_name();
+	    $productData['product_brand'] = $product->get_attribute('brand');
 	    $productData['product_unit_price'][] = $product->get_price();
 	    $productData['product_list_price'][] = $product->get_regular_price();
 	    $productData['product_sale_price'][] = $product->get_sale_price();
-	    $productData['attributes'][] = $product->get_attributes();
 	    $productData['product_image_url'][] = get_the_post_thumbnail_url( $product->get_id(), 'full' );
-	    $productData['product_discount'][] = strval($productData['product_list_price'][0] - $productData['product_unit_price'][0]);
+	    $productData['product_discount'][] = $productData['product_list_price'][0]!=$productData['product_unit_price'][0]?strval($productData['product_list_price'][0] - $productData['product_unit_price'][0] : "0");
 	    $categories = explode(",", wc_get_product_category_list($product->get_id()));
 
 	    // TODO: category has a leading space. replace leading space. 
