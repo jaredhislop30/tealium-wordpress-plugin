@@ -250,6 +250,9 @@ function tealiumWooCommerceData( $utagdata ) {
 	// Get currency in use
 	$woocart['site_currency'] = get_woocommerce_currency();
 
+	//Get Cart Details on Each Page
+	$productData['items'] = $woocommerce->cart->get_cart();
+
 	// Add order data on order confirmation page
 	if ( is_order_received_page() ) {
 		$orderId  = apply_filters( 'woocommerce_thankyou_order_id', empty( $_GET['order'] ) ? ( $GLOBALS["wp"]->query_vars["order-received"] ? $GLOBALS["wp"]->query_vars["order-received"] : 0 ) : absint( $_GET['order'] ) );
@@ -308,7 +311,7 @@ function tealiumWooCommerceData( $utagdata ) {
 
 
 	// Merge shop and cart details into utagdata
-	$utagdata = array_merge( $utagdata, $woocart );
+	// $utagdata = array_merge( $utagdata, $woocart );
 	$utagdata = array_merge( $utagdata, $productData );
 
 	return $utagdata;
