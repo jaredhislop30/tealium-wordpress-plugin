@@ -285,7 +285,7 @@ function tealiumWooCommerceData( $utagdata ) {
 	    $productData['product_sale_price'][] = $product->get_sale_price();
 	    $productData['attributes'][] = $product->get_attributes();
 	    $productData['product_image_url'][] = get_the_post_thumbnail_url( $product->get_id(), 'full' );
-	    $productData['product_discount'][] = strval($productData['product_list_price']-$productData['product_unit_price']);
+	    $productData['product_discount'][] = strval($productData['product_list_price'][0] - $productData['product_unit_price'][0]);
 	    $categories = explode(",", wc_get_product_category_list($product->get_id()));
 
 	    // TODO: category has a leading space. replace leading space. 
