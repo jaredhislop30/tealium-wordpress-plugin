@@ -216,6 +216,7 @@ function tealiumWooCommerceData( $utagdata ) {
 	global $woocommerce;
 	global $post;
 	global $product;
+	global $wp;
 
 	// Get cart details
 	$woocart = (array) $woocommerce->cart;
@@ -280,12 +281,13 @@ function tealiumWooCommerceData( $utagdata ) {
 	    $productData['product_sku'][] = $product->get_sku();
 	    $productData['product_type'][] = $product->get_type();
 	    $productData['product_name'][] = $product->get_name();
-	    $productData['product_brand'] = $product->get_attribute('brand');
+	    $productData['product_brand'][] = $product->get_attribute('brand');
 	    $productData['product_unit_price'][] = $product->get_price();
 	    $productData['product_list_price'][] = $product->get_regular_price();
 	    $productData['product_sale_price'][] = $product->get_sale_price();
 	    $productData['product_image_url'][] = get_the_post_thumbnail_url( $product->get_id(), 'full' );
 	    $productData['product_discount'][] = "0";
+	    $productData['product_url'][] = home_url( $wp->request );
 	    if($productData['product_list_price'][0] != ""){
 	    	$productData['product_discount'][] = strval($productData['product_list_price'][0] - $productData['product_unit_price'][0]);
 	    }
