@@ -249,7 +249,7 @@ function tealiumWooCommerceData( $utagdata ) {
 	// Get currency in use
 	$woocart['site_currency'] = get_woocommerce_currency();
 
-	// Add order data
+	// Add order data on order confirmation page
 	if ( is_order_received_page() ) {
 		$orderId  = apply_filters( 'woocommerce_thankyou_order_id', empty( $_GET['order'] ) ? ( $GLOBALS["wp"]->query_vars["order-received"] ? $GLOBALS["wp"]->query_vars["order-received"] : 0 ) : absint( $_GET['order'] ) );
 		$orderKey = apply_filters( 'woocommerce_thankyou_order_key', empty( $_GET['key'] ) ? '' : woocommerce_clean( $_GET['key'] ) );
@@ -273,6 +273,7 @@ function tealiumWooCommerceData( $utagdata ) {
 		}
 
 		$utagdata = array_merge( $utagdata, $orderData );
+	// Add product data on product details page	
 	}else if($utagdata['pageType']=="product"){
 	    $product = wc_get_product( $post->ID );
 	    $productData['product_id'][] = $product->get_id();
@@ -282,8 +283,12 @@ function tealiumWooCommerceData( $utagdata ) {
 	    $productData['product_unit_price'][] = $product->get_price();
 	    $productData['product_list_price'][] = $product->get_regular_price();
 	    $productData['product_sale_price'][] = $product->get_sale_price();
+	    $productData['attributes'][] = $product->get_attributes();
 	    $productData['product_image_url'][] = get_the_post_thumbnail_url( $product->get_id(), 'full' );
+	    $productData['product_discount'][] = strval($productData['product_list_price']-$productData['product_unit_price']);
 	    $categories = explode(",", wc_get_product_category_list($product->get_id()));
+
+	    // TODO: category has a leading space. replace leading space. 
 	    if(sizeof($categories)==2){
 		    $productData['product_cateogry'][] = strip_tags($categories[1]);
 		    $productData['product_subcateogry'][] = strip_tags($categories[0]);
@@ -291,8 +296,10 @@ function tealiumWooCommerceData( $utagdata ) {
 	    	$productData['product_cateogry'][] = strip_tags($categories[0]);
 	    	$productData['product_subcateogry'][] = "";
 	    }
+	    $productData['category_id'] = join("_",$categories);
+	    $productData['category_name'] = join(":",$categories);
 	    
-	}
+	}// TODO: Add cart data on cart page
 
 
 	// Merge shop and cart details into utagdata
