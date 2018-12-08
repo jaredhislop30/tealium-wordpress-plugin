@@ -286,7 +286,7 @@ function tealiumWooCommerceData( $utagdata ) {
 
 		$utagdata = array_merge( $utagdata, $orderData );
 	// Add product data on product details page	
-	}else if($utagdata['pageType']=="product"){
+	}else if($utagdata['pageName']=="product"){
 	    $product = wc_get_product( $post->ID );
 	    $productData['product_id'][] = strval($product->get_id());
 	    $productData['product_sku'][] = $product->get_sku();
@@ -362,8 +362,10 @@ function tealiumDataObject() {
 		}
 
 		// Misc post/page data
-		$utagdata['pageType'] = get_post_type();
+		$utagdata['pageName'] = get_post_type();
 		$utagdata['post'] = get_post();
+		$utagdata['queried_object'] = get_queried_object();
+		$utagdata['postTerms'] = get_the_terms( $post->ID, 'product_cat' );
 		$utagdata['postId'] = get_the_ID();
 		$utagdata['pageName'] = get_the_title();
 		$utagdata['postAuthor'] = get_userdata( $post->post_author )->display_name;
@@ -379,18 +381,18 @@ function tealiumDataObject() {
 
 	}
 	else if ( is_category() ) {
-			$utagdata['pageType'] = "category-archive";
+			$utagdata['pageName'] = "category-archive";
 			$utagdata['postTitle'] = single_cat_title( 'Category archive: ', false );
 		}
 	else if ( is_tag() ) {
-			$utagdata['pageType'] = "tag-archive";
+			$utagdata['pageName'] = "tag-archive";
 			$utagdata['postTitle'] = single_tag_title( 'Tag archive: ', false );
 		}
 	else if ( is_archive() ) {
-			$utagdata['pageType'] = "archive";
+			$utagdata['pageName'] = "archive";
 		}
 	else if ( ( is_home() ) || ( is_front_page() ) ) {
-			$utagdata['pageType'] = "homepage";
+			$utagdata['pageName'] = "homepage";
 		}
 	else if ( is_search() ) {
 			global $wp_query;
@@ -400,7 +402,7 @@ function tealiumDataObject() {
 			$searchCount = $wp_query->found_posts;
 
 			// Add to udo
-			$utagdata['pageType'] = "search";
+			$utagdata['pageName'] = "search";
 			$utagdata['searchQuery'] = $searchQuery;
 			$utagdata['searchResults'] = $searchCount;
 		}
