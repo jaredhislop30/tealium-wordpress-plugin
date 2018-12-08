@@ -218,8 +218,17 @@ function tealiumWooCommerceData( $utagdata ) {
 	global $product;
 	global $wp;
 
-	// Get cart details
-	$woocart = (array) $woocommerce->cart;
+	$productData['items'] = $woocommerce->cart->get_cart();
+
+	//Get Cart Details on Each Page
+	$woocart =array();
+	$woocart['cart_total_items'] = 0;
+	$woocart['cart_total_value'] = 0;
+
+	for(x in $productData['items']){
+		$woocart['cart_total_items'] += $productData['items'][x]['line_total'];
+		$woocart['cart_total_value'] += $productData['items'][x]['quantity'];
+	}
 	$productData = array();
 
 	
@@ -239,9 +248,6 @@ function tealiumWooCommerceData( $utagdata ) {
 	// 	}
 	// }
 
-	
-
-
 	// Remove the extensive individual product details
 	unset( $woocart['cart_contents'] );
 	unset( $woocart['cart_session_data'] );
@@ -249,9 +255,6 @@ function tealiumWooCommerceData( $utagdata ) {
 
 	// Get currency in use
 	$woocart['site_currency'] = get_woocommerce_currency();
-
-	//Get Cart Details on Each Page
-	$productData['items'] = $woocommerce->cart->get_cart();
 
 	// Add order data on order confirmation page
 	if ( is_order_received_page() ) {
@@ -311,7 +314,7 @@ function tealiumWooCommerceData( $utagdata ) {
 
 
 	// Merge shop and cart details into utagdata
-	// $utagdata = array_merge( $utagdata, $woocart );
+	$utagdata = array_merge( $utagdata, $woocart );
 	$utagdata = array_merge( $utagdata, $productData );
 
 	return $utagdata;
