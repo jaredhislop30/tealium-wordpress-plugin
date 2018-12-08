@@ -230,8 +230,8 @@ function tealiumWooCommerceData( $utagdata ) {
 		$cart_total_items += $items[$key]['quantity'];
 	}
 
-	$woocart['cart_total_items'] = (string)$cart_total_value;
-	$woocart['cart_total_value'] = (string)$cart_total_items;
+	$woocart['cart_total_items'] = (string)$cart_total_items;
+	$woocart['cart_total_value'] = (string)$cart_total_value;
 	$productData = array();
 
 	
