@@ -365,7 +365,7 @@ function tealiumDataObject() {
 		$utagdata['pageName'] = get_post_type();
 		$utagdata['post'] = get_post();
 		$utagdata['queried_object'] = get_queried_object();
-		$utagdata['postTerms'] = get_the_terms( $post->ID, 'product_cat' );
+		$utagdata['postContent'] = the_content();
 		$utagdata['postId'] = get_the_ID();
 		$utagdata['pageName'] = get_the_title();
 		$utagdata['postAuthor'] = get_userdata( $post->post_author )->display_name;
