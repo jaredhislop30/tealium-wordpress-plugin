@@ -232,6 +232,8 @@ function tealiumWooCommerceData( $utagdata ) {
 
 	$woocart['cart_total_items'] = (string)$cart_total_items;
 	$woocart['cart_total_value'] = (string)$cart_total_value;
+
+
 	$productData = array();
 
 	
@@ -361,8 +363,9 @@ function tealiumDataObject() {
 
 		// Misc post/page data
 		$utagdata['pageType'] = get_post_type();
+		$utagdata['post'] = get_post();
 		$utagdata['postId'] = get_the_ID();
-		$utagdata['postTitle'] = get_the_title();
+		$utagdata['pageName'] = get_the_title();
 		$utagdata['postAuthor'] = get_userdata( $post->post_author )->display_name;
 		$utagdata['postDate'] = get_the_time( 'Y/m/d' );
 
