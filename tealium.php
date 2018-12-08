@@ -225,9 +225,9 @@ function tealiumWooCommerceData( $utagdata ) {
 	$woocart['cart_total_items'] = 0;
 	$woocart['cart_total_value'] = 0;
 
-	for(x in $productData['items']){
-		$woocart['cart_total_items'] += $productData['items'][x]['line_total'];
-		$woocart['cart_total_value'] += $productData['items'][x]['quantity'];
+	for($x in $productData['items']){
+		$woocart['cart_total_items'] += $productData['items'][$x]['line_total'];
+		$woocart['cart_total_value'] += $productData['items'][$x]['quantity'];
 	}
 	$productData = array();
 
