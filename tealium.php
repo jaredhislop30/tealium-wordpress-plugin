@@ -218,17 +218,20 @@ function tealiumWooCommerceData( $utagdata ) {
 	global $product;
 	global $wp;
 
-	$productData['items'] = $woocommerce->cart->get_cart();
+	$items = $woocommerce->cart->get_cart();
 
 	//Get Cart Details on Each Page
 	$woocart =array();
-	$woocart['cart_total_items'] = 0;
-	$woocart['cart_total_value'] = 0;
+	$cart_total_value = 0;
+	$cart_total_items = 0;
 
-	foreach($productData['items'] as $key => $value){
-		$woocart['cart_total_items'] += $productData['items'][$key]['line_total'];
-		$woocart['cart_total_value'] += $productData['items'][$key]['quantity'];
+	foreach($items as $key => $value){
+		$cart_total_value += $items[$key]['line_total'];
+		$cart_total_items += $items[$key]['quantity'];
 	}
+
+	$woocart['cart_total_items'] = (string)$cart_total_items;
+	$woocart['cart_total_value'] = (string)$cart_total_items;
 	$productData = array();
 
 	
