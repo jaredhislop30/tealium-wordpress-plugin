@@ -406,11 +406,13 @@ function tealiumDataObject() {
 			// Get product categories used for page section and categories
 			if($term){
 
-				$utagdata['category_name'] = $term->name;
+				$utagdata['category_name'] = $term->slug;
+				$utagdata['parent_categories'] = get_ancestors($term->term_id, 'product_cat');
 
 				if($term->parent!=0){
-					$product_cat_id = $term->parent;
-					$utagdata['parent_category'] = get_term_by( 'id', $product_cat_id, 'product_cat' )->name;
+					//Returns full category object
+					$parent_cat = get_term_by( 'id', $term->parent, 'product_cat' );
+					$utagdata['parent_category'] = $parent_cat->slug;
 				}
 			}
 
