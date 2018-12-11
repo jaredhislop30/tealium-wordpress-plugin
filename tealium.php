@@ -392,7 +392,7 @@ function tealiumDataObject() {
 		}
 	else if ( is_archive() ) {
 			$utagdata['pageName'] = "archive";
-			$cat = explode(": ",get_the_archive_title());
+			$cat = explode(": ",strtolower(get_the_archive_title()));
 			$utagdata['pageType'] = $cat[0];
 			$utagdata['pageCategory'] = $cat[1];
 		}
