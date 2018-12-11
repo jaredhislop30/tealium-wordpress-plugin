@@ -410,7 +410,7 @@ function tealiumDataObject() {
 				$utagdata['parent_categories'] = get_ancestors($term->term_id, 'product_cat');
 
 				for($ind=0; $ind < sizeof($utagdata['parent_categories']); $ind++){
-					$utagdata['parent_categories_'.$ind] = get_term_by( 'id', $term->parent, 'product_cat' )->slug;
+					$utagdata['parent_categories_'.$ind] = get_term_by( 'id', $utagdata['parent_categories'][$ind], 'product_cat' )->slug;
 				}
 
 				// if($term->parent!=0){
