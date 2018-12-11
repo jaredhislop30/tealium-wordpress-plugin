@@ -394,7 +394,8 @@ function tealiumDataObject() {
 			$utagdata['pageName'] = "archive";
 			$cat = explode(": ",strtolower(get_the_archive_title()));
 			$utagdata['pageType'] = $cat[0];
-			$utagdata['pageCategory'] = $cat[1];
+			$utagdata['categoryName'] = $cat[1]!==undefined?$cat[1]:"";
+			$utagdata['categoryName_2'] = $cat[2]!==undefined?$cat[2]:"";
 		}
 	else if ( ( is_home() ) || ( is_front_page() ) ) {
 			$utagdata['pageName'] = "homepage";
