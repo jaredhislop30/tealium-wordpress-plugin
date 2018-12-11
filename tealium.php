@@ -399,11 +399,17 @@ function tealiumDataObject() {
 			$utagdata['pageType'] = $cat[0];
 			$utagdata['categoryName'] = $cat[1];
 			$utagdata['categoryName_2'] = $cat[2];
-			$utagdata['postContent'] = the_content();
-			$utagdata['postContent_2'] = post_type_archive_title();
 			$utagdata['postTerms'] = get_the_terms( $post->ID, 'product_cat' );
+			if(get_queried_object()->term_id){
+				$term_id = get_queried_object()->term_id;
+				$terms = get_the_terms( $post->ID, 'product_cat' );
+				$utagdata['term_id_category'] = $terms->$term_id->name;
+				if($terms->$term_id->parent != 0){
+					$parent_term_id = $terms->$term_id->parent;
+					$utagdata['term_id_category_2'] = $terms->$parent_term_id->name;
+				}
+			}
 			$utagdata['queried_object'] = get_queried_object();
-			$utagdata['postTerms'] = get_the_terms( $post->ID, 'product_cat' );
 		}
 	else if ( ( is_home() ) || ( is_front_page() ) ) {
 			$utagdata['pageName'] = "homepage";
