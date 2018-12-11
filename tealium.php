@@ -409,11 +409,15 @@ function tealiumDataObject() {
 				$utagdata['category_name'] = $term->slug;
 				$utagdata['parent_categories'] = get_ancestors($term->term_id, 'product_cat');
 
-				if($term->parent!=0){
-					//Returns full category object
-					$parent_cat = get_term_by( 'id', $term->parent, 'product_cat' );
-					$utagdata['parent_category'] = $parent_cat->slug;
+				foreach($ind=0;$ind > sizeof($utagdata['parent_categories']); $ind++){
+					$utagdata['parent_categories_'.$ind] = get_term_by( 'id', $term->parent, 'product_cat' )->slug;
 				}
+
+				// if($term->parent!=0){
+				// 	//Returns full category object
+				// 	$parent_cat = get_term_by( 'id', $term->parent, 'product_cat' );
+				// 	$utagdata['parent_category'] = $parent_cat->slug;
+				// }
 			}
 
 			// 	// $terms will be an array of objects for each category that is loaded. 
