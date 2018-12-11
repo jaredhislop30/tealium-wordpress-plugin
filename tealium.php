@@ -394,11 +394,8 @@ function tealiumDataObject() {
 			$utagdata['pageName'] = "archive";
 			$cat = explode(": ",strtolower(get_the_archive_title()));
 			$utagdata['pageType'] = $cat[0];
-			$utagdata['categoryName'] = isset($cat[1])?$cat[1]:"";
-			$utagdata['categoryName_2'] = isset($cat[2])?$cat[2]:"";
-			$utagdata['pageType3'] = $cat[2];
-			$utagdata['categoryName'] = isset($cat[1])?$cat[1]:"";
-			$utagdata['categoryName_2'] = isset($cat[2])?$cat[2]:"";
+			$utagdata['categoryName'] = $cat[1];
+			$utagdata['categoryName_2'] = $cat[2];
 		}
 	else if ( ( is_home() ) || ( is_front_page() ) ) {
 			$utagdata['pageName'] = "homepage";
