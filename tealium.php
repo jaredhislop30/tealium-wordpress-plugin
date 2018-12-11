@@ -393,7 +393,7 @@ function tealiumDataObject() {
 	else if ( is_archive() ) {
 			$utagdata['pageName'] = "archive";
 			$utagdata['pageTest'] = is_post_type_archive();
-			$utagdata['pageTitle'] = post_type_archive_title();
+			$utagdata['pageTitle'] = the_archive_title();
 		}
 	else if ( ( is_home() ) || ( is_front_page() ) ) {
 			$utagdata['pageName'] = "homepage";
