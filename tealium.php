@@ -286,11 +286,10 @@ function tealiumWooCommerceData( $utagdata ) {
 
 		$utagdata = array_merge( $utagdata, $orderData );
 	// Add product data on product details page	
-	$productData['conditional_1'] = get_post_type();
-	$productData['conditional_2'] = get_the_title();
 	}else if(get_post_type() == "product" && get_the_title() != "archive"){
 	    $product = wc_get_product( $post->ID );
 	    $productData['product_id'][] = strval($product->get_id());
+	    $productData['product_id_2'][] = "test";
 	    $productData['product_sku'][] = $product->get_sku();
 	    $productData['product_type'][] = $product->get_type();
 	    $productData['product_name'][] = $product->get_name();
@@ -301,11 +300,11 @@ function tealiumWooCommerceData( $utagdata ) {
 	    $productData['product_image_url'][] = get_the_post_thumbnail_url( $product->get_id(), 'full' );
 	    //TODO: Revamp product discount
 	    //Problem Page: http://ec2-3-16-215-116.us-east-2.compute.amazonaws.com/index.php/product/marathon-t-shirts/
-	    $productData['product_discount'][] = "0";
-	    $productData['product_url'][] = home_url( $wp->request );
-	    if($productData['product_list_price'][0] != ""){
-	    	$productData['product_discount'][] = strval($productData['product_list_price'][0] - $productData['product_unit_price'][0]);
-	    }
+	    // $productData['product_discount'][] = "0";
+	    // $productData['product_url'][] = home_url( $wp->request );
+	    // if($productData['product_list_price'][0] != ""){
+	    // 	$productData['product_discount'][] = strval($productData['product_list_price'][0] - $productData['product_unit_price'][0]);
+	    // }
 	    $categories = explode(",", wc_get_product_category_list($product->get_id()));
 
 	    // TODO: category has a leading space. replace leading space. 
@@ -338,7 +337,7 @@ function tealiumDataObject() {
 	$utagdata = array();
 
 	//Version checking
-	$utagdata['plugin_version'] = "0.0.04";
+	$utagdata['plugin_version'] = "0.0.05";
 
 	// Blog info
 	$utagdata['siteName'] = get_bloginfo( 'name' );
