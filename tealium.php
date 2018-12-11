@@ -335,6 +335,9 @@ function tealiumDataObject() {
 	global $utagdata;
 	$utagdata = array();
 
+	//Version checking
+	$utagdata['plugin_version'] = "0.0.01";
+
 	// Blog info
 	$utagdata['siteName'] = get_bloginfo( 'name' );
 	$utagdata['siteDescription'] = get_bloginfo( 'description' );
