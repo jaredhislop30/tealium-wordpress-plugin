@@ -395,6 +395,35 @@ function tealiumDataObject() {
 		}
 	else if ( is_archive() ) {
 			$utagdata['pageName'] = strtolower(get_the_archive_title());
+			$cat = explode(": ",$utagdata['pageName']);
+			$utagdata['pageType'] = $cat[0];
+			$utagdata['categoryName'] = $cat[1];
+			$utagdata['categoryName_2'] = $cat[2];
+			$utagdata['postTerms'] = get_the_terms( $post->ID, 'product_cat' );
+
+			// Get product categories used for page section and categories
+			if(get_queried_object()->term_id){
+			// $terms will be an array of objects for each category that is loaded. 
+				$terms = get_the_terms( $post->ID, 'product_cat' );
+				$obj = new stdClass(); 
+				foreach($terms as $val){
+				    $id = $val->term_id;
+				    $obj->$id = new stdClass();
+				    $obj->$id->name = $val->name;
+				    $obj->$id->parent = $val->parent;
+				}
+			
+				$term_id = get_queried_object()->term_id;
+				$utagdata['term_id'] = $term_id;
+				$utagdata['term_id_terms'] = $obj->$term_id;
+				$utagdata['term_id_category'] = $obj->$term_id->name;
+				//TODO get child categories
+				// if($terms->$term_id->parent != 0){
+				// 	$parent_term_id = $terms->$term_id->parent;
+				// 	$utagdata['term_id_category_2'] = $terms->$parent_term_id->name;
+				// }
+			}
+			$utagdata['queried_object'] = get_queried_object();
 		}
 	else if ( ( is_home() ) || ( is_front_page() ) ) {
 			$utagdata['pageName'] = "homepage";
