@@ -336,7 +336,7 @@ function tealiumDataObject() {
 	$utagdata = array();
 
 	//Version checking
-	$utagdata['plugin_version'] = "0.0.09";
+	$utagdata['plugin_version'] = "0.0.10";
 
 	// Blog info
 	$utagdata['siteName'] = get_bloginfo( 'name' );
@@ -394,10 +394,10 @@ function tealiumDataObject() {
 			$utagdata['postTitle'] = single_tag_title( 'Tag archive: ', false );
 		}
 	else if ( is_archive() ) {
-			$utagdata['pageName'] = "archive";
-			$cat = explode(": ",strtolower(get_the_archive_title()));
+			$utagdata['pageName'] = strtolower(get_the_archive_title());
+			$cat = explode(": ",$utagdata['pageName']);
 			$utagdata['pageType'] = $cat[0];
-			$utagdata['categoryName_1'] = $cat[1];
+			$utagdata['categoryName'] = $cat[1];
 			$utagdata['categoryName_2'] = $cat[2];
 		}
 	else if ( ( is_home() ) || ( is_front_page() ) ) {
