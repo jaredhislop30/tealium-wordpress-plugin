@@ -286,7 +286,7 @@ function tealiumWooCommerceData( $utagdata ) {
 
 		$utagdata = array_merge( $utagdata, $orderData );
 	// Add product data on product details page	
-	}else if($utagdata['pageName']=="product"){
+	}else if(get_post_type() == "product"){
 	    $product = wc_get_product( $post->ID );
 	    $productData['product_id'][] = strval($product->get_id());
 	    $productData['product_sku'][] = $product->get_sku();
@@ -362,7 +362,7 @@ function tealiumDataObject() {
 		}
 
 		// Misc post/page data
-		$utagdata['pageName'] = get_post_type();
+		$utagdata['pageType'] = get_post_type();
 		$utagdata['post'] = get_post();
 		$utagdata['queried_object'] = get_queried_object();
 		$utagdata['postContent'] = post_type_archive_title();
