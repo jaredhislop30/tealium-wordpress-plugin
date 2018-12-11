@@ -396,35 +396,53 @@ function tealiumDataObject() {
 	else if ( is_archive() ) {
 			$utagdata['pageName'] = strtolower(get_the_archive_title());
 			$cat = explode(": ",$utagdata['pageName']);
-			$utagdata['pageType'] = $cat[0];
-			$utagdata['categoryName'] = $cat[1];
-			$utagdata['categoryName_2'] = $cat[2];
-			$utagdata['postTerms'] = get_the_terms( $post->ID, 'product_cat' );
+			$utagdata['pageType'] = "category";
+			$utagdata['site_section'] = "shop";
 
+			// TEMP Remove
+			$utagdata['postTerms'] = get_the_terms( $post->ID, 'product_cat' );
+			$utagdata['queried_object'] = get_queried_object();
+			$term = get_queried_object();
 			// Get product categories used for page section and categories
-			if(get_queried_object()->term_id){
-			// $terms will be an array of objects for each category that is loaded. 
-				$terms = get_the_terms( $post->ID, 'product_cat' );
-				$obj = new stdClass(); 
-				foreach($terms as $val){
-				    $id = $val->term_id;
-				    $obj->$id = new stdClass();
-				    $obj->$id->name = $val->name;
-				    $obj->$id->parent = $val->parent;
-				}
-			
-				$term_id = get_queried_object()->term_id;
-				$utagdata['term_id'] = $term_id;
-				$utagdata['term_id_terms'] = $obj->$term_id;
-				$utagdata['term_id_category'] = $obj->$term_id->name;
-				//TODO get parent categories
-				$parent = $obj->$term_id->parent;
-				if($obj->$parent != 0){
-					$parent_term_id = $obj->$parent;
-					$utagdata['term_id_category_2'] = $obj->$parent->name;
+			if($term){
+
+				$base_cat = $term->name;
+
+				if($term->parent!=0){
+					$product_cat_id = $term->parent;
+					$utagdata['parent_category'] = get_term_by( 'id', $product_cat_id, 'product_cat' );
 				}
 			}
-			$utagdata['queried_object'] = get_queried_object();
+
+			// 	// $terms will be an array of objects for each category that is loaded. 
+			// 	$terms = get_the_terms( $post->ID, 'product_cat' );
+			// 	$num_of_categories = sizeof($terms);
+
+			// 	if($num_of_categories=1){
+			// 		$utagdata['categoryName'] = $terms[0]->slug;
+			// 		$utagdata['categoryId'] = $terms[0]->term_id;
+			// 		$utagdata['pageName'] = $utagdata['categoryName'];
+			// 	}else{
+			// 		$obj = new stdClass(); 
+			// 		foreach($terms as $val){
+			// 		    $id = $val->term_id;
+			// 		    $obj->$id = new stdClass();
+			// 		    $obj->$id->name = $val->name;
+			// 		    $obj->$id->parent = $val->parent;
+			// 		}
+			// 		$term_id = get_queried_object()->term_id;
+			// 		$utagdata['term_id'] = $term_id;
+			// 		$utagdata['term_id_terms'] = $obj->$term_id;
+			// 		$utagdata['term_id_category'] = $obj->$term_id->name;
+			// 		//TODO get parent categories
+			// 		$parent = $obj->$term_id->parent;
+			// 		if($obj->$parent != 0){
+			// 			$parent_term_id = $obj->$parent;
+			// 			$utagdata['term_id_category_2'] = $obj->$parent->name;
+			// 		}
+			// 	}
+			// }
+			// $utagdata['queried_object'] = get_queried_object();
 		}
 	else if ( ( is_home() ) || ( is_front_page() ) ) {
 			$utagdata['pageName'] = "homepage";
