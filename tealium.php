@@ -395,23 +395,6 @@ function tealiumDataObject() {
 		}
 	else if ( is_archive() ) {
 			$utagdata['pageName'] = strtolower(get_the_archive_title());
-			$cat = explode(": ",$utagdata['pageName']);
-			$utagdata['pageType'] = $cat[0];
-			$utagdata['categoryName'] = $cat[1];
-			$utagdata['categoryName_2'] = $cat[2];
-			$utagdata['postTerms'] = get_the_terms( $post->ID, 'product_cat' );
-			if(get_queried_object()->term_id){
-				$term_id = get_queried_object()->term_id;
-				$utagdata['term_id'] = $term_id;
-				$terms = get_the_terms( $post->ID, 'product_cat' );
-				$utagdata['term_id_terms'] = $terms->$term_id;
-				$utagdata['term_id_category'] = $terms->$term_id->name;
-				if($terms->$term_id->parent != 0){
-					$parent_term_id = $terms->$term_id->parent;
-					$utagdata['term_id_category_2'] = $terms->$parent_term_id->name;
-				}
-			}
-			$utagdata['queried_object'] = get_queried_object();
 		}
 	else if ( ( is_home() ) || ( is_front_page() ) ) {
 			$utagdata['pageName'] = "homepage";
