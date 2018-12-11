@@ -343,6 +343,7 @@ function tealiumDataObject() {
 	$utagdata['siteDescription'] = get_bloginfo( 'description' );
 	$utagdata['language_code'] = explode("_",get_locale())[0];
 	$utagdata['country_code'] = strtolower(explode("_",get_locale())[1]);
+	$utagdata['post'] = get_post();
 
 	if ( ( is_single() ) || is_page() ) {
 		global $post;
@@ -370,7 +371,6 @@ function tealiumDataObject() {
 
 		// Misc post/page data
 		$utagdata['pageType'] = get_post_type();
-		$utagdata['post'] = get_post();
 		$utagdata['postId'] = get_the_ID();
 		$utagdata['pageName'] = get_the_title();
 		$utagdata['postAuthor'] = get_userdata( $post->post_author )->display_name;
