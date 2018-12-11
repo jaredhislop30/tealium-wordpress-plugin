@@ -286,39 +286,38 @@ function tealiumWooCommerceData( $utagdata ) {
 
 		$utagdata = array_merge( $utagdata, $orderData );
 	// Add product data on product details page	
-	}
-	// }else if(get_post_type() == "product" && get_the_title() != "archive"){
-	//     $product = wc_get_product( $post->ID );
-	//     $productData['product_id'][] = strval($product->get_id());
-	//     $productData['product_sku'][] = $product->get_sku();
-	//     $productData['product_type'][] = $product->get_type();
-	//     $productData['product_name'][] = $product->get_name();
-	//     $productData['product_brand'][] = $product->get_attribute('brand');
-	//     $productData['product_unit_price'][] = $product->get_price();
-	//     $productData['product_list_price'][] = $product->get_regular_price();
-	//     $productData['product_sale_price'][] = $product->get_sale_price();
-	//     $productData['product_image_url'][] = get_the_post_thumbnail_url( $product->get_id(), 'full' );
-	//     //TODO: Revamp product discount
-	//     //Problem Page: http://ec2-3-16-215-116.us-east-2.compute.amazonaws.com/index.php/product/marathon-t-shirts/
-	//     $productData['product_discount'][] = "0";
-	//     $productData['product_url'][] = home_url( $wp->request );
-	//     if($productData['product_list_price'][0] != ""){
-	//     	$productData['product_discount'][] = strval($productData['product_list_price'][0] - $productData['product_unit_price'][0]);
-	//     }
-	//     $categories = explode(",", wc_get_product_category_list($product->get_id()));
+	}else if(get_post_type() == "product" && get_the_title() != "archive"){
+	    $product = wc_get_product( $post->ID );
+	    $productData['product_id'][] = strval($product->get_id());
+	    $productData['product_sku'][] = $product->get_sku();
+	    $productData['product_type'][] = $product->get_type();
+	    $productData['product_name'][] = $product->get_name();
+	    $productData['product_brand'][] = $product->get_attribute('brand');
+	    $productData['product_unit_price'][] = $product->get_price();
+	    $productData['product_list_price'][] = $product->get_regular_price();
+	    $productData['product_sale_price'][] = $product->get_sale_price();
+	    $productData['product_image_url'][] = get_the_post_thumbnail_url( $product->get_id(), 'full' );
+	    //TODO: Revamp product discount
+	    //Problem Page: http://ec2-3-16-215-116.us-east-2.compute.amazonaws.com/index.php/product/marathon-t-shirts/
+	    $productData['product_discount'][] = "0";
+	    $productData['product_url'][] = home_url( $wp->request );
+	    if($productData['product_list_price'][0] != ""){
+	    	$productData['product_discount'][] = strval($productData['product_list_price'][0] - $productData['product_unit_price'][0]);
+	    }
+	    $categories = explode(",", wc_get_product_category_list($product->get_id()));
 
-	//     // TODO: category has a leading space. replace leading space. 
-	//     if(sizeof($categories)==2){
-	// 	    $productData['product_cateogry'][] = strip_tags($categories[1]);
-	// 	    $productData['product_subcateogry'][] = strip_tags($categories[0]);
-	//     }else{
-	//     	$productData['product_cateogry'][] = strip_tags($categories[0]);
-	//     	$productData['product_subcateogry'][] = "";
-	//     }
-	//     $productData['category_id'] = join("_",$categories);
-	//     $productData['category_name'] = join(":",$categories);
+	    // TODO: category has a leading space. replace leading space. 
+	    if(sizeof($categories)==2){
+		    $productData['product_cateogry'][] = strip_tags($categories[1]);
+		    $productData['product_subcateogry'][] = strip_tags($categories[0]);
+	    }else{
+	    	$productData['product_cateogry'][] = strip_tags($categories[0]);
+	    	$productData['product_subcateogry'][] = "";
+	    }
+	    $productData['category_id'] = join("_",$categories);
+	    $productData['category_name'] = join(":",$categories);
 	    
-	// }// TODO: Add cart data on cart page
+	}// TODO: Add cart data on cart page
 
 
 	// Merge shop and cart details into utagdata
