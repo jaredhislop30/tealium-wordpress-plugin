@@ -286,10 +286,9 @@ function tealiumWooCommerceData( $utagdata ) {
 
 		$utagdata = array_merge( $utagdata, $orderData );
 	// Add product data on product details page	
-	}else if(get_post_type() == "product" && get_the_title() != "archive"){
+	}else if($utagdata['pageType'] == "product" && $utagdata['pageCategory'] != "archive"){
 	    $product = wc_get_product( $post->ID );
 	    $productData['product_id'][] = strval($product->get_id());
-	    $productData['product_id_2'][] = "test";
 	    $productData['product_sku'][] = $product->get_sku();
 	    $productData['product_type'][] = $product->get_type();
 	    $productData['product_name'][] = $product->get_name();
@@ -337,7 +336,7 @@ function tealiumDataObject() {
 	$utagdata = array();
 
 	//Version checking
-	$utagdata['plugin_version'] = "0.0.05";
+	$utagdata['plugin_version'] = "0.0.06";
 
 	// Blog info
 	$utagdata['siteName'] = get_bloginfo( 'name' );
@@ -369,6 +368,7 @@ function tealiumDataObject() {
 
 		// Misc post/page data
 		$utagdata['pageType'] = get_post_type();
+		$utagdata['pageCategory'] = get_the_title()
 		$utagdata['post'] = get_post();
 		$utagdata['queried_object'] = get_queried_object();
 		$utagdata['postContent'] = post_type_archive_title();
