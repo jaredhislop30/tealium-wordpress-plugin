@@ -9,7 +9,7 @@
  * Plugin Name:       Tealium
  * Plugin URI:        https://github.com/jaredhislop30/tealium-wordpress-plugin
  * Description:       Tealium Plugin
- * Version:           2.1.122
+ * Version:           2.1.123
  * Author:            Jared Hislop
  * Author URI:        https://github.com/jaredhislop30
  * License:           Public
@@ -214,30 +214,44 @@ add_filter( 'tealium_convertCamelCase', 'tealiumConvertCamelCase' );
  */
 function tealiumWooCommerceData( $utagdata ) {
 	global $woocommerce;
+	global $post;
 	global $product;
+	global $wp;
 
-	// Get cart details
-	$woocart = (array) $woocommerce->cart;
-	$productData = array();
+	$items = $woocommerce->cart->get_cart();
 
+	//Get Cart Details on Each Page
+	$woocart =array();
+	$cart_total_value = 0;
+	$cart_total_items = 0;
 
-	if ( !empty( $woocart['cart_contents'] ) ) {
-
-		// Get cart product IDs, SKUs, Titles etc.
-		foreach ( $woocart['cart_contents'] as $cartItem ) {
-			$productMeta = new WC_Product( $cartItem['product_id'] );
-			$productData['product_id'][] = $cartItem['product_id'];
-			$productData['product_sku'][] = $productMeta->post->sku;
-			$productData['product_name'][] = $productMeta->post->post_title;
-			$productData['product_quantity'][] = $cartItem['quantity'];
-			$productData['product_regular_price'][] = get_post_meta( $cartItem['product_id'], '_regular_price', true );
-			$productData['product_sale_price'][] = get_post_meta( $cartItem['product_id'], '_sale_price', true );
-			$productData['product_type'][] = $productMeta->post->product_type;
-		}
+	foreach($items as $key => $value){
+		$cart_total_value += $items[$key]['line_total'];
+		$cart_total_items += $items[$key]['quantity'];
 	}
 
-	print($product);
+	$woocart['cart_total_items'] = (string)$cart_total_items;
+	$woocart['cart_total_value'] = (string)$cart_total_value;
 
+
+	$productData = array();
+
+	
+	// Set cart contents. Replacing with Product data on product pages. 
+	// if ( !empty( $woocart['cart_contents'] ) ) {
+
+	// 	// Get cart product IDs, SKUs, Titles etc.
+	// 	foreach ( $woocart['cart_contents'] as $cartItem ) {
+	// 		$productMeta = new WC_Product( $cartItem['product_id'] );
+	// 		$productData['product_id'][] = $cartItem['product_id'];
+	// 		$productData['product_sku'][] = $productMeta->post->sku;
+	// 		$productData['product_name'][] = $productMeta->post->post_title;
+	// 		$productData['product_quantity'][] = $cartItem['quantity'];
+	// 		$productData['product_regular_price'][] = get_post_meta( $cartItem['product_id'], '_regular_price', true );
+	// 		$productData['product_sale_price'][] = get_post_meta( $cartItem['product_id'], '_sale_price', true );
+	// 		$productData['product_type'][] = $productMeta->post->product_type;
+	// 	}
+	// }
 
 	// Remove the extensive individual product details
 	unset( $woocart['cart_contents'] );
@@ -247,7 +261,7 @@ function tealiumWooCommerceData( $utagdata ) {
 	// Get currency in use
 	$woocart['site_currency'] = get_woocommerce_currency();
 
-	// Add order data
+	// Add order data on order confirmation page
 	if ( is_order_received_page() ) {
 		$orderId  = apply_filters( 'woocommerce_thankyou_order_id', empty( $_GET['order'] ) ? ( $GLOBALS["wp"]->query_vars["order-received"] ? $GLOBALS["wp"]->query_vars["order-received"] : 0 ) : absint( $_GET['order'] ) );
 		$orderKey = apply_filters( 'woocommerce_thankyou_order_key', empty( $_GET['key'] ) ? '' : woocommerce_clean( $_GET['key'] ) );
@@ -271,7 +285,39 @@ function tealiumWooCommerceData( $utagdata ) {
 		}
 
 		$utagdata = array_merge( $utagdata, $orderData );
-	}
+	// Add product data on product details page	
+	}else if($utagdata['pageType'] == "product" && $utagdata['pageCategory'] != "archive"){
+	    $product = wc_get_product( $post->ID );
+	    $productData['product_id'][] = strval($product->get_id());
+	    $productData['product_sku'][] = $product->get_sku();
+	    $productData['product_type'][] = $product->get_type();
+	    $productData['product_name'][] = $product->get_name();
+	    $productData['product_brand'][] = $product->get_attribute('brand');
+	    $productData['product_unit_price'][] = $product->get_price();
+	    $productData['product_list_price'][] = $product->get_regular_price();
+	    $productData['product_sale_price'][] = $product->get_sale_price();
+	    $productData['product_image_url'][] = get_the_post_thumbnail_url( $product->get_id(), 'full' );
+	    //TODO: Revamp product discount
+	    //Problem Page: http://ec2-3-16-215-116.us-east-2.compute.amazonaws.com/index.php/product/marathon-t-shirts/
+	    // $productData['product_discount'][] = "0";
+	    // $productData['product_url'][] = home_url( $wp->request );
+	    // if($productData['product_list_price'][0] != ""){
+	    // 	$productData['product_discount'][] = strval($productData['product_list_price'][0] - $productData['product_unit_price'][0]);
+	    // }
+	    $categories = explode(",", wc_get_product_category_list($product->get_id()));
+
+	    // TODO: category has a leading space. replace leading space. 
+	    if(sizeof($categories)==2){
+		    $productData['product_cateogry'][] = strip_tags($categories[1]);
+		    $productData['product_subcateogry'][] = strip_tags($categories[0]);
+	    }else{
+	    	$productData['product_cateogry'][] = strip_tags($categories[0]);
+	    	$productData['product_subcateogry'][] = "";
+	    }
+	    $productData['category_id'] = join("_",$categories);
+	    $productData['category_name'] = join(":",$categories);
+	    
+	}// TODO: Add cart data on cart page
 
 
 	// Merge shop and cart details into utagdata
@@ -289,9 +335,15 @@ function tealiumDataObject() {
 	global $utagdata;
 	$utagdata = array();
 
+	//Version checking
+	$utagdata['plugin_version'] = "0.0.12";
+
 	// Blog info
 	$utagdata['siteName'] = get_bloginfo( 'name' );
 	$utagdata['siteDescription'] = get_bloginfo( 'description' );
+	$utagdata['language_code'] = explode("_",get_locale())[0];
+	$utagdata['country_code'] = strtolower(explode("_",get_locale())[1]);
+	$utagdata['post'] = get_post();
 
 	if ( ( is_single() ) || is_page() ) {
 		global $post;
@@ -320,32 +372,32 @@ function tealiumDataObject() {
 		// Misc post/page data
 		$utagdata['pageType'] = get_post_type();
 		$utagdata['postId'] = get_the_ID();
-		$utagdata['postTitle'] = get_the_title();
+		$utagdata['pageName'] = get_the_title();
 		$utagdata['postAuthor'] = get_userdata( $post->post_author )->display_name;
 		$utagdata['postDate'] = get_the_time( 'Y/m/d' );
 
 		// Get and merge post meta data
-		if ( "1" !== get_option( 'tealiumExcludeMetaData' ) ) {
-			$meta = get_post_meta( get_the_ID() );
-			if ( $meta ) {
-				$utagdata = array_merge( $utagdata, $meta );
-			}
-		}
+		// if ( "1" !== get_option( 'tealiumExcludeMetaData' ) ) {
+		// 	$meta = get_post_meta( get_the_ID() );
+		// 	if ( $meta ) {
+		// 		$utagdata = array_merge( $utagdata, $meta );
+		// 	}
+		// }
 
 	}
 	else if ( is_category() ) {
-			$utagdata['pageType'] = "category-archive";
+			$utagdata['pageName'] = "category-archive";
 			$utagdata['postTitle'] = single_cat_title( 'Category archive: ', false );
 		}
 	else if ( is_tag() ) {
-			$utagdata['pageType'] = "tag-archive";
+			$utagdata['pageName'] = "tag-archive";
 			$utagdata['postTitle'] = single_tag_title( 'Tag archive: ', false );
 		}
 	else if ( is_archive() ) {
-			$utagdata['pageType'] = "archive";
+			$utagdata['pageName'] = strtolower(get_the_archive_title());
 		}
 	else if ( ( is_home() ) || ( is_front_page() ) ) {
-			$utagdata['pageType'] = "homepage";
+			$utagdata['pageName'] = "homepage";
 		}
 	else if ( is_search() ) {
 			global $wp_query;
@@ -355,7 +407,7 @@ function tealiumDataObject() {
 			$searchCount = $wp_query->found_posts;
 
 			// Add to udo
-			$utagdata['pageType'] = "search";
+			$utagdata['pageName'] = "search";
 			$utagdata['searchQuery'] = $searchQuery;
 			$utagdata['searchResults'] = $searchCount;
 		}
