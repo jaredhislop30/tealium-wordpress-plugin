@@ -392,8 +392,9 @@ function tealiumDataObject() {
 		}
 	else if ( is_archive() ) {
 			$utagdata['pageName'] = "archive";
-			$utagdata['pageTest'] = get_the_archive_title();
-			$utagdata['pageTitle'] = post_type_archive_title();
+			$cat = explode(" ",get_the_archive_title());
+			$utagdata['pageType'] = $cat[0];
+			$utagdata['pageCategory'] = $cat[1];
 		}
 	else if ( ( is_home() ) || ( is_front_page() ) ) {
 			$utagdata['pageName'] = "homepage";
