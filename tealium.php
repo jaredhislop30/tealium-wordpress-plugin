@@ -364,6 +364,7 @@ function tealiumDataObject() {
 		}
 
 		// Misc post/page data
+		$utagdata['pageType'] = get_post_type();
 		$utagdata['pageType_2'] = get_post_type();
 		$utagdata['post'] = get_post();
 		$utagdata['queried_object'] = get_queried_object();
