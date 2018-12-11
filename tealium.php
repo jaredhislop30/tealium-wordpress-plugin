@@ -336,11 +336,12 @@ function tealiumDataObject() {
 	$utagdata = array();
 
 	//Version checking
-	$utagdata['plugin_version'] = "0.0.10";
+	$utagdata['plugin_version'] = "0.0.11";
 
 	// Blog info
 	$utagdata['siteName'] = get_bloginfo( 'name' );
 	$utagdata['siteDescription'] = get_bloginfo( 'description' );
+	$utagdata['language_code'] = get_locale();
 
 	if ( ( is_single() ) || is_page() ) {
 		global $post;
@@ -368,8 +369,6 @@ function tealiumDataObject() {
 
 		// Misc post/page data
 		$utagdata['pageType'] = get_post_type();
-		$utagdata['pageCategory'] = "NA";
-		$utagdata['page_category'] = "NA";
 		$utagdata['post'] = get_post();
 		$utagdata['postId'] = get_the_ID();
 		$utagdata['pageName'] = get_the_title();
