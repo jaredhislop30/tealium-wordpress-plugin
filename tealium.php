@@ -336,13 +336,13 @@ function tealiumDataObject() {
 	$utagdata = array();
 
 	//Version checking
-	$utagdata['plugin_version'] = "0.0.11";
+	$utagdata['plugin_version'] = "0.0.12";
 
 	// Blog info
 	$utagdata['siteName'] = get_bloginfo( 'name' );
 	$utagdata['siteDescription'] = get_bloginfo( 'description' );
 	$utagdata['language_code'] = explode("_",get_locale())[0];
-	$utagdata['language_code'] = strtolower(explode("_",get_locale())[1]);
+	$utagdata['country_code'] = strtolower(explode("_",get_locale())[1]);
 
 	if ( ( is_single() ) || is_page() ) {
 		global $post;
