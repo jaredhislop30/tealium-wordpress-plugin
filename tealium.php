@@ -402,7 +402,9 @@ function tealiumDataObject() {
 			$utagdata['postTerms'] = get_the_terms( $post->ID, 'product_cat' );
 			if(get_queried_object()->term_id){
 				$term_id = get_queried_object()->term_id;
+				$utagdata['term_id'] = $term_id;
 				$terms = get_the_terms( $post->ID, 'product_cat' );
+				$utagdata['term_id_terms'] = $terms->$term_id;
 				$utagdata['term_id_category'] = $terms->$term_id->name;
 				if($terms->$term_id->parent != 0){
 					$parent_term_id = $terms->$term_id->parent;
