@@ -286,6 +286,8 @@ function tealiumWooCommerceData( $utagdata ) {
 
 		$utagdata = array_merge( $utagdata, $orderData );
 	// Add product data on product details page	
+	print(get_post_type());
+	print(get_the_title());
 	}else if(get_post_type() == "product" && get_the_title() != "archive"){
 	    $product = wc_get_product( $post->ID );
 	    $productData['product_id'][] = strval($product->get_id());
