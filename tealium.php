@@ -406,7 +406,7 @@ function tealiumDataObject() {
 			// Get product categories used for page section and categories
 			if($term){
 
-				$base_cat = $term->name;
+				$utagdata['category_name'] = $term->name;
 
 				if($term->parent!=0){
 					$product_cat_id = $term->parent;
