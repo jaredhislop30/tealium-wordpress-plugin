@@ -336,7 +336,7 @@ function tealiumDataObject() {
 	$utagdata = array();
 
 	//Version checking
-	$utagdata['plugin_version'] = "0.0.13";
+	$utagdata['plugin_version'] = "0.0.14";
 
 	// Blog info
 	$utagdata['siteName'] = get_bloginfo( 'name' );
@@ -410,7 +410,7 @@ function tealiumDataObject() {
 
 				if($term->parent!=0){
 					$product_cat_id = $term->parent;
-					$utagdata['parent_category'] = get_term_by( 'id', $product_cat_id, 'product_cat' );
+					$utagdata['parent_category'] = get_term_by( 'id', $product_cat_id, 'product_cat' )->name;
 				}
 			}
 
