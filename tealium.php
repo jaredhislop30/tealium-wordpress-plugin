@@ -336,7 +336,7 @@ function tealiumDataObject() {
 	$utagdata = array();
 
 	//Version checking
-	$utagdata['plugin_version'] = "0.0.08";
+	$utagdata['plugin_version'] = "0.0.09";
 
 	// Blog info
 	$utagdata['siteName'] = get_bloginfo( 'name' );
@@ -369,6 +369,7 @@ function tealiumDataObject() {
 		// Misc post/page data
 		$utagdata['pageType'] = get_post_type();
 		$utagdata['pageCategory'] = "NA";
+		$utagdata['page_category'] = "NA";
 		$utagdata['post'] = get_post();
 		$utagdata['postId'] = get_the_ID();
 		$utagdata['pageName'] = get_the_title();
