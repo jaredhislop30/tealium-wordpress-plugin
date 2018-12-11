@@ -368,7 +368,7 @@ function tealiumDataObject() {
 
 		// Misc post/page data
 		$utagdata['pageType'] = get_post_type();
-		$utagdata['pageCategory'] = isset(get_the_title())?get_the_title():"NA";
+		$utagdata['pageCategory'] = "NA";
 		$utagdata['post'] = get_post();
 		$utagdata['postId'] = get_the_ID();
 		$utagdata['pageName'] = get_the_title();
