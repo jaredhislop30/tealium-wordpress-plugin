@@ -417,11 +417,12 @@ function tealiumDataObject() {
 				$utagdata['term_id'] = $term_id;
 				$utagdata['term_id_terms'] = $obj->$term_id;
 				$utagdata['term_id_category'] = $obj->$term_id->name;
-				//TODO get child categories
-				// if($terms->$term_id->parent != 0){
-				// 	$parent_term_id = $terms->$term_id->parent;
-				// 	$utagdata['term_id_category_2'] = $terms->$parent_term_id->name;
-				// }
+				//TODO get parent categories
+				$parent = $obj->$term_id->parent;
+				if($obj->$parent != 0){
+					$parent_term_id = $obj->$parent;
+					$utagdata['term_id_category_2'] = $obj->$parent->name;
+				}
 			}
 			$utagdata['queried_object'] = get_queried_object();
 		}
