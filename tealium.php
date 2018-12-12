@@ -399,22 +399,19 @@ function tealiumDataObject() {
 			$utagdata['pageType'] = "category";
 			$utagdata['site_section'] = "shop";
 
-			// TEMP Remove
-			$utagdata['postTerms'] = get_the_terms( $post->ID, 'product_cat' );
-			$utagdata['queried_object'] = get_queried_object();
 			$term = get_queried_object();
 			// Get product categories used for page section and categories
 			if($term){
 				$parent_ids = get_ancestors($term->term_id, 'product_cat');
-				$utagdata['parent_ids'] = $parent_ids;
+				//Get number of parent categories
 				$len = sizeof($parent_ids);
-
+				//If no parent categories then set top level category directly. 
 				if($len==0){
 					$utagdata['category_name'] = $term->slug;
 				}else{
+					// Reverse the order of categories so the variable hierarchy matches the category hiearchy
 					$parent_ids = array_reverse($parent_ids);
 					array_push($parent_ids,$term->term_id);
-					$utagdata['parent_ids'] = $parent_ids;
 					for($ind=0; $ind < sizeof($parent_ids); $ind++){
 						if($ind==0){
 							$utagdata['category_name'] = get_term_by( 'id', $parent_ids[$ind], 'product_cat' )->slug;
