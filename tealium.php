@@ -405,50 +405,25 @@ function tealiumDataObject() {
 			$term = get_queried_object();
 			// Get product categories used for page section and categories
 			if($term){
+				$parent_ids = get_ancestors($term->term_id, 'product_cat');
+				$len = sizeof($parent_ids);
 
-				$utagdata['category_name'] = $term->slug;
-				$utagdata['parent_categories'] = get_ancestors($term->term_id, 'product_cat');
+				if($len==0){
+					$utagdata['category_name'] = $term->slug;
+				}else{
+					$parent_ids = array_reverse($parent_ids);
+					array_push($parent_ids,$term->term_id);
+					for($ind=0; $ind < sizeof($parent_ids); $ind++){
+						if($ind==0){
+							$utagdata['category_name'] = get_term_by( 'id', $parent_ids[$ind], 'product_cat' )->slug;
+						}else{
+							$utagdata['category_name_'.$ind+1] = get_term_by( 'id', $parent_ids[$ind], 'product_cat' )->slug;	
+						}
+					}
+				}			
 
-				for($ind=0; $ind < sizeof($utagdata['parent_categories']); $ind++){
-					$utagdata['parent_categories_'.$ind] = get_term_by( 'id', $utagdata['parent_categories'][$ind], 'product_cat' )->slug;
-				}
 
-				// if($term->parent!=0){
-				// 	//Returns full category object
-				// 	$parent_cat = get_term_by( 'id', $term->parent, 'product_cat' );
-				// 	$utagdata['parent_category'] = $parent_cat->slug;
-				// }
 			}
-
-			// 	// $terms will be an array of objects for each category that is loaded. 
-			// 	$terms = get_the_terms( $post->ID, 'product_cat' );
-			// 	$num_of_categories = sizeof($terms);
-
-			// 	if($num_of_categories=1){
-			// 		$utagdata['categoryName'] = $terms[0]->slug;
-			// 		$utagdata['categoryId'] = $terms[0]->term_id;
-			// 		$utagdata['pageName'] = $utagdata['categoryName'];
-			// 	}else{
-			// 		$obj = new stdClass(); 
-			// 		foreach($terms as $val){
-			// 		    $id = $val->term_id;
-			// 		    $obj->$id = new stdClass();
-			// 		    $obj->$id->name = $val->name;
-			// 		    $obj->$id->parent = $val->parent;
-			// 		}
-			// 		$term_id = get_queried_object()->term_id;
-			// 		$utagdata['term_id'] = $term_id;
-			// 		$utagdata['term_id_terms'] = $obj->$term_id;
-			// 		$utagdata['term_id_category'] = $obj->$term_id->name;
-			// 		//TODO get parent categories
-			// 		$parent = $obj->$term_id->parent;
-			// 		if($obj->$parent != 0){
-			// 			$parent_term_id = $obj->$parent;
-			// 			$utagdata['term_id_category_2'] = $obj->$parent->name;
-			// 		}
-			// 	}
-			// }
-			// $utagdata['queried_object'] = get_queried_object();
 		}
 	else if ( ( is_home() ) || ( is_front_page() ) ) {
 			$utagdata['pageName'] = "homepage";
