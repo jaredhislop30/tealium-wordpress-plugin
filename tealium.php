@@ -332,7 +332,7 @@ function tealiumWooCommerceData( $utagdata ) {
             'hide_empty'   => $empty
         );
 
-        $productData['product_categorie_get'][] = get_categories($args)
+        $productData['product_categorie_get'][] = get_categories($args);
 
 	    // // TODO: category has a leading space. replace leading space. 
 	    // $productData['product_category'][] = strip_tags($categories[1]);
