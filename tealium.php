@@ -317,13 +317,29 @@ function tealiumWooCommerceData( $utagdata ) {
 	    // }
 	    // $productData['product_cateogries'] = $cat_array;
 
-	    $categories = explode(",", wc_get_product_category_list($product->get_id()));
-	    // TODO: category has a leading space. replace leading space. 
-	    $productData['product_category'][] = strip_tags($categories[1]);
-	    $productData['product_subcategory'][] = strip_tags($categories[0]);
-	    $productData['product_subcategory1'][] = strip_tags($categories[2]);
-	    $productData['product_subcategory2'][] = strip_tags($categories[3]);
-	    $productData['product_subcategory3'][] = strip_tags($categories[4]);
+	    $productData['product_categorie_wc'][] = explode(",", wc_get_product_category_list($product->get_id()));
+
+	    $taxonomy     = 'product_cat';
+	    $orderby = 'get_categories';
+        $hierarchical = 1;      // 1 for yes, 0 for no  
+        $title        = '';  
+        $empty        = 0;
+        $args = array(
+            'taxonomy'     => $taxonomy,
+            'orderby'      => $orderby,
+            'hierarchical' => $hierarchical,
+            'title_li'     => $title,
+            'hide_empty'   => $empty
+        );
+
+        $productData['product_categorie_get'][] = get_categories($args)
+
+	    // // TODO: category has a leading space. replace leading space. 
+	    // $productData['product_category'][] = strip_tags($categories[1]);
+	    // $productData['product_subcategory'][] = strip_tags($categories[0]);
+	    // $productData['product_subcategory1'][] = strip_tags($categories[2]);
+	    // $productData['product_subcategory2'][] = strip_tags($categories[3]);
+	    // $productData['product_subcategory3'][] = strip_tags($categories[4]);
 
 
 
