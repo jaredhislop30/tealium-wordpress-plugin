@@ -380,7 +380,7 @@ function tealiumDataObject() {
 		}
 
 		// Misc post/page data
-		$utagdata['pageType'] = get_post_type()
+		$utagdata['pageType'] = get_post_type();
 		$utagdata['postId'] = get_the_ID();
 		$utagdata['pageName'] = get_the_title();
 		$utagdata['postAuthor'] = get_userdata( $post->post_author )->display_name;
