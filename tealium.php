@@ -376,6 +376,11 @@ function tealiumDataObject() {
 		$utagdata['postAuthor'] = get_userdata( $post->post_author )->display_name;
 		$utagdata['postDate'] = get_the_time( 'Y/m/d' );
 
+		if ( ( is_home() ) || ( is_front_page() ) ) {
+			$utagdata['pageName'] = "homepage";
+			$utagdata['pageType'] = "home";
+		}
+
 		// Get and merge post meta data
 		// if ( "1" !== get_option( 'tealiumExcludeMetaData' ) ) {
 		// 	$meta = get_post_meta( get_the_ID() );
@@ -423,11 +428,7 @@ function tealiumDataObject() {
 
 
 			}
-		}
-	else if ( ( is_home() ) || ( is_front_page() ) ) {
-			$utagdata['pageName'] = "homepage";
-		}
-	else if ( is_search() ) {
+		}else if ( is_search() ) {
 			global $wp_query;
 			
 			// Collect search and result data
