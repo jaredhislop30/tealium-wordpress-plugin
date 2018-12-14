@@ -336,7 +336,7 @@ function tealiumDataObject() {
 	$utagdata = array();
 
 	//Version checking
-	$utagdata['plugin_version'] = "0.0.17";
+	$utagdata['plugin_version'] = "0.0.18";
 
 	// Blog info
 	$utagdata['siteName'] = get_bloginfo( 'name' );
@@ -412,8 +412,6 @@ function tealiumDataObject() {
 			if(get_the_archive_title() == "Archives: Products"){
 				$utagdata['pageName'] = "shop";
 			}else{
-				$utagdata['pageName'] = explode(": ",strtolower(get_the_archive_title()))[1];
-				$utagdata['pageName'] = strtolower(get_the_archive_title());
 				$cat = explode(": ",strtolower(get_the_archive_title()));
 				$utagdata['pageName2'] = $cat[1];
 				$term = get_queried_object();
