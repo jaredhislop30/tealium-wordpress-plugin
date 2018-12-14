@@ -404,6 +404,9 @@ function tealiumDataObject() {
 			$utagdata['pageType'] = "category";
 			$utagdata['site_section'] = "shop";
 
+			//TEMP : REMOVE
+			$utagdata['queried_object'] =get_queried_object();
+
 			$term = get_queried_object();
 			// Get product categories used for page section and categories
 			if($term){
