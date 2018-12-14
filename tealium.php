@@ -287,6 +287,7 @@ function tealiumWooCommerceData( $utagdata ) {
 		$utagdata = array_merge( $utagdata, $orderData );
 	// Add product data on product details page	
 	}else if($utagdata['pageType'] == "product" && $utagdata['pageType'] != "category"){
+		$utagdata['site_section'] = "shop";
 	    $product = wc_get_product( $post->ID );
 	    $productData['product_id'][] = strval($product->get_id());
 	    $productData['product_sku'][] = $product->get_sku();
@@ -411,7 +412,7 @@ function tealiumDataObject() {
 			//Accounts for top level "Shop" page
 			if(get_the_archive_title() == "Archives: Products"){
 				$utagdata['pageName'] = "shop";
-			}else{
+			}else if(get_post_type()=="product" && strpos(get_the_archive_title(),"Category"){
 				$cat = explode(": ",strtolower(get_the_archive_title()));
 				$utagdata['pageName'] = $cat[1];
 				$term = get_queried_object();
