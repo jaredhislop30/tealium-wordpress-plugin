@@ -324,12 +324,14 @@ function tealiumWooCommerceData( $utagdata ) {
         $hierarchical = 1;      // 1 for yes, 0 for no  
         $title        = '';  
         $empty        = 0;
+        $parent = $product->get_id();
         $args = array(
             'taxonomy'     => $taxonomy,
             'orderby'      => $orderby,
             'hierarchical' => $hierarchical,
             'title_li'     => $title,
-            'hide_empty'   => $empty
+            'hide_empty'   => $empty,
+            'parent' => $parent
         );
 
         $productData['product_categorie_get'][] = get_categories($args);
