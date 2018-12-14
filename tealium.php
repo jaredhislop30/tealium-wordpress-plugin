@@ -412,7 +412,7 @@ function tealiumDataObject() {
 			//Accounts for top level "Shop" page
 			if(get_the_archive_title() == "Archives: Products"){
 				$utagdata['pageName'] = "shop";
-			}else if(get_post_type()=="product" && strpos(get_the_archive_title(),"Category")){
+			}else if(get_post_type()=="product" && strpos(get_the_archive_title(),"Category")>-1){
 				$cat = explode(": ",strtolower(get_the_archive_title()));
 				$utagdata['pageName'] = $cat[1];
 				$term = get_queried_object();
