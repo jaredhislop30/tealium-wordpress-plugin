@@ -344,10 +344,12 @@ function tealiumWooCommerceData( $utagdata ) {
 	    // $productData['product_subcategory2'][] = strip_tags($categories[3]);
 	    // $productData['product_subcategory3'][] = strip_tags($categories[4]);
 
+        $productData['categories'] = $product->get_categories();
+		$productData['category_id'] = $product->get_category_ids();
+		$productData['category_tag_id'] = $product->get_tag_ids();
 
-
-	    $productData['category_id'] = join("_",$categories);
-	    $productData['category_name'] = join(":",$categories);
+	    // $productData['category_id'] = join("_",$categories);
+	    // $productData['category_name'] = join(":",$categories);
 	    
 	}// TODO: Add cart data on cart page
 
