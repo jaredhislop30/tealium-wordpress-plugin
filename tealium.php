@@ -305,7 +305,7 @@ function tealiumWooCommerceData( $utagdata ) {
 	    // if($productData['product_list_price'][0] != ""){
 	    // 	$productData['product_discount'][] = strval($productData['product_list_price'][0] - $productData['product_unit_price'][0]);
 	    // }
-	    $categories = explode(",", wc_get_product_category_list($product->get_id()));
+	    $productData['product_cateogries'][] = explode(",", wc_get_product_category_list($product->get_id()));
 
 	    // TODO: category has a leading space. replace leading space. 
 	    if(sizeof($categories)==2){
@@ -339,11 +339,12 @@ function tealiumDataObject() {
 	//Version checking
 	$utagdata['plugin_version'] = "0.0.19";
 
-	// Blog info
+	// Set Default Data. May be overwritten below / later
 	$utagdata['siteName'] = get_bloginfo( 'name' );
 	$utagdata['siteDescription'] = get_bloginfo( 'description' );
 	$utagdata['language_code'] = explode("_",get_locale())[0];
 	$utagdata['country_code'] = strtolower(explode("_",get_locale())[1]);
+	$utagdata['pageName'] = get_the_title();
 	
 
 	//TEMP : REMOVE
