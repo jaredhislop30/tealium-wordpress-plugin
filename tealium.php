@@ -319,13 +319,13 @@ function tealiumWooCommerceData( $utagdata ) {
 
 	    $categories = explode(",", wc_get_product_category_list($product->get_id()));
 	    // TODO: category has a leading space. replace leading space. 
-	    if(sizeof($categories)==2){
-		    $productData['product_cateogry'][] = strip_tags($categories[1]);
-		    $productData['product_subcateogry'][] = strip_tags($categories[0]);
-	    }else{
-	    	$productData['product_cateogry'][] = strip_tags($categories[0]);
-	    	$productData['product_subcateogry'][] = "";
+		    $productData['product_category'][] = strip_tags($categories[1]);
+		    $productData['product_subcategory'][] = strip_tags($categories[0]);
+		    $productData['product_subcategory1'][] = strip_tags($categories[2]);
+		    $productData['product_subcategory2'][] = strip_tags($categories[3]);
+		    $productData['product_subcategory3'][] = strip_tags($categories[4]);
 	    }
+	    
 	    $productData['category_id'] = join("_",$categories);
 	    $productData['category_name'] = join(":",$categories);
 	    
