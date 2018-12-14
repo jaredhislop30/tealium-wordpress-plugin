@@ -308,9 +308,12 @@ function tealiumWooCommerceData( $utagdata ) {
 
 	    $cats = explode(",", wc_get_product_category_list($product->get_id()));
 
+	    $cat_array = array();
+
 	    for($ind; $ind<sizeof($cats); $ind++){
 	    	$index = $ind+1;
 	    	$utagdata['product_cateogries_'.$index][] = $cats[$ind];
+	    	array_push($cat_array, strip_tags($cats[$ind]));
 	    }
 
 	    // // TODO: category has a leading space. replace leading space. 
