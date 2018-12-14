@@ -306,26 +306,11 @@ function tealiumWooCommerceData( $utagdata ) {
 	    // 	$productData['product_discount'][] = strval($productData['product_list_price'][0] - $productData['product_unit_price'][0]);
 	    // }
 
-	     
+	    $cats = explode(",", wc_get_product_category_list($product->get_id()));
 
-		function hierarchical_category_tree( $cat ) {
-		    // wpse-41548 // alchymyth // a hierarchical list of all categories //
-
-		  $next = get_categories('hide_empty=false&orderby=name&order=ASC&parent=' . $cat);
-		  $cats = array();
-		  if( $next ) :    
-		    foreach( $next as $cat ) :
-		   	array_push($cats,$cat);
-		    hierarchical_category_tree( $cat->term_id );
-		    endforeach;    
-		  endif;
-
-		  return $cats;
-		}
-
-		$productData['product_cateogries'][] = hierarchical_category_tree( 0 ); // the function call; 0 for all categories; or cat ID 
-
-	    // $productData['product_cateogries'][] = explode(",", wc_get_product_category_list($product->get_id()));
+	    foreach($ind; $ind<sizeof($cats); $ind++){
+	    	$productData['product_cateogries_'.$ind][] = strip_tags($cats[$ind]);
+	    }
 
 	    // // TODO: category has a leading space. replace leading space. 
 	    // if(sizeof($categories)==2){
