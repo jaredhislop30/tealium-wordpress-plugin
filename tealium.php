@@ -413,7 +413,7 @@ function tealiumDataObject() {
 				$utagdata['pageName'] = "shop";
 			}else{
 				$cat = explode(": ",strtolower(get_the_archive_title()));
-				$utagdata['pageName2'] = $cat[1];
+				$utagdata['pageName'] = $cat[1];
 				$term = get_queried_object();
 				// Get product categories used for page section and categories
 				if($term && isset($term->term_id)){
