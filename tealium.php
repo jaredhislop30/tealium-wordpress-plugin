@@ -406,34 +406,36 @@ function tealiumDataObject() {
 			$utagdata['pageName'] = "tag-archive";
 			$utagdata['postTitle'] = single_tag_title( 'Tag archive: ', false );
 	}else if ( is_archive() ) {
-			$utagdata['pageName'] = strtolower(get_the_archive_title());
-			$cat = explode(": ",$utagdata['pageName']);
 			$utagdata['pageType'] = "category";
 			$utagdata['site_section'] = "shop";
-
-			$term = get_queried_object();
-			// Get product categories used for page section and categories
-			if($term && isset($term->term_id)){
-				$parent_ids = get_ancestors($term->term_id, 'product_cat');
-				//Get number of parent categories
-				$len = sizeof($parent_ids);
-				//If no parent categories then set top level category directly. 
-				if($len==0){
-					$utagdata['category_name'] = $term->slug;
-				}else{
-					// Reverse the order of categories so the variable hierarchy matches the category hiearchy
-					$parent_ids = array_reverse($parent_ids);
-					array_push($parent_ids,$term->term_id);
-					for($ind=0; $ind < sizeof($parent_ids); $ind++){
-						if($ind==0){
-							$utagdata['category_name'] = get_term_by( 'id', $parent_ids[$ind], 'product_cat' )->slug;
-						}else{
-							$utagdata['category_name_'.$ind] = get_term_by( 'id', $parent_ids[$ind], 'product_cat' )->slug;	
+			//Accounts for top level "Shop" page
+			if(get_the_archive_title() == "Archives: Products"){
+				$utagdata['pageName'] = "shop";
+			}else{
+				$utagdata['pageName'] = explode(strtolower(get_the_archive_title()))[1];
+				$term = get_queried_object();
+				// Get product categories used for page section and categories
+				if($term && isset($term->term_id)){
+					$term = get_queried_object();
+					$parent_ids = get_ancestors($term->term_id, 'product_cat');
+					//Get number of parent categories
+					$len = sizeof($parent_ids);
+					//If no parent categories then set top level category directly. 
+					if($len==0){
+						$utagdata['category_name'] = $term->slug;
+					}else{
+						// Reverse the order of categories so the variable hierarchy matches the category hiearchy
+						$parent_ids = array_reverse($parent_ids);
+						array_push($parent_ids,$term->term_id);
+						for($ind=0; $ind < sizeof($parent_ids); $ind++){
+							if($ind==0){
+								$utagdata['category_name'] = get_term_by( 'id', $parent_ids[$ind], 'product_cat' )->slug;
+							}else{
+								$utagdata['category_name_'.$ind] = get_term_by( 'id', $parent_ids[$ind], 'product_cat' )->slug;	
+							}
 						}
-					}
-				}			
-
-
+					}			
+				}
 			}
 		}else if ( is_search() ) {
 			global $wp_query;
