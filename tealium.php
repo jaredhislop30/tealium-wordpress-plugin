@@ -286,7 +286,7 @@ function tealiumWooCommerceData( $utagdata ) {
 
 		$utagdata = array_merge( $utagdata, $orderData );
 	// Add product data on product details page	
-	}else if($utagdata['pageType'] == "product" && $utagdata['pageCategory'] != "archive"){
+	}else if($utagdata['pageType'] == "product" && $$utagdata['pageType'] != "category"){
 	    $product = wc_get_product( $post->ID );
 	    $productData['product_id'][] = strval($product->get_id());
 	    $productData['product_sku'][] = $product->get_sku();
@@ -343,7 +343,17 @@ function tealiumDataObject() {
 	$utagdata['siteDescription'] = get_bloginfo( 'description' );
 	$utagdata['language_code'] = explode("_",get_locale())[0];
 	$utagdata['country_code'] = strtolower(explode("_",get_locale())[1]);
+	
+
+	//TEMP : REMOVE
 	$utagdata['post'] = get_post();
+	$utagdata['queried_object'] =get_queried_object();
+	$utagdata['test_post_type'] = get_post_type();
+	$utagdata['test_archive_title'] = get_the_archive_title();
+	$utagdata['test_is_single'] = is_single();
+	$utagdata['test_is_page'] = is_page();
+	$utagdata['test_is_category'] = is_category();
+	$utagdata['test_is_archive'] = is_archive();
 
 	if ( ( is_single() ) || is_page() ) {
 		global $post;
@@ -370,7 +380,7 @@ function tealiumDataObject() {
 		}
 
 		// Misc post/page data
-		$utagdata['pageType'] = get_post_type();
+		$utagdata['pageType'] = get_post_type()
 		$utagdata['postId'] = get_the_ID();
 		$utagdata['pageName'] = get_the_title();
 		$utagdata['postAuthor'] = get_userdata( $post->post_author )->display_name;
@@ -389,23 +399,17 @@ function tealiumDataObject() {
 		// 	}
 		// }
 
-	}
-	else if ( is_category() ) {
+	}else if ( is_category() ) {
 			$utagdata['pageName'] = "category-archive";
 			$utagdata['postTitle'] = single_cat_title( 'Category archive: ', false );
-		}
-	else if ( is_tag() ) {
+	}else if ( is_tag() ) {
 			$utagdata['pageName'] = "tag-archive";
 			$utagdata['postTitle'] = single_tag_title( 'Tag archive: ', false );
-		}
-	else if ( is_archive() ) {
+	}else if ( is_archive() ) {
 			$utagdata['pageName'] = strtolower(get_the_archive_title());
 			$cat = explode(": ",$utagdata['pageName']);
 			$utagdata['pageType'] = "category";
 			$utagdata['site_section'] = "shop";
-
-			//TEMP : REMOVE
-			$utagdata['queried_object'] =get_queried_object();
 
 			$term = get_queried_object();
 			// Get product categories used for page section and categories
