@@ -308,7 +308,7 @@ function tealiumWooCommerceData( $utagdata ) {
 
 	    $cats = explode(",", wc_get_product_category_list($product->get_id()));
 
-	    foreach($ind; $ind<sizeof($cats); $ind++){
+	    for($ind; $ind<sizeof($cats); $ind++){
 	    	$productData['product_cateogries_'.$ind][] = strip_tags($cats[$ind]);
 	    }
 
