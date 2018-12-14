@@ -286,7 +286,7 @@ function tealiumWooCommerceData( $utagdata ) {
 
 		$utagdata = array_merge( $utagdata, $orderData );
 	// Add product data on product details page	
-	}else if($utagdata['pageType'] == "product" && $$utagdata['pageType'] != "category"){
+	}else if($utagdata['pageType'] == "product" && $utagdata['pageType'] != "category"){
 	    $product = wc_get_product( $post->ID );
 	    $productData['product_id'][] = strval($product->get_id());
 	    $productData['product_sku'][] = $product->get_sku();
