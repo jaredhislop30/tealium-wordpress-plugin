@@ -335,6 +335,7 @@ function tealiumWooCommerceData( $utagdata ) {
         );
 
         $productData['product_categorie_get'][] = get_categories($args);
+        $productData['product_categorie_post'][] = wp_get_post_terms($product->get_id(), 'product_cat');
 
 	    // // TODO: category has a leading space. replace leading space. 
 	    // $productData['product_category'][] = strip_tags($categories[1]);
