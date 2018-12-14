@@ -306,27 +306,28 @@ function tealiumWooCommerceData( $utagdata ) {
 	    // 	$productData['product_discount'][] = strval($productData['product_list_price'][0] - $productData['product_unit_price'][0]);
 	    // }
 
-	    $cats = explode(",", wc_get_product_category_list($product->get_id()));
+	    // $cats = explode(",", wc_get_product_category_list($product->get_id()));
 
-	    $cat_array = array();
+	    // $cat_array = array();
 
-	    for($ind; $ind<sizeof($cats); $ind++){
-	    	$index = $ind+1;
-	    	$utagdata['product_cateogries_'.$index][] = $cats[$ind];
-	    	array_push($cat_array, strip_tags($cats[$ind]));
-	    }
-	    $productData['product_cateogries'] = $cat_array;
-
-	    // // TODO: category has a leading space. replace leading space. 
-	    // if(sizeof($categories)==2){
-		   //  $productData['product_cateogry'][] = strip_tags($categories[1]);
-		   //  $productData['product_subcateogry'][] = strip_tags($categories[0]);
-	    // }else{
-	    // 	$productData['product_cateogry'][] = strip_tags($categories[0]);
-	    // 	$productData['product_subcateogry'][] = "";
+	    // for($ind; $ind<sizeof($cats); $ind++){
+	    // 	$index = $ind+1;
+	    // 	$utagdata['product_cateogries_'.$index][] = $cats[$ind];
+	    // 	array_push($cat_array, strip_tags($cats[$ind]));
 	    // }
-	    // $productData['category_id'] = join("_",$categories);
-	    // $productData['category_name'] = join(":",$categories);
+	    // $productData['product_cateogries'] = $cat_array;
+
+	    $categories = explode(",", wc_get_product_category_list($product->get_id()));
+	    // TODO: category has a leading space. replace leading space. 
+	    if(sizeof($categories)==2){
+		    $productData['product_cateogry'][] = strip_tags($categories[1]);
+		    $productData['product_subcateogry'][] = strip_tags($categories[0]);
+	    }else{
+	    	$productData['product_cateogry'][] = strip_tags($categories[0]);
+	    	$productData['product_subcateogry'][] = "";
+	    }
+	    $productData['category_id'] = join("_",$categories);
+	    $productData['category_name'] = join(":",$categories)
 	    
 	}// TODO: Add cart data on cart page
 
