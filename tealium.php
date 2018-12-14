@@ -409,7 +409,7 @@ function tealiumDataObject() {
 
 			$term = get_queried_object();
 			// Get product categories used for page section and categories
-			if($term && isset($term->term_id){
+			if($term && isset($term->term_id)){
 				$parent_ids = get_ancestors($term->term_id, 'product_cat');
 				//Get number of parent categories
 				$len = sizeof($parent_ids);
