@@ -310,7 +310,7 @@ function tealiumWooCommerceData( $utagdata ) {
 
 	    for($ind; $ind<sizeof($cats); $ind++){
 	    	$index = $ind+1;
-	    	$productData['product_cateogries_'.$index][] = strip_tags($cats[$ind]);
+	    	$utagdata['product_cateogries_'.$index][] = strip_tags($cats[$ind]);
 	    }
 
 	    // // TODO: category has a leading space. replace leading space. 
@@ -343,7 +343,7 @@ function tealiumDataObject() {
 	$utagdata = array();
 
 	//Version checking
-	$utagdata['plugin_version'] = "0.0.21";
+	$utagdata['plugin_version'] = "0.0.22";
 
 	// Set Default Data. May be overwritten below / later
 	$utagdata['siteName'] = get_bloginfo( 'name' );
