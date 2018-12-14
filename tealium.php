@@ -336,7 +336,7 @@ function tealiumDataObject() {
 	$utagdata = array();
 
 	//Version checking
-	$utagdata['plugin_version'] = "0.0.16";
+	$utagdata['plugin_version'] = "0.0.17";
 
 	// Blog info
 	$utagdata['siteName'] = get_bloginfo( 'name' );
