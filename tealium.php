@@ -317,36 +317,14 @@ function tealiumWooCommerceData( $utagdata ) {
 	    // }
 	    // $productData['product_cateogries'] = $cat_array;
 
-	    $productData['product_categorie_wc'][] = explode(",", wc_get_product_category_list($product->get_id()));
-
-	    $taxonomy     = 'product_cat';
-	    $orderby = 'get_categories';
-        $hierarchical = 1;      // 1 for yes, 0 for no  
-        $title        = '';  
-        $empty        = 0;
-        $parent = $product->get_id();
-        $args = array(
-            'taxonomy'     => $taxonomy,
-            'orderby'      => $orderby,
-            'hierarchical' => $hierarchical,
-            'title_li'     => $title,
-            'hide_empty'   => $empty,
-            'parent' => $parent
-        );
-
-        $productData['product_categorie_get'][] = get_categories($args);
-        $productData['product_categorie_post'][] = wp_get_post_terms($product->get_id(), 'product_cat');
+	    $cats = explode(",", wc_get_product_category_list($product->get_id()));
 
 	    // // TODO: category has a leading space. replace leading space. 
-	    // $productData['product_category'][] = strip_tags($categories[1]);
-	    // $productData['product_subcategory'][] = strip_tags($categories[0]);
-	    // $productData['product_subcategory1'][] = strip_tags($categories[2]);
-	    // $productData['product_subcategory2'][] = strip_tags($categories[3]);
-	    // $productData['product_subcategory3'][] = strip_tags($categories[4]);
-
-        $productData['categories'] = $product->get_categories();
-		$productData['category_id'] = $product->get_category_ids();
-		$productData['category_tag_id'] = $product->get_tag_ids();
+	    $productData['product_category'][] = strip_tags($categories[0]);
+	    $productData['product_subcategory'][] = strip_tags($categories[1]);
+	    $productData['product_subcategory1'][] = strip_tags($categories[2]);
+	    $productData['product_subcategory2'][] = strip_tags($categories[3]);
+	    $productData['product_subcategory3'][] = strip_tags($categories[4]);
 
 	    // $productData['category_id'] = join("_",$categories);
 	    // $productData['category_name'] = join(":",$categories);
