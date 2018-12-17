@@ -218,6 +218,7 @@ function tealiumWooCommerceData( $utagdata ) {
 	global $product;
 	global $wp;
 
+	
 	$items = $woocommerce->cart->get_cart();
 
 	//Get Cart Details on Each Page
@@ -322,12 +323,17 @@ function tealiumWooCommerceData( $utagdata ) {
 		$utagdata['checkout_step'] = "step 1";
 		$utagdata['pageType'] = "cart";
 		$utagdata['siteSection'] = "checkout";
-		$utagdata['cartContents'] = $woocart['cart_contents'];
+
+		$woocomCart = (array) $woocommerce->cart;
+		
 		// Set cart contents.
-		if ( !empty( $woocart['cart_contents'] ) ) {
+		//TODO Remove this line:
+		$utagdata['cartContents'] = $woocomCart['cart_contents'];
+		$utagdata['cartItems'] = $items;
+		if ( !empty( $woocomCart['cart_contents'] ) ) {
 
 			// Get cart product IDs, SKUs, Titles etc.
-			foreach ( $woocart['cart_contents'] as $cartItem ) {
+			foreach ( $woocomCart['cart_contents'] as $cartItem ) {
 				$productMeta = new WC_Product( $cartItem['product_id'] );
 				$productData['product_id'][] = $cartItem['product_id'];
 				$productData['product_sku'][] = $productMeta->post->sku;
