@@ -331,11 +331,12 @@ function tealiumWooCommerceData( $utagdata ) {
 		$utagdata['cartContents'] = $woocomCart['cart_contents'];
 		$utagdata['cartItems'] = $items;
 		if ( !empty( $woocomCart['cart_contents'] ) ) {
-
+			$test = array();
 			// Get cart product IDs, SKUs, Titles etc.
 			foreach ( $woocomCart['cart_contents'] as $cartItem ) {
 				$productData['prod_ids'][] = $cartItem['product_id'];
-				$productData = getProductData($cartItem['product_id']);
+				$test = getProductData($cartItem['product_id']);
+				$productData = array_merge( $productData, $test );			
 			}
 		}
 	}
@@ -357,7 +358,7 @@ function tealiumDataObject() {
 	$utagdata = array();
 
 	//Version checking
-	$utagdata['plugin_version'] = "0.0.35";
+	$utagdata['plugin_version'] = "0.0.36";
 
 	// Set Default Data. May be overwritten below / later
 	$utagdata['siteName'] = get_bloginfo( 'name' );
