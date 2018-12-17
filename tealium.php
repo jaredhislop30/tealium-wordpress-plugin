@@ -335,7 +335,7 @@ function tealiumWooCommerceData( $utagdata ) {
 			// Get cart product IDs, SKUs, Titles etc.
 			foreach ( $woocomCart['cart_contents'] as $cartItem ) {
 				$productData['prod_ids'][] = $cartItem['product_id'];
-				$productData = array_merge( $productData, getProductData($cartItem['product_id']));
+				array_merge( $productData, getProductData($cartItem['product_id']));
 			}
 		}
 	}
