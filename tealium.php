@@ -225,6 +225,7 @@ function getProductData($prodID,$productData){
     $productData['product_list_price'][] = $product->get_regular_price();
     $productData['product_sale_price'][] = $product->get_sale_price();
     $productData['product_image_url'][] = get_the_post_thumbnail_url( $product->get_id(), 'full' );
+	$productData['product_quantity'][] = $product->get_cart_item_quantities();
     //TODO: Revamp product discount
     //Problem Page: http://ec2-3-16-215-116.us-east-2.compute.amazonaws.com/index.php/product/marathon-t-shirts/
     // $productData['product_discount'][] = "0";
@@ -322,11 +323,13 @@ function tealiumWooCommerceData( $utagdata ) {
 		$woocomCart = (array) $woocommerce->cart;
 		
 		// Set cart contents.
+		//TODO Remove this line:
+		$utagdata['cartContents'] = $woocomCart['cart_contents'];
+		$utagdata['cartItems'] = $items;
 		if ( !empty( $woocomCart['cart_contents'] ) ) {
 			$test = array();
 			// Get cart product IDs, SKUs, Titles etc.
 			foreach ( $woocomCart['cart_contents'] as $cartItem ) {
-				$productData['prod_ids'][] = $cartItem['product_id'];
 				$productData = getProductData($cartItem['product_id'],$productData);	
 			}
 		}
