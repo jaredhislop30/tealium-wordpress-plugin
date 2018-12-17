@@ -311,29 +311,22 @@ function tealiumWooCommerceData( $utagdata ) {
 	// Add product data on product details page	
 	}else if($utagdata['pageType'] == "product" && $utagdata['pageType'] != "category"){
 		$utagdata['site_section'] = "shop";
-
 	    $productData = getProductData($post->ID,$productData);
 
-
-
-	    
+	// Add cart data on Cart Page 
 	}else if($utagdata['pageType'] == "page" && $utagdata['pageName'] == "Cart"){
 		$utagdata['checkout_step'] = "step 1";
 		$utagdata['pageType'] = "cart";
 		$utagdata['siteSection'] = "checkout";
-
+		//Get Cart Contents
 		$woocomCart = (array) $woocommerce->cart;
 		
 		// Set cart contents.
-		//TODO Remove this line:
-		$utagdata['cartContents'] = $woocomCart['cart_contents'];
-		$utagdata['cartItems'] = $items;
 		if ( !empty( $woocomCart['cart_contents'] ) ) {
 			$test = array();
 			// Get cart product IDs, SKUs, Titles etc.
 			foreach ( $woocomCart['cart_contents'] as $cartItem ) {
 				$productData['prod_ids'][] = $cartItem['product_id'];
-
 				$productData = getProductData($cartItem['product_id'],$productData);	
 			}
 		}
