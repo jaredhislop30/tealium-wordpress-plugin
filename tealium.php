@@ -319,7 +319,25 @@ function tealiumWooCommerceData( $utagdata ) {
 	    // $productData['category_name'] = join(":",$categories);
 	    
 	}else if($utagdata['pageType'] == "page" && $utagdata['pageName'] == "Cart"){
-		$utagdata['pageType'] = "shopping cart";
+		$utagdata['checkout_step'] = "step 1";
+		$utagdata['pageType'] = "cart";
+		$utagdata['siteSection'] = "checkout";
+		$utagdata['cartContents'] = $woocart['cart_contents'];
+		// Set cart contents.
+		if ( !empty( $woocart['cart_contents'] ) ) {
+
+			// Get cart product IDs, SKUs, Titles etc.
+			foreach ( $woocart['cart_contents'] as $cartItem ) {
+				$productMeta = new WC_Product( $cartItem['product_id'] );
+				$productData['product_id'][] = $cartItem['product_id'];
+				$productData['product_sku'][] = $productMeta->post->sku;
+				$productData['product_name'][] = $productMeta->post->post_title;
+				$productData['product_quantity'][] = $cartItem['quantity'];
+				$productData['product_regular_price'][] = get_post_meta( $cartItem['product_id'], '_regular_price', true );
+				$productData['product_sale_price'][] = get_post_meta( $cartItem['product_id'], '_sale_price', true );
+				$productData['product_type'][] = $productMeta->post->product_type;
+			}
+		}
 	}
 
 
