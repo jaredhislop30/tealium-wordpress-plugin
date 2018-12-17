@@ -318,7 +318,9 @@ function tealiumWooCommerceData( $utagdata ) {
 	    // $productData['category_id'] = join("_",$categories);
 	    // $productData['category_name'] = join(":",$categories);
 	    
-	}// TODO: Add cart data on cart page
+	}else if($utagdata['pageType'] == "page" && $utagdata['pageName'] == "Cart"){
+		$utagdata['pageType'] == "shopping cart";
+	}
 
 
 	// Merge shop and cart details into utagdata
