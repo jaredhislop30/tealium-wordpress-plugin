@@ -212,6 +212,7 @@ add_filter( 'tealium_convertCamelCase', 'tealiumConvertCamelCase' );
 *  Add product data for each product available.
 */
 function getProductData($prodIDs,$productData){
+	global $post;
 
 	foreach($prodIDs as $id){
 		$product = $post->IDwc_get_product( $id );
