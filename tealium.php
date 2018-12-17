@@ -211,11 +211,9 @@ add_filter( 'tealium_convertCamelCase', 'tealiumConvertCamelCase' );
 /*
 *  Add product data for each product available.
 */
-function getProductData($prodID){
+function getProductData($prodID,$data){
 	global $post;
 	global $product;
-
-	$data = array();
 
 	$product = wc_get_product( $prodID );
     $data['product_id'][] = strval($product->get_id());
@@ -314,7 +312,7 @@ function tealiumWooCommerceData( $utagdata ) {
 	}else if($utagdata['pageType'] == "product" && $utagdata['pageType'] != "category"){
 		$utagdata['site_section'] = "shop";
 
-	    $productData = array_merge( $productData, getProductData($post->ID,$productData));
+	    $productData = array_merge( $productData, getProductData($post->ID));
 
 
 
@@ -327,16 +325,20 @@ function tealiumWooCommerceData( $utagdata ) {
 		$woocomCart = (array) $woocommerce->cart;
 		
 		// Set cart contents.
+
 		//TODO Remove this line:
 		$utagdata['cartContents'] = $woocomCart['cart_contents'];
 		$utagdata['cartItems'] = $items;
-		if ( !empty( $woocomCart['cart_contents'] ) ) {
 
+		if ( !empty( $woocomCart['cart_contents'] ) ) {
+			$data = array();
 			// Get cart product IDs, SKUs, Titles etc.
 			foreach ( $woocomCart['cart_contents'] as $cartItem ) {
 				$productData['prod_ids'][] = $cartItem['product_id'];
-				array_merge( $productData, getProductData($cartItem['product_id']));
+				$prodarray = getProductData($cartItem['product_id'],$data);
 			}
+
+			$productData = array_merge( $productData, $data );
 		}
 	}
 
