@@ -213,9 +213,10 @@ add_filter( 'tealium_convertCamelCase', 'tealiumConvertCamelCase' );
 */
 function getProductData($prodIDs,$productData){
 	global $post;
+	global $product;
 
 	foreach($prodIDs as $id){
-		$product = $post->wc_get_product( $id );
+		$product = wc_get_product( $id );
 	    $productData['product_id'][] = strval($product->get_id());
 	    $productData['product_sku'][] = $product->get_sku();
 	    $productData['product_type'][] = $product->get_type();
