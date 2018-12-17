@@ -319,7 +319,7 @@ function tealiumWooCommerceData( $utagdata ) {
 	    // $productData['category_name'] = join(":",$categories);
 	    
 	}else if($utagdata['pageType'] == "page" && $utagdata['pageName'] == "Cart"){
-		$utagdata['pageType'] == "shopping cart";
+		$utagdata['pageType'] = "shopping cart";
 	}
 
 
@@ -339,7 +339,7 @@ function tealiumDataObject() {
 	$utagdata = array();
 
 	//Version checking
-	$utagdata['plugin_version'] = "0.0.26";
+	$utagdata['plugin_version'] = "0.0.27";
 
 	// Set Default Data. May be overwritten below / later
 	$utagdata['siteName'] = get_bloginfo( 'name' );
