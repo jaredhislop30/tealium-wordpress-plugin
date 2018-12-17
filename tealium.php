@@ -215,7 +215,7 @@ function getProductData($prodIDs,$productData){
 	global $post;
 
 	foreach($prodIDs as $id){
-		$product = $post->IDwc_get_product( $id );
+		$product = $post->wc_get_product( $id );
 	    $productData['product_id'][] = strval($product->get_id());
 	    $productData['product_sku'][] = $product->get_sku();
 	    $productData['product_type'][] = $product->get_type();
