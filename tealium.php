@@ -211,42 +211,40 @@ add_filter( 'tealium_convertCamelCase', 'tealiumConvertCamelCase' );
 /*
 *  Add product data for each product available.
 */
-function getProductData($prodID){
+function getProductData($prodID,$productData){
 	global $post;
 	global $product;
 
-	$data = array();
-
 	$product = wc_get_product( $prodID );
-    $data['product_id'][] = strval($product->get_id());
-    $data['product_sku'][] = $product->get_sku();
-    $data['product_type'][] = $product->get_type();
-    $data['product_name'][] = $product->get_name();
-    $data['product_brand'][] = $product->get_attribute('brand');
-    $data['product_unit_price'][] = $product->get_price();
-    $data['product_list_price'][] = $product->get_regular_price();
-    $data['product_sale_price'][] = $product->get_sale_price();
-    $data['product_image_url'][] = get_the_post_thumbnail_url( $product->get_id(), 'full' );
+    $productData['product_id'][] = strval($product->get_id());
+    $productData['product_sku'][] = $product->get_sku();
+    $productData['product_type'][] = $product->get_type();
+    $productData['product_name'][] = $product->get_name();
+    $productData['product_brand'][] = $product->get_attribute('brand');
+    $productData['product_unit_price'][] = $product->get_price();
+    $productData['product_list_price'][] = $product->get_regular_price();
+    $productData['product_sale_price'][] = $product->get_sale_price();
+    $productData['product_image_url'][] = get_the_post_thumbnail_url( $product->get_id(), 'full' );
     //TODO: Revamp product discount
     //Problem Page: http://ec2-3-16-215-116.us-east-2.compute.amazonaws.com/index.php/product/marathon-t-shirts/
-    // $data['product_discount'][] = "0";
-    // $data['product_url'][] = home_url( $wp->request );
-    // if($data['product_list_price'][0] != ""){
-    // 	$data['product_discount'][] = strval($data['product_list_price'][0] - $data['product_unit_price'][0]);
+    // $productData['product_discount'][] = "0";
+    // $productData['product_url'][] = home_url( $wp->request );
+    // if($productData['product_list_price'][0] != ""){
+    // 	$productData['product_discount'][] = strval($productData['product_list_price'][0] - $productData['product_unit_price'][0]);
     // }
     $cats = explode(",", wc_get_product_category_list($product->get_id()));
 
     // // TODO: category has a leading space. replace leading space. 
-    $data['product_category'][] = strip_tags($cats[0]);
-    $data['product_subcategory'][] = strip_tags($cats[1]);
-    $data['product_subcategory1'][] = strip_tags($cats[2]);
-    $data['product_subcategory2'][] = strip_tags($cats[3]);
-    $data['product_subcategory3'][] = strip_tags($cats[4]);
+    $productData['product_category'][] = strip_tags($cats[0]);
+    $productData['product_subcategory'][] = strip_tags($cats[1]);
+    $productData['product_subcategory1'][] = strip_tags($cats[2]);
+    $productData['product_subcategory2'][] = strip_tags($cats[3]);
+    $productData['product_subcategory3'][] = strip_tags($cats[4]);
 
-    // $data['category_id'] = join("_",$categories);
-    // $data['category_name'] = join(":",$categories);
+    // $productData['category_id'] = join("_",$categories);
+    // $productData['category_name'] = join(":",$categories);
 
-	return $data;
+	return $productData;
 }
 
 
@@ -314,7 +312,7 @@ function tealiumWooCommerceData( $utagdata ) {
 	}else if($utagdata['pageType'] == "product" && $utagdata['pageType'] != "category"){
 		$utagdata['site_section'] = "shop";
 
-	    $productData = array_merge( $productData, getProductData($post->ID));
+	    $productData = getProductData($post->ID,$productData);
 
 
 
@@ -335,8 +333,8 @@ function tealiumWooCommerceData( $utagdata ) {
 			// Get cart product IDs, SKUs, Titles etc.
 			foreach ( $woocomCart['cart_contents'] as $cartItem ) {
 				$productData['prod_ids'][] = $cartItem['product_id'];
-				$test = getProductData($cartItem['product_id']);
-				$productData = array_merge( $productData, $test );			
+
+				$productData = getProductData($cartItem['product_id'],$productData);	
 			}
 		}
 	}
