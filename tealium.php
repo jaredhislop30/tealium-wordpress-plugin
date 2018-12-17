@@ -208,6 +208,44 @@ function tealiumConvertCamelCase( $utagdata, $arrayHolder = array() ) {
 }
 add_filter( 'tealium_convertCamelCase', 'tealiumConvertCamelCase' );
 
+/*
+*  Add product data for each product available.
+*/
+function getProductData($prodIDs,$productData){
+
+	foreach($prodIDs as $id){
+		$product = $post->IDwc_get_product( $id );
+	    $productData['product_id'][] = strval($product->get_id());
+	    $productData['product_sku'][] = $product->get_sku();
+	    $productData['product_type'][] = $product->get_type();
+	    $productData['product_name'][] = $product->get_name();
+	    $productData['product_brand'][] = $product->get_attribute('brand');
+	    $productData['product_unit_price'][] = $product->get_price();
+	    $productData['product_list_price'][] = $product->get_regular_price();
+	    $productData['product_sale_price'][] = $product->get_sale_price();
+	    $productData['product_image_url'][] = get_the_post_thumbnail_url( $product->get_id(), 'full' );
+	    //TODO: Revamp product discount
+	    //Problem Page: http://ec2-3-16-215-116.us-east-2.compute.amazonaws.com/index.php/product/marathon-t-shirts/
+	    // $productData['product_discount'][] = "0";
+	    // $productData['product_url'][] = home_url( $wp->request );
+	    // if($productData['product_list_price'][0] != ""){
+	    // 	$productData['product_discount'][] = strval($productData['product_list_price'][0] - $productData['product_unit_price'][0]);
+	    // }
+	    $cats = explode(",", wc_get_product_category_list($product->get_id()));
+
+	    // // TODO: category has a leading space. replace leading space. 
+	    $productData['product_category'][] = strip_tags($cats[0]);
+	    $productData['product_subcategory'][] = strip_tags($cats[1]);
+	    $productData['product_subcategory1'][] = strip_tags($cats[2]);
+	    $productData['product_subcategory2'][] = strip_tags($cats[3]);
+	    $productData['product_subcategory3'][] = strip_tags($cats[4]);
+
+	    // $productData['category_id'] = join("_",$categories);
+	    // $productData['category_name'] = join(":",$categories);
+	}
+	return $productData;
+}
+
 
 /*
  * Adds WooCommerce data to data layer
@@ -236,23 +274,6 @@ function tealiumWooCommerceData( $utagdata ) {
 
 
 	$productData = array();
-
-	
-	// Set cart contents. Replacing with Product data on product pages. 
-	// if ( !empty( $woocart['cart_contents'] ) ) {
-
-	// 	// Get cart product IDs, SKUs, Titles etc.
-	// 	foreach ( $woocart['cart_contents'] as $cartItem ) {
-	// 		$productMeta = new WC_Product( $cartItem['product_id'] );
-	// 		$productData['product_id'][] = $cartItem['product_id'];
-	// 		$productData['product_sku'][] = $productMeta->post->sku;
-	// 		$productData['product_name'][] = $productMeta->post->post_title;
-	// 		$productData['product_quantity'][] = $cartItem['quantity'];
-	// 		$productData['product_regular_price'][] = get_post_meta( $cartItem['product_id'], '_regular_price', true );
-	// 		$productData['product_sale_price'][] = get_post_meta( $cartItem['product_id'], '_sale_price', true );
-	// 		$productData['product_type'][] = $productMeta->post->product_type;
-	// 	}
-	// }
 
 	// Remove the extensive individual product details
 	unset( $woocart['cart_contents'] );
@@ -289,35 +310,12 @@ function tealiumWooCommerceData( $utagdata ) {
 	// Add product data on product details page	
 	}else if($utagdata['pageType'] == "product" && $utagdata['pageType'] != "category"){
 		$utagdata['site_section'] = "shop";
-	    $product = wc_get_product( $post->ID );
-	    $productData['product_id'][] = strval($product->get_id());
-	    $productData['product_sku'][] = $product->get_sku();
-	    $productData['product_type'][] = $product->get_type();
-	    $productData['product_name'][] = $product->get_name();
-	    $productData['product_brand'][] = $product->get_attribute('brand');
-	    $productData['product_unit_price'][] = $product->get_price();
-	    $productData['product_list_price'][] = $product->get_regular_price();
-	    $productData['product_sale_price'][] = $product->get_sale_price();
-	    $productData['product_image_url'][] = get_the_post_thumbnail_url( $product->get_id(), 'full' );
-	    //TODO: Revamp product discount
-	    //Problem Page: http://ec2-3-16-215-116.us-east-2.compute.amazonaws.com/index.php/product/marathon-t-shirts/
-	    // $productData['product_discount'][] = "0";
-	    // $productData['product_url'][] = home_url( $wp->request );
-	    // if($productData['product_list_price'][0] != ""){
-	    // 	$productData['product_discount'][] = strval($productData['product_list_price'][0] - $productData['product_unit_price'][0]);
-	    // }
+	    $productID = array($post->ID);
 
-	    $cats = explode(",", wc_get_product_category_list($product->get_id()));
+	    $productData = getProductData($productID,$productData);
 
-	    // // TODO: category has a leading space. replace leading space. 
-	    $productData['product_category'][] = strip_tags($cats[0]);
-	    $productData['product_subcategory'][] = strip_tags($cats[1]);
-	    $productData['product_subcategory1'][] = strip_tags($cats[2]);
-	    $productData['product_subcategory2'][] = strip_tags($cats[3]);
-	    $productData['product_subcategory3'][] = strip_tags($cats[4]);
 
-	    // $productData['category_id'] = join("_",$categories);
-	    // $productData['category_name'] = join(":",$categories);
+
 	    
 	}else if($utagdata['pageType'] == "page" && $utagdata['pageName'] == "Cart"){
 		$utagdata['checkout_step'] = "step 1";
