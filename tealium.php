@@ -334,6 +334,7 @@ function tealiumWooCommerceData( $utagdata ) {
 
 			// Get cart product IDs, SKUs, Titles etc.
 			foreach ( $woocomCart['cart_contents'] as $cartItem ) {
+				$productData['prod_ids'][] = $cartItem;
 				$productData = array_merge( $productData, getProductData($cartItem['product_id']));
 			}
 		}
@@ -356,7 +357,7 @@ function tealiumDataObject() {
 	$utagdata = array();
 
 	//Version checking
-	$utagdata['plugin_version'] = "0.0.31";
+	$utagdata['plugin_version'] = "0.0.32";
 
 	// Set Default Data. May be overwritten below / later
 	$utagdata['siteName'] = get_bloginfo( 'name' );
