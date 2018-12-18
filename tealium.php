@@ -211,7 +211,7 @@ add_filter( 'tealium_convertCamelCase', 'tealiumConvertCamelCase' );
 /*
 *  Add product data for each product available.
 */
-function getProductData($prodID,$productData){
+function getProductData($prodID,$productData,$cartItem){
 	global $post;
 	global $product;
 
@@ -225,7 +225,7 @@ function getProductData($prodID,$productData){
     $productData['product_list_price'][] = $product->get_regular_price();
     $productData['product_sale_price'][] = $product->get_sale_price();
     $productData['product_image_url'][] = get_the_post_thumbnail_url( $product->get_id(), 'full' );
-	$productData['product_quantity'][] = $product->get_quantity();
+	$productData['product_quantity'][] = $cartItem['$prodID']['quantity'];
     //TODO: Revamp product discount
     //Problem Page: http://ec2-3-16-215-116.us-east-2.compute.amazonaws.com/index.php/product/marathon-t-shirts/
     // $productData['product_discount'][] = "0";
@@ -312,7 +312,7 @@ function tealiumWooCommerceData( $utagdata ) {
 	// Add product data on product details page	
 	}else if($utagdata['pageType'] == "product" && $utagdata['pageType'] != "category"){
 		$utagdata['site_section'] = "shop";
-	    $productData = getProductData($post->ID,$productData);
+	    $productData = getProductData($post->ID,$productData,null);
 
 	// Add cart data on Cart Page 
 	}else if($utagdata['pageType'] == "page" && $utagdata['pageName'] == "Cart"){
@@ -330,7 +330,7 @@ function tealiumWooCommerceData( $utagdata ) {
 			$test = array();
 			// Get cart product IDs, SKUs, Titles etc.
 			foreach ( $woocomCart['cart_contents'] as $cartItem ) {
-				$productData = getProductData($cartItem['product_id'],$productData);	
+				$productData = getProductData($cartItem['product_id'],$productData,$cartItem);	
 			}
 		}
 	}
