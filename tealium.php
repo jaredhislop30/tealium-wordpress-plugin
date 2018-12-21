@@ -234,7 +234,7 @@ function getProductData($prodID,$productData,$cartItem){
 
 
     if($product->get_regular_price() != $product->get_price()){
-    	$productData['get_discount'][] = strval((float)$product->get_regular_price() - (float)$product->get_price());
+    	$productData['product_discount'][] = strval((float)$product->get_regular_price() - (float)$product->get_price());
     }
 
     $cats = explode(",", wc_get_product_category_list($product->get_id()));
