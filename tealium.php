@@ -232,7 +232,7 @@ function getProductData($prodID,$productData,$cartItem){
     // Problem Page: http://ec2-3-16-215-116.us-east-2.compute.amazonaws.com/index.php/product/marathon-t-shirts/
     $productData['product_discount'][] = "0";
     if($product->get_regular_price() != $product->get_sale_price()){
-    	$productData['product_discount'][] = strval($productData['product_list_price'][0] - $productData['product_unit_price'][0]);
+    	$productData['product_discount'][] = strval($product->get_regular_price() - $product->get_sale_price());
     }
 
     $cats = explode(",", wc_get_product_category_list($product->get_id()));
