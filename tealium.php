@@ -313,19 +313,20 @@ function tealiumWooCommerceData( $utagdata ) {
 			$orderData["order_shipping_amount"] = $order->get_shipping_total();
 			$orderData["order_shipping_type"] = $order->get_shipping_method();
 			$orderData["order_tax_amount"] = $order->get_total_tax();
-
-			// Customer Data
 			$orderData["customer_city"] = $order->get_billing_city( string $context = 'view'  );
-			$orderData["customer_country"] = $order->get_billing_country( string $context = 'view'  );
-			$orderData["customer_email"] = $order->get_billing_email( string $context = 'view'  );
-			$orderData["customer_first_name"] = $order->get_billing_first_name( string $context = 'view'  );
-			$orderData["customer_id"] = $order->get_customer_id( string $context = 'view'  );
-			$orderData["customer_last_name"] = $order->get_billing_last_name( string $context = 'view'  );
-			$orderData["customer_postal_code"] = $order->get_billing_postcode( string $context = 'view'  );
-			$orderData["customer_state"] = $order->get_billing_state( string $context = 'view'  );
+			// Customer Data
+			
+			//$orderData["customer_country"] = $order->get_billing_country( string $context = 'view'  );
+			//$orderData["customer_email"] = $order->get_billing_email( string $context = 'view'  );
+			//$orderData["customer_first_name"] = $order->get_billing_first_name( string $context = 'view'  );
+			//$orderData["customer_id"] = $order->get_customer_id( string $context = 'view'  );
+			//$orderData["customer_last_name"] = $order->get_billing_last_name( string $context = 'view'  );
+			//$orderData["customer_postal_code"] = $order->get_billing_postcode( string $context = 'view'  );
+			//$orderData["customer_state"] = $order->get_billing_state( string $context = 'view'  );
 
 			//get Product Items
 			$orderData["order_items"] = $order->get_items();
+			$orderData["get_items_key"] = $order->get_items_key();
 		}
 
 		$utagdata = array_merge( $utagdata, $orderData );
