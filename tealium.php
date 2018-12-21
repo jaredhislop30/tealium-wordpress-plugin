@@ -287,6 +287,10 @@ function tealiumWooCommerceData( $utagdata ) {
 
 	// Add order data on order confirmation page
 	if ( is_order_received_page() ) {
+		$utagdata['pageName'] = "checkout - order confirmation";
+		$utagdata['checkout_step'] = "3";
+		$utagdata['pageType'] = "checkout";
+		$utagdata['siteSection'] = "checkout";
 		$orderId  = apply_filters( 'woocommerce_thankyou_order_id', empty( $_GET['order'] ) ? ( $GLOBALS["wp"]->query_vars["order-received"] ? $GLOBALS["wp"]->query_vars["order-received"] : 0 ) : absint( $_GET['order'] ) );
 		$orderKey = apply_filters( 'woocommerce_thankyou_order_key', empty( $_GET['key'] ) ? '' : woocommerce_clean( $_GET['key'] ) );
 		$orderData = array();
@@ -299,13 +303,29 @@ function tealiumWooCommerceData( $utagdata ) {
 		}
 
 		if ( isset( $order ) ) {
-			$orderData["order_id"] = $order->get_order_number();
-			$orderData["order_total"]  = $order->get_total();
-			$orderData["order_shipping"] = $order->get_total_shipping();
-			$orderData["order_tax"] = $order->get_total_tax();
+			$orderData["order_currency_code"] = $order->get_currency();
+			$orderData["order_discount_amount"] = $order->get_discount_total();
+			$orderData["order_grand_total"] = $order->get_total();
+			$orderData["order_merchandise_total"] = $order->get_subtotal_to_display();
+			$orderData["order_subtotal"] = $order->get_subtotal();
 			$orderData["order_payment_type"] = $order->payment_method_title;
+			$orderData["order_promo_code"] = implode( ", ", $order->get_used_coupons() );
+			$orderData["order_shipping_amount"] = $order->get_shipping_total()
 			$orderData["order_shipping_type"] = $order->get_shipping_method();
-			$orderData["order_coupon_code"] = implode( ", ", $order->get_used_coupons() );
+			$orderData["order_tax_amount"] = $order->get_total_tax();
+
+			// Customer Data
+			$orderData["customer_city"] = $order->get_billing_city( string $context = 'view'  );
+			$orderData["customer_country"] = $order->get_billing_country( string $context = 'view'  );
+			$orderData["customer_email"] = $order->get_billing_email( string $context = 'view'  );
+			$orderData["customer_first_name"] = $order->get_billing_first_name( string $context = 'view'  );
+			$orderData["customer_id"] = $order->get_customer_id( string $context = 'view'  );
+			$orderData["customer_last_name"] = $order->get_billing_last_name( string $context = 'view'  );
+			$orderData["customer_postal_code"] = $order->get_billing_postcode( string $context = 'view'  );
+			$orderData["customer_state"] = $order->get_billing_state( string $context = 'view'  );
+
+			//get Product Items
+			$orderData["order_items"] = $order->get_items();
 		}
 
 		$utagdata = array_merge( $utagdata, $orderData );
@@ -316,13 +336,13 @@ function tealiumWooCommerceData( $utagdata ) {
 
 	// Add cart data on Cart Page 
 	}else if($utagdata['pageType'] == "page" && ($utagdata['pageName'] == "Cart" || $utagdata['pageName'] == "Checkout")){
-		$utagdata['checkout_step'] = "step 1";
+		$utagdata['checkout_step'] = "1";
 		$utagdata['pageType'] = "cart";
 		$utagdata['siteSection'] = "checkout";
 
 		if($utagdata['pageName'] == "Checkout"){
 			$utagdata['pageName'] = "checkout - billing information";
-			$utagdata['checkout_step'] = "step 2";
+			$utagdata['checkout_step'] = "2";
 			$utagdata['pageType'] = "checkout";
 			$utagdata['siteSection'] = "checkout";
 		}
