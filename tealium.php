@@ -233,7 +233,7 @@ function getProductData($prodID,$productData,$cartItem){
 
     $productData['get_regular_price'] = $product->get_regular_price();
     $productData['get_price'] = $product->get_price();
-    $productData['get_discount'] = strval((float)$product->get_regular_price() - (float)$product->get_price());
+    $productData['get_discount'][] = strval((float)$product->get_regular_price() - (float)$product->get_price());
 
 
     // if($product->get_regular_price() != $product->get_price()){
@@ -390,7 +390,7 @@ function tealiumDataObject() {
 	$utagdata = array();
 
 	//Version checking
-	$utagdata['plugin_version'] = "0.0.42";
+	$utagdata['plugin_version'] = "0.0.43";
 
 	// Set Default Data. May be overwritten below / later
 	$utagdata['siteName'] = get_bloginfo( 'name' );
