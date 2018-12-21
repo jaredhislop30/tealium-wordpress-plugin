@@ -223,7 +223,6 @@ function getProductData($prodID,$productData,$cartItem){
     $productData['product_brand'][] = $product->get_attribute('brand');
     $productData['product_unit_price'][] = $product->get_price();
     $productData['product_list_price'][] = $product->get_regular_price();
-    $productData['product_sale_price'][] = $product->get_sale_price();
     $productData['product_image_url'][] = get_the_post_thumbnail_url( $product->get_id(), 'full' );
 	$productData['product_quantity'][] = strval($cartItem['quantity']);
 	$productData['product_url'][] = get_permalink( $product->get_id() );
@@ -232,7 +231,7 @@ function getProductData($prodID,$productData,$cartItem){
     // Problem Page: http://ec2-3-16-215-116.us-east-2.compute.amazonaws.com/index.php/product/marathon-t-shirts/
     $productData['product_discount'][] = "0";
     if($product->get_regular_price() != $product->get_sale_price()){
-    	$productData['product_discount'][] = strval($product->get_regular_price() - $product->get_sale_price());
+    	$productData['product_discount'][] = strval((float)$product->get_regular_price() - (float)$product->get_sale_price());
     }
 
     $cats = explode(",", wc_get_product_category_list($product->get_id()));
