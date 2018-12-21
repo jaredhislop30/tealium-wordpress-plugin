@@ -303,6 +303,7 @@ function tealiumWooCommerceData( $utagdata ) {
 		}
 
 		if ( isset( $order ) ) {
+			$orderData["order_id"] = $order->get_id();
 			$orderData["order_currency_code"] = $order->get_currency();
 			$orderData["order_discount_amount"] = $order->get_discount_total();
 			$orderData["order_grand_total"] = $order->get_total();
