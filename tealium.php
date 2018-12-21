@@ -326,12 +326,7 @@ function tealiumWooCommerceData( $utagdata ) {
 			$orderData["customer_state"] = $order->get_billing_state();
 
 			//get Product Items
-			$items = $order->get_items('line_item');
-			   foreach ( $items as $item ) {
-		        $product_name = $item['name'];
-		        $product_id = $item['product_id'];
-		        $product_variation_id = $item['variation_id'];
-		    }
+			$items = $order->get_items();
 				foreach ( $items as $item ) {
 					$orderData = getProductData($item['product_id'],$orderData,$item);	
 				}
