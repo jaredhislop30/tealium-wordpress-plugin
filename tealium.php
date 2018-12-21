@@ -230,8 +230,8 @@ function getProductData($prodID,$productData,$cartItem){
     //TODO: Revamp product discount
     // Problem Page: http://ec2-3-16-215-116.us-east-2.compute.amazonaws.com/index.php/product/marathon-t-shirts/
     $productData['product_discount'][] = "0";
-    if($product->get_regular_price() != $product->get_sale_price()){
-    	$productData['product_discount'][] = strval((float)$product->get_regular_price() - (float)$product->get_sale_price());
+    if($product->get_regular_price() != $product->get_price()){
+    	$productData['product_discount'][] = strval((float)$product->get_regular_price() - (float)$product->get_price());
     }
 
     $cats = explode(",", wc_get_product_category_list($product->get_id()));
