@@ -315,10 +315,18 @@ function tealiumWooCommerceData( $utagdata ) {
 	    $productData = getProductData($post->ID,$productData,null);
 
 	// Add cart data on Cart Page 
-	}else if($utagdata['pageType'] == "page" && $utagdata['pageName'] == "Cart"){
+	}else if($utagdata['pageType'] == "page" && ($utagdata['pageName'] == "Cart" || $utagdata['pageName'] == "Checkout")){
 		$utagdata['checkout_step'] = "step 1";
 		$utagdata['pageType'] = "cart";
 		$utagdata['siteSection'] = "checkout";
+
+		if($utagdata['pageName'] == "Checkout"){
+			$utagdata['pageName'] = "checkout - billing information"
+			$utagdata['checkout_step'] = "step 2";
+			$utagdata['pageType'] = "checkout";
+			$utagdata['siteSection'] = "checkout";
+		}
+
 		//Get Cart Contents
 		$woocomCart = (array) $woocommerce->cart;
 		
@@ -352,7 +360,7 @@ function tealiumDataObject() {
 	$utagdata = array();
 
 	//Version checking
-	$utagdata['plugin_version'] = "0.0.36";
+	$utagdata['plugin_version'] = "0.0.37";
 
 	// Set Default Data. May be overwritten below / later
 	$utagdata['siteName'] = get_bloginfo( 'name' );
