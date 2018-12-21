@@ -310,7 +310,7 @@ function tealiumWooCommerceData( $utagdata ) {
 			$orderData["order_subtotal"] = $order->get_subtotal();
 			$orderData["order_payment_type"] = $order->payment_method_title;
 			$orderData["order_promo_code"] = implode( ", ", $order->get_used_coupons() );
-			$orderData["order_shipping_amount"] = $order->get_shipping_total()
+			$orderData["order_shipping_amount"] = $order->get_shipping_total();
 			$orderData["order_shipping_type"] = $order->get_shipping_method();
 			$orderData["order_tax_amount"] = $order->get_total_tax();
 
