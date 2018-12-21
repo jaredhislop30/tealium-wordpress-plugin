@@ -226,13 +226,15 @@ function getProductData($prodID,$productData,$cartItem){
     $productData['product_sale_price'][] = $product->get_sale_price();
     $productData['product_image_url'][] = get_the_post_thumbnail_url( $product->get_id(), 'full' );
 	$productData['product_quantity'][] = strval($cartItem['quantity']);
+	$productData['product_url'][] = get_permalink( $product->get_id() );
+
     //TODO: Revamp product discount
-    //Problem Page: http://ec2-3-16-215-116.us-east-2.compute.amazonaws.com/index.php/product/marathon-t-shirts/
-    // $productData['product_discount'][] = "0";
-    // $productData['product_url'][] = home_url( $wp->request );
-    // if($productData['product_list_price'][0] != ""){
-    // 	$productData['product_discount'][] = strval($productData['product_list_price'][0] - $productData['product_unit_price'][0]);
-    // }
+    // Problem Page: http://ec2-3-16-215-116.us-east-2.compute.amazonaws.com/index.php/product/marathon-t-shirts/
+    $productData['product_discount'][] = "0";
+    if($product->get_regular_price() != $product->get_sale_price()){
+    	$productData['product_discount'][] = strval($productData['product_list_price'][0] - $productData['product_unit_price'][0]);
+    }
+
     $cats = explode(",", wc_get_product_category_list($product->get_id()));
 
     // // TODO: category has a leading space. replace leading space. 
