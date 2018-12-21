@@ -230,15 +230,12 @@ function getProductData($prodID,$productData,$cartItem){
     //TODO: Revamp product discount
     // Problem Page: http://ec2-3-16-215-116.us-east-2.compute.amazonaws.com/index.php/product/marathon-t-shirts/
     $productData['product_discount'][] = "0";
-
-    $productData['get_regular_price'] = $product->get_regular_price();
-    $productData['get_price'] = $product->get_price();
-    $productData['get_discount'][] = strval((float)$product->get_regular_price() - (float)$product->get_price());
+    
 
 
-    // if($product->get_regular_price() != $product->get_price()){
-    // 	$productData['product_discount'][] = strval((float)$product->get_regular_price() - (float)$product->get_price());
-    // }
+    if($product->get_regular_price() != $product->get_price()){
+    	$productData['get_discount'][] = strval((float)$product->get_regular_price() - (float)$product->get_price());
+    }
 
     $cats = explode(",", wc_get_product_category_list($product->get_id()));
 
@@ -390,7 +387,7 @@ function tealiumDataObject() {
 	$utagdata = array();
 
 	//Version checking
-	$utagdata['plugin_version'] = "0.0.43";
+	$utagdata['plugin_version'] = "0.0.44";
 
 	// Set Default Data. May be overwritten below / later
 	$utagdata['siteName'] = get_bloginfo( 'name' );
