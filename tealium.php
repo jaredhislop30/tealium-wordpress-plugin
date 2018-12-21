@@ -326,7 +326,7 @@ function tealiumWooCommerceData( $utagdata ) {
 
 			//get Product Items
 			$orderData["order_items"] = $order->get_items();
-			$orderData["order_items"] = $order->get_item();
+			$orderData["order_item"] = $order->get_item();
 		}
 
 		$utagdata = array_merge( $utagdata, $orderData );
