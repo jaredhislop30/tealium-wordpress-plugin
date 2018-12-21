@@ -313,7 +313,7 @@ function tealiumWooCommerceData( $utagdata ) {
 			$orderData["order_shipping_amount"] = $order->get_shipping_total();
 			$orderData["order_shipping_type"] = $order->get_shipping_method();
 			$orderData["order_tax_amount"] = $order->get_total_tax();
-			$orderData["customer_city"] = $order->get_billing_city( string $context = 'view'  );
+			$orderData["customer_city"] = $order->get_billing_city();
 			// Customer Data
 			
 			//$orderData["customer_country"] = $order->get_billing_country( string $context = 'view'  );
