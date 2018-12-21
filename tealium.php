@@ -321,7 +321,7 @@ function tealiumWooCommerceData( $utagdata ) {
 		$utagdata['siteSection'] = "checkout";
 
 		if($utagdata['pageName'] == "Checkout"){
-			$utagdata['pageName'] = "checkout - billing information"
+			$utagdata['pageName'] = "checkout - billing information";
 			$utagdata['checkout_step'] = "step 2";
 			$utagdata['pageType'] = "checkout";
 			$utagdata['siteSection'] = "checkout";
