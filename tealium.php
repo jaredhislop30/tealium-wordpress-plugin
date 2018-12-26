@@ -300,12 +300,12 @@ function tealiumWooCommerceData( $utagdata ) {
 		}
 
 		if ( isset( $order ) ) {
-			$orderData["order_id"] = $order->get_id();
+			$orderData["order_id"] = strval($order->get_id());
 			$orderData["order_currency_code"] = $order->get_currency();
 			$orderData["order_discount_amount"] = $order->get_discount_total();
 			$orderData["order_grand_total"] = $order->get_total();
 			$orderData["order_merchandise_total"] = $order->get_subtotal_to_display();
-			$orderData["order_subtotal"] = $order->get_subtotal();
+			$orderData["order_subtotal"] = strval($order->get_subtotal());
 			$orderData["order_payment_type"] = $order->payment_method_title;
 			$orderData["order_promo_code"] = implode( ", ", $order->get_used_coupons() );
 			$orderData["order_shipping_amount"] = $order->get_shipping_total();
