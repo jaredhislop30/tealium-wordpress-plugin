@@ -339,6 +339,7 @@ function tealiumWooCommerceData( $utagdata ) {
 	// Add cart data on Cart Page 
 	}else if($utagdata['pageType'] == "page" && ($utagdata['pageName'] == "Cart" || $utagdata['pageName'] == "Checkout")){
 		$utagdata['checkout_step'] = "1";
+		$utagdata['checkout_step_name'] = "cart";
 		$utagdata['pageType'] = "cart";
 		$utagdata['siteSection'] = "checkout";
 		$utagdata['tealium_event'] = "cart_view";
@@ -346,6 +347,7 @@ function tealiumWooCommerceData( $utagdata ) {
 		if($utagdata['pageName'] == "Checkout"){
 			$utagdata['pageName'] = "checkout - billing information";
 			$utagdata['checkout_step'] = "2";
+			$utagdata['checkout_step_name'] = "billing information";
 			$utagdata['pageType'] = "checkout";
 			$utagdata['siteSection'] = "checkout";
 			$utagdata['tealium_event'] = "checkout";
