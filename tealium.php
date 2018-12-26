@@ -212,7 +212,6 @@ add_filter( 'tealium_convertCamelCase', 'tealiumConvertCamelCase' );
 *  Add product data for each product available.
 */
 function getProductData($prodID,$productData,$cartItem){
-	global $post;
 	global $product;
 
 	$product = wc_get_product( $prodID );
@@ -288,6 +287,7 @@ function tealiumWooCommerceData( $utagdata ) {
 		$utagdata['checkout_step'] = "3";
 		$utagdata['pageType'] = "checkout";
 		$utagdata['siteSection'] = "checkout";
+		$utagdata['tealium_event'] = "purchase";
 		$orderId  = apply_filters( 'woocommerce_thankyou_order_id', empty( $_GET['order'] ) ? ( $GLOBALS["wp"]->query_vars["order-received"] ? $GLOBALS["wp"]->query_vars["order-received"] : 0 ) : absint( $_GET['order'] ) );
 		$orderKey = apply_filters( 'woocommerce_thankyou_order_key', empty( $_GET['key'] ) ? '' : woocommerce_clean( $_GET['key'] ) );
 		$orderData = array();
@@ -333,6 +333,7 @@ function tealiumWooCommerceData( $utagdata ) {
 	// Add product data on product details page	
 	}else if($utagdata['pageType'] == "product" && $utagdata['pageType'] != "category"){
 		$utagdata['site_section'] = "shop";
+		$utagdata['tealium_event'] = "product_view";
 	    $productData = getProductData($post->ID,$productData,null);
 
 	// Add cart data on Cart Page 
@@ -340,12 +341,14 @@ function tealiumWooCommerceData( $utagdata ) {
 		$utagdata['checkout_step'] = "1";
 		$utagdata['pageType'] = "cart";
 		$utagdata['siteSection'] = "checkout";
+		$utagdata['tealium_event'] = "cart_view";
 
 		if($utagdata['pageName'] == "Checkout"){
 			$utagdata['pageName'] = "checkout - billing information";
 			$utagdata['checkout_step'] = "2";
 			$utagdata['pageType'] = "checkout";
 			$utagdata['siteSection'] = "checkout";
+			$utagdata['tealium_event'] = "checkout";
 		}
 
 		//Get Cart Contents
@@ -380,26 +383,14 @@ function tealiumDataObject() {
 	global $utagdata;
 	$utagdata = array();
 
-	//Version checking
-	$utagdata['plugin_version'] = "0.0.44";
-
 	// Set Default Data. May be overwritten below / later
 	$utagdata['siteName'] = get_bloginfo( 'name' );
 	$utagdata['siteDescription'] = get_bloginfo( 'description' );
 	$utagdata['language_code'] = explode("_",get_locale())[0];
 	$utagdata['country_code'] = strtolower(explode("_",get_locale())[1]);
 	$utagdata['pageName'] = get_the_title();
+	$utagdata['tealium_event'] = "page_view";
 	
-
-	//TEMP : REMOVE
-	$utagdata['post'] = get_post();
-	$utagdata['queried_object'] =get_queried_object();
-	$utagdata['test_post_type'] = get_post_type();
-	$utagdata['test_archive_title'] = get_the_archive_title();
-	$utagdata['test_is_single'] = is_single();
-	$utagdata['test_is_page'] = is_page();
-	$utagdata['test_is_category'] = is_category();
-	$utagdata['test_is_archive'] = is_archive();
 
 	if ( ( is_single() ) || is_page() ) {
 		global $post;
@@ -438,12 +429,12 @@ function tealiumDataObject() {
 		}
 
 		// Get and merge post meta data
-		// if ( "1" !== get_option( 'tealiumExcludeMetaData' ) ) {
-		// 	$meta = get_post_meta( get_the_ID() );
-		// 	if ( $meta ) {
-		// 		$utagdata = array_merge( $utagdata, $meta );
-		// 	}
-		// }
+		if ( "1" !== get_option( 'tealiumExcludeMetaData' ) ) {
+			$meta = get_post_meta( get_the_ID() );
+			if ( $meta ) {
+				$utagdata = array_merge( $utagdata, $meta );
+			}
+		}
 
 	}else if ( is_category() ) {
 			$utagdata['pageName'] = "category-archive";
@@ -495,6 +486,7 @@ function tealiumDataObject() {
 			$utagdata['pageName'] = "search";
 			$utagdata['searchQuery'] = $searchQuery;
 			$utagdata['searchResults'] = $searchCount;
+			$utagdata['tealium_event'] = "search";
 		}
 
 	// Add shop data if WooCommerce is installed
