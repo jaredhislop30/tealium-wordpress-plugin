@@ -499,9 +499,8 @@ function tealiumDataObject() {
 
 	// Add shop data if WooCommerce is installed
 	if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
-		$utagdata['test_before_add_action'] = "true";
 		add_action('wp_head', 'tealiumWoocommerceEnqueueJS');
-		$utagdata['test_after_add_action'] = "true";
+		add_action('woocommerce_add_to_cart','add_to_cart',10,6);
 		$utagdata = apply_filters( 'tealium_wooCommerceData', $utagdata );
 	}
 
@@ -521,16 +520,26 @@ function tealiumDataObject() {
 	return $utagdata;
 }
 
+/*
+ * Load JS Functions for Dynamic Event Tracking (Add to Cart, Remove from cart, etc)
+ */
+function add_to_cart($cart_item_key, $product_id, $quantity, $variation_id, $variation, $cart_item_data) {
+	print($cart_item_key);
+	print($product_id);
+	print($quantity);
+	print($variation_id);
+	print($variation);
+	<script type="text/javascript">
+		teal_add_to_cart();
+	</script>
+}
+
 
 /*
  * Load JS Functions for Dynamic Event Tracking (Add to Cart, Remove from cart, etc)
  */
 function tealiumWoocommerceEnqueueJS() {
 	global $teal_plugin_url, $utagdata;
-	$utagdata['test_in_function_to_load_script_1'] = "true";
-	$utagdata['test_in_function_to_load_script_2'] = "true";
-	$utagdata['test_plugin_dir'] = $teal_plugin_url . "js/tealium-woocommerce-tracking.js";
-    print($teal_plugin_url . "/js/tealium-woocommerce-tracking.js");
 	wp_enqueue_script( "tealium-woocommerce-tracking", $teal_plugin_url . "/js/tealium-woocommerce-tracking.js", array( "jquery" ), "0.0.1", false);
 }
 
