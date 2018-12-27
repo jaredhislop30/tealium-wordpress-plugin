@@ -32,7 +32,7 @@ define( 'TEAL_FILE_VERSION',    '0.0.1' );
 define( 'DIR_PATH',       plugin_dir_path( __FILE__ ) );
 
 $teal_plugin_url = plugin_dir_url( __FILE__ );
-$teal = plugin_basename( __FILE__ );
+$teal_plugin_basename = plugin_basename( __FILE__ );
 
 function activate_tealium() {
 
@@ -526,12 +526,12 @@ function tealiumDataObject() {
  * Load JS Functions for Dynamic Event Tracking (Add to Cart, Remove from cart, etc)
  */
 function tealiumWoocommerceEnqueueJS() {
+	global $teal_plugin_url, $utagdata;
 	$utagdata['test_in_function_to_load_script_1'] = "true";
-	global $plugin_dir_url, $utagdata;
 	$utagdata['test_in_function_to_load_script_2'] = "true";
-	$utagdata['test_plugin_dir'] = $plugin_dir_url . "js/tealium-woocommerce-tracking.js";
-    print($plugin_dir_url . "js/tealium-woocommerce-tracking.js");
-	wp_enqueue_script( "tealium-woocommerce-tracking", $plugin_dir_url . "/js/tealium-woocommerce-tracking.js", array( "jquery" ), "0.0.1", false);
+	$utagdata['test_plugin_dir'] = $teal_plugin_url . "js/tealium-woocommerce-tracking.js";
+    print($teal_plugin_url . "/js/tealium-woocommerce-tracking.js");
+	wp_enqueue_script( "tealium-woocommerce-tracking", $teal_plugin_url . "/js/tealium-woocommerce-tracking.js", array( "jquery" ), "0.0.1", false);
 }
 
 /*
