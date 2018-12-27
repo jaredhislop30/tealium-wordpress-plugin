@@ -260,7 +260,6 @@ function tealiumWooCommerceData( $utagdata ) {
 	global $product;
 	global $wp;
 
-	
 	$items = $woocommerce->cart->get_cart();
 
 	//Get Cart Details on Each Page
@@ -392,6 +391,7 @@ function tealiumDataObject() {
 	$utagdata = array();
 
 	// Set Default Data. May be overwritten below / later
+
 	$utagdata['siteName'] = get_bloginfo( 'name' );
 	$utagdata['siteDescription'] = get_bloginfo( 'description' );
 	$utagdata['language_code'] = explode("_",get_locale())[0];
@@ -437,13 +437,12 @@ function tealiumDataObject() {
 		}
 
 		// Get and merge post meta data
-		if ( "1" !== get_option( 'tealiumExcludeMetaData' ) ) {
-			$meta = get_post_meta( get_the_ID() );
-			if ( $meta ) {
-				$utagdata = array_merge( $utagdata, $meta );
-			}
-		}
-
+		// if ( "1" !== get_option( 'tealiumExcludeMetaData' ) ) {
+		// 	$meta = get_post_meta( get_the_ID() );
+		// 	if ( $meta ) {
+		// 		$utagdata = array_merge( $utagdata, $meta );
+		// 	}
+		// }
 	}else if ( is_category() ) {
 			$utagdata['pageName'] = "category-archive";
 			$utagdata['postTitle'] = single_cat_title( 'Category archive: ', false );
@@ -484,6 +483,7 @@ function tealiumDataObject() {
 				}
 			}
 		}else if ( is_search() ) {
+
 			global $wp_query;
 			
 			// Collect search and result data
