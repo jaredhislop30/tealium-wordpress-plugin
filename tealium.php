@@ -28,6 +28,12 @@ Text Domain: tealium
 Domain Path: /languages
 */
 
+define( 'TEAL_FILE_VERSION',    '0.0.1' );
+define( 'DIR_PATH',       plugin_dir_path( __FILE__ ) );
+
+$teal_plugin_url = plugin_dir_url( __FILE__ );
+$teal = plugin_basename( __FILE__ );
+
 function activate_tealium() {
 
 	// Only set data style to underscore for fresh installations
@@ -494,6 +500,7 @@ function tealiumDataObject() {
 	// Add shop data if WooCommerce is installed
 	if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
 		$utagdata = apply_filters( 'tealium_wooCommerceData', $utagdata );
+		add_action( "wp_enqueue_scripts", "tealiumWoocommerceEnqueueJS" );
 	}
 
 	// Include data layer additions from action if set
@@ -510,6 +517,16 @@ function tealiumDataObject() {
 	$utagdata = apply_filters( 'tealium_removeExclusions', $utagdata );
 
 	return $utagdata;
+}
+
+
+/*
+ * Load JS Functions for Dynamic Event Tracking (Add to Cart, Remove from cart, etc)
+ */
+function tealiumWoocommerceEnqueueJS() {
+	global $plugin_dir_url;
+    
+	wp_enqueue_script( "tealium-woocommerce-tracking", $plugin_dir_url . "js/gtm4wp-woocommerce-enhanced.js", array( "jquery" ), TEAL_FILE_VERSION);
 }
 
 /*
