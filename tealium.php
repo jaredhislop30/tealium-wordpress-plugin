@@ -525,7 +525,7 @@ function tealiumDataObject() {
  */
 function tealiumWoocommerceEnqueueJS() {
 	global $plugin_dir_url;
-    
+    print($plugin_dir_url . "js/tealium-woocommerce-tracking.js");
 	wp_enqueue_script( "tealium-woocommerce-tracking", $plugin_dir_url . "js/tealium-woocommerce-tracking.js", array( "jquery" ), TEAL_FILE_VERSION);
 }
 
