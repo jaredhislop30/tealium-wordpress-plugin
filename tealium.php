@@ -500,7 +500,7 @@ function tealiumDataObject() {
 	// Add shop data if WooCommerce is installed
 	if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
 		$utagdata['test_before_add_action'] = "true";
-		add_action('wp_enqueue_scripts', 'tealiumWoocommerceEnqueueJS');
+		add_action('wp_head', 'tealiumWoocommerceEnqueueJS');
 		$utagdata['test_after_add_action'] = "true";
 		$utagdata = apply_filters( 'tealium_wooCommerceData', $utagdata );
 	}
