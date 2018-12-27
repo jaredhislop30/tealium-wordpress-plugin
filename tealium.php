@@ -529,9 +529,11 @@ function add_to_cart($cart_item_key, $product_id, $quantity, $variation_id, $var
 	print($quantity);
 	print($variation_id);
 	print($variation);
+	?>
 	<script type="text/javascript">
 		teal_add_to_cart();
 	</script>
+	<?php
 }
 
 
