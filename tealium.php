@@ -526,7 +526,7 @@ function tealiumDataObject() {
 function tealiumWoocommerceEnqueueJS() {
 	global $plugin_dir_url;
     
-	wp_enqueue_script( "tealium-woocommerce-tracking", $plugin_dir_url . "js/gtm4wp-woocommerce-enhanced.js", array( "jquery" ), TEAL_FILE_VERSION);
+	wp_enqueue_script( "tealium-woocommerce-tracking", $plugin_dir_url . "js/tealium-woocommerce-tracking.js", array( "jquery" ), TEAL_FILE_VERSION);
 }
 
 /*
