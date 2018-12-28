@@ -8,12 +8,12 @@ jQuery( document ).on( 'click', '.add_to_cart_button:not(.product_type_variable,
     utag.link({
         'tealium_event': 'cart_add',
         'currency_code': gtm4wp_currency,
-        'name':       productdata.data( 'gtm4wp_product_name' ),
-        'id':         productdata.data( 'gtm4wp_product_id' ),
-        'price':      productdata.data( 'gtm4wp_product_price' ),
-        'category':   productdata.data( 'gtm4wp_product_cat' ),
-        'stocklevel': productdata.data( 'gtm4wp_product_stocklevel' ),
-        'quantity':   1
+        'product_name':       productdata.data( 'product_name' ),
+        'product_id':         productdata.data( 'product_id' ),
+        'product_unit_price': productdata.data( 'product_price' ),
+        'product_category':   productdata.data( 'product_cat' ),
+        'product_stocklevel': productdata.data( 'product_stocklevel' ),
+        'product_quantity':   ["1"]
     });
 });
 
@@ -79,12 +79,12 @@ jQuery( document ).on( 'click', '.single_add_to_cart_button', function() {
         utag.link({
             'tealium_event': 'cart_add',
             'currency_code' : _product_currency,
-            'id': _product_id,
-            'name': _product_name,
-            'price': _product_price,
+            'product_id': _product_id,
+            'product_name': _product_name,
+            'product_unit_price': _product_price,
             // 'category': _product_category,
-            'quantity': jQuery( 'form.cart:first input[name=quantity]' ).val(),
-            'stocklevel': _product_stocklevel
+            'product_quantity': jQuery( 'form.cart:first input[name=quantity]' ).val(),
+            'product_stocklevel': _product_stocklevel
         });
     }
 });

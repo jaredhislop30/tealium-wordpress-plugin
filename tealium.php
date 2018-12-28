@@ -502,6 +502,7 @@ function tealiumDataObject() {
 		add_action('wp_head', 'tealiumWoocommerceEnqueueJS');
 		// add_action('woocommerce_add_to_cart','add_to_cart',10,6);
 		add_action( "woocommerce_after_add_to_cart_button", "add_to_cart" );
+		add_action( "woocommerce_before_shop_loop_item", "teal_product_data_on_list_page" );
 		$utagdata = apply_filters( 'tealium_wooCommerceData', $utagdata );
 	}
 
@@ -522,7 +523,7 @@ function tealiumDataObject() {
 }
 
 /*
- * Load JS Functions for Dynamic Event Tracking (Add to Cart, Remove from cart, etc)
+ * Add data to product page for tracking add to cart
  */
 function add_to_cart() {
 	global $product;
@@ -546,6 +547,70 @@ function add_to_cart() {
 	}
 }
 
+/*
+ * Load data on listing pages to track add to cart
+ */
+
+function teal_product_data_on_list_page() {
+	global $product;
+
+	if ( !isset( $product ) ) {
+		return;
+	}
+
+	$product_id  = $product->get_id();
+
+	$product_cat = "";
+	if ( is_product_category() ) {
+		global $wp_query;
+		$cat_obj = $wp_query->get_queried_object();
+		$product_cat = $cat_obj->name;
+	} else {
+		$product_cat = get_product_category( $product_id);
+	}
+
+	$paged = (get_query_var('paged')) ? get_query_var('paged') : 1;
+	$posts_per_page = get_query_var('posts_per_page');
+	if ( $posts_per_page < 1 ) {
+		$posts_per_page = 1;
+	}
+
+	$remarketing_id = $product_id;
+	$product_sku    = $product->get_sku();
+
+	$_temp_productdata = array(
+		"product_id"           => $remarketing_id,
+		"product_name"         => $product->get_title(),
+		"product_unit_price"        => $product->get_price(),
+		"product_category"     => $product_cat,
+		"product_url"  => apply_filters( 'the_permalink', get_permalink(), 0),
+		"product_stocklevel"   => $product->get_stock_quantity()
+	);
+	// $eec_product_array = apply_filters( GTM4WP_WPFILTER_EEC_PRODUCT_ARRAY, $_temp_productdata, "productlist" );
+
+	printf('<span class="gtm4wp_productdata" style="display:none; visibility:hidden;" data-gtm4wp_product_id="%s" data-gtm4wp_product_name="%s" data-gtm4wp_product_price="%s" data-gtm4wp_product_cat="%s" data-gtm4wp_product_url="%s" data-gtm4wp_product_listposition="%s" data-gtm4wp_productlist_name="%s" data-gtm4wp_product_stocklevel="%s"></span>',
+		esc_attr( $eec_product_array[ "product_id" ] ),
+		esc_attr( $eec_product_array[ "product_name" ] ),
+		esc_attr( $eec_product_array[ "product_unit_price" ] ),
+		esc_attr( $eec_product_array[ "product_category" ] ),
+		esc_url(  $eec_product_array[ "product_url" ] ),
+		// esc_attr( $eec_product_array[ "listposition" ] ),
+		// esc_attr( $eec_product_array[ "listname" ] ),
+		esc_attr( $eec_product_array[ "stocklevel" ] )
+	);
+}
+
+function get_product_category( $product_id) {
+  $product_cat = "";
+
+	$_product_cats = get_the_terms( $product_id, 'product_cat' );
+	if ( ( is_array($_product_cats) ) && ( count( $_product_cats ) > 0 ) ) {
+		$first_product_cat = array_pop( $_product_cats );
+		$product_cat = $first_product_cat->name;
+	}
+
+	return $product_cat;
+}
 
 /*
  * Load JS Functions for Dynamic Event Tracking (Add to Cart, Remove from cart, etc)
