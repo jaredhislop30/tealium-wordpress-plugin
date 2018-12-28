@@ -588,7 +588,7 @@ function teal_product_data_on_list_page() {
 	);
 	// $eec_product_array = apply_filters( GTM4WP_WPFILTER_EEC_PRODUCT_ARRAY, $_temp_productdata, "productlist" );
 
-	printf('<span class="gtm4wp_productdata" style="display:none; visibility:hidden;" data-gtm4wp_product_id="%s" data-gtm4wp_product_name="%s" data-gtm4wp_product_price="%s" data-gtm4wp_product_cat="%s" data-gtm4wp_product_url="%s" data-gtm4wp_product_listposition="%s" data-gtm4wp_productlist_name="%s" data-gtm4wp_product_stocklevel="%s"></span>',
+	printf('<span class="gtm4wp_productdata" style="display:none; visibility:hidden;" data-gtm4wp_product_id="%s" data-gtm4wp_product_name="%s" data-gtm4wp_product_price="%s" data-gtm4wp_product_cat="%s" data-gtm4wp_product_url="%s" data-gtm4wp_product_stocklevel="%s"></span>',
 		esc_attr( $_temp_productdata[ "product_id" ] ),
 		esc_attr( $_temp_productdata[ "product_name" ] ),
 		esc_attr( $_temp_productdata[ "product_unit_price" ] ),
@@ -596,7 +596,7 @@ function teal_product_data_on_list_page() {
 		esc_url(  $_temp_productdata[ "product_url" ] ),
 		// esc_attr( $_temp_productdata[ "listposition" ] ),
 		// esc_attr( $_temp_productdata[ "listname" ] ),
-		esc_attr( $_temp_productdata[ "stocklevel" ] )
+		esc_attr( $_temp_productdata[ "product_stocklevel" ] )
 	);
 }
 
