@@ -153,20 +153,20 @@ jQuery( document ).on( 'found_variation', function( event, product_variation ) {
         product_variant: ''
     };
 
-    current_product_detail_data.id = [product_variation.variation_id];
+    current_product_detail_data.product_id = [product_variation.variation_id.toString()];
 
     // Use Sku Instead Setting
     // if ( gtm4wp_use_sku_instead && product_variation.sku && ('' !== product_variation.sku) ) {
     //     current_product_detail_data.id = product_variation.sku;
     // }
 
-    current_product_detail_data.price = [product_variation.display_price];
+    current_product_detail_data.product_unit_price = [product_variation.display_price.toString()];
 
     var _tmp = [];
     for( var attrib_key in product_variation.attributes ) {
-        _tmp.push( [product_variation.attributes[ attrib_key ]] );
+        _tmp.push( product_variation.attributes[ attrib_key ] );
     }
-    current_product_detail_data.variant = _tmp.join(',');
+    current_product_detail_data.product_variant = _tmp;
     teal_current_prod_variation = current_product_detail_data;
 
     // Event for changing the product details
