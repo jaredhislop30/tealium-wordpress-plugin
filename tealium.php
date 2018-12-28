@@ -500,7 +500,8 @@ function tealiumDataObject() {
 	// Add shop data if WooCommerce is installed
 	if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
 		add_action('wp_head', 'tealiumWoocommerceEnqueueJS');
-		add_action('woocommerce_add_to_cart','add_to_cart',10,6);
+		// add_action('woocommerce_add_to_cart','add_to_cart',10,6);
+		add_action( "woocommerce_after_add_to_cart_button", "add_to_cart" );
 		$utagdata = apply_filters( 'tealium_wooCommerceData', $utagdata );
 	}
 
@@ -523,17 +524,27 @@ function tealiumDataObject() {
 /*
  * Load JS Functions for Dynamic Event Tracking (Add to Cart, Remove from cart, etc)
  */
-function add_to_cart($cart_item_key, $product_id, $quantity, $variation_id, $variation, $cart_item_data) {
-	print($cart_item_key);
-	print($product_id);
-	print($quantity);
-	print($variation_id);
-	print($variation);
-	?>
-	<script type="text/javascript">
-		wp_teal_add_to_cart();
-	</script>
-	<?php
+function add_to_cart() {
+	global $product;
+
+	$product_id = $product->get_id();
+
+	$remarketing_id = $product_id;
+	$product_sku    = $product->get_sku();
+
+	$_temp_productdata = array(
+		"id"         => $remarketing_id,
+		"name"       => $product->get_title(),
+		"sku"        => $product_sku ? $product_sku : $product_id,
+		"category"   => $product_cat,
+		"price"      => $product->get_price(),
+		"currency"   => get_woocommerce_currency(),
+		"stocklevel" => $product->get_stock_quantity()
+	);
+
+	foreach( $_temp_productdata as $_temp_productdata_key => $_temp_productdata_value ) {
+		echo '<input type="hidden" name="tealium' . esc_attr( $_temp_productdata_key ). '" value="' . esc_attr( $_temp_productdata_value ). '" />'."\n";
+	}
 }
 
 
