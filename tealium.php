@@ -220,6 +220,10 @@ add_filter( 'tealium_convertCamelCase', 'tealiumConvertCamelCase' );
 function getProductData($prodID,$productData,$cartItem){
 	global $product;
 
+	if(!isset($productData)){
+		$productData = array();
+	}
+
 	$product = wc_get_product( $prodID );
     $productData['product_id'][] = strval($product->get_id());
     $productData['product_sku'][] = $product->get_sku();
@@ -534,14 +538,7 @@ function add_to_cart() {
 	$remarketing_id = $product_id;
 	$product_sku    = $product->get_sku();
 
-	$_temp_productdata = array(
-		"id"         => $remarketing_id,
-		"name"       => $product->get_title(),
-		"sku"        => $product_sku ? $product_sku : $product_id,
-		"price"      => $product->get_price(),
-		"currency"   => get_woocommerce_currency(),
-		"stocklevel" => $product->get_stock_quantity()
-	);
+	$_temp_productdata = getProductData($product_id,null,null);
 
 	foreach( $_temp_productdata as $_temp_productdata_key => $_temp_productdata_value ) {
 		echo '<input type="hidden" name="tealium_' . esc_attr( $_temp_productdata_key ). '" value="' . esc_attr( $_temp_productdata_value ). '" />'."\n";
