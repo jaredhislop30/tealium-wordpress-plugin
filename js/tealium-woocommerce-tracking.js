@@ -11,7 +11,7 @@ jQuery( document ).on( 'click', '.add_to_cart_button:not(.product_type_variable,
         'product_id':         [productdata.data( 'teal_product_id' ).toString()],
         'product_unit_price': [productdata.data( 'teal_product_price' ).toString()],
         'product_category':   [productdata.data( 'teal_product_cat' )],
-        'product_stocklevel': [productdata.data( 'teal_product_stocklevel' )],
+        'product_stocklevel': [productdata.data( 'teal_product_stocklevel' ).toString()],
         'product_quantity':   ["1"]
     });
 });
