@@ -398,6 +398,7 @@ function tealiumDataObject() {
 	$utagdata['country_code'] = strtolower(explode("_",get_locale())[1]);
 	$utagdata['pageName'] = get_the_title();
 	$utagdata['tealium_event'] = "page_view";
+	$utagdata['currency_code'] = get_woocommerce_currency();
 	
 
 	if ( ( is_single() ) || is_page() ) {

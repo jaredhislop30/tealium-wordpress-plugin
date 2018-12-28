@@ -37,43 +37,6 @@ jQuery( document ).on( 'click', '.single_add_to_cart_button', function() {
             var prod_data = Object.assign({}, teal_data, teal_current_prod_variation);
             utag.link(prod_data);
         }
-/*
-        _product_var_id_val = _product_var_id.val();
-        _product_form_variations = _product_form.data( 'product_variations' );
-
-        _product_form_variations.forEach( function( product_var ) {
-            if ( product_var.variation_id == _product_var_id_val ) {
-                _product_var_sku = product_var.sku;
-                if ( ! _product_var_sku ) {
-                    _product_var_sku = _product_var_id_val;
-                }
-
-                var _tmp = [];
-                for( var attrib_key in product_var.attributes ) {
-                    _tmp.push( product_var.attributes[ attrib_key ] );
-                }
-
-                window[ gtm4wp_datalayer_name ].push({
-                    'tealium_event': 'cart_add',
-                    'ecommerce': {
-                        'currencyCode': _product_currency,
-                        'add': {
-                            'products': [{
-                                'id': gtm4wp_use_sku_instead ? _product_var_sku : _product_var_id_val,
-                                'name': _product_name,
-                                'price': product_var.display_price,
-                                'category': _product_category,
-                                'variant': _tmp.join(','),
-                                'quantity': jQuery( 'form.cart:first input[name=quantity]' ).val(),
-                                'stocklevel': _product_stocklevel
-                            }]
-                        }
-                    }
-                });
-
-            }
-        });
-*/
     } else {
         utag.link({
             'tealium_event': 'cart_add',
