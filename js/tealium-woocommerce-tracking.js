@@ -158,9 +158,12 @@ jQuery( document ).on( 'found_variation', function( event, product_variation ) {
     };
 
     current_product_detail_data.id = product_variation.variation_id;
-    if ( gtm4wp_use_sku_instead && product_variation.sku && ('' !== product_variation.sku) ) {
-        current_product_detail_data.id = product_variation.sku;
-    }
+
+    // Use Sku Instead Setting
+    // if ( gtm4wp_use_sku_instead && product_variation.sku && ('' !== product_variation.sku) ) {
+    //     current_product_detail_data.id = product_variation.sku;
+    // }
+    
     current_product_detail_data.price = product_variation.display_price;
 
     var _tmp = [];
