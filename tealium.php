@@ -588,7 +588,7 @@ function teal_product_data_on_list_page() {
 	);
 	// $eec_product_array = apply_filters( GTM4WP_WPFILTER_EEC_PRODUCT_ARRAY, $_temp_productdata, "productlist" );
 
-	printf('<span class="gtm4wp_productdata" style="display:none; visibility:hidden;" data-gtm4wp_product_id="%s" data-gtm4wp_product_name="%s" data-gtm4wp_product_price="%s" data-gtm4wp_product_cat="%s" data-gtm4wp_product_url="%s" data-gtm4wp_product_stocklevel="%s"></span>',
+	printf('<span class="teal_productdata" style="display:none; visibility:hidden;" data-teal_product_id="%s" data-teal_product_name="%s" data-teal_product_price="%s" data-teal_product_cat="%s" data-teal_product_url="%s" data-teal_product_stocklevel="%s"></span>',
 		esc_attr( $_temp_productdata[ "product_id" ] ),
 		esc_attr( $_temp_productdata[ "product_name" ] ),
 		esc_attr( $_temp_productdata[ "product_unit_price" ] ),

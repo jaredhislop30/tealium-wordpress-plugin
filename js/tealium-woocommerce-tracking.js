@@ -3,16 +3,16 @@ var teal_variation_changed_pageload=false;
 
 // track add to cart events for simple products in product lists
 jQuery( document ).on( 'click', '.add_to_cart_button:not(.product_type_variable, .product_type_grouped, .single_add_to_cart_button)', function() {
-    var productdata = jQuery( this ).closest( '.product' ).find( '.gtm4wp_productdata' );
+    var productdata = jQuery( this ).closest( '.product' ).find( '.teal_productdata' );
 
     utag.link({
         'tealium_event': 'cart_add',
         'currency_code': gtm4wp_currency,
-        'product_name':       productdata.data( 'product_name' ),
-        'product_id':         productdata.data( 'product_id' ),
-        'product_unit_price': productdata.data( 'product_price' ),
-        'product_category':   productdata.data( 'product_cat' ),
-        'product_stocklevel': productdata.data( 'product_stocklevel' ),
+        'product_name':       productdata.data( 'teal_product_name' ),
+        'product_id':         productdata.data( 'teal_product_id' ),
+        'product_unit_price': productdata.data( 'teal_product_price' ),
+        'product_category':   productdata.data( 'teal_product_cat' ),
+        'product_stocklevel': productdata.data( 'teal_product_stocklevel' ),
         'product_quantity':   ["1"]
     });
 });
