@@ -7,12 +7,11 @@ jQuery( document ).on( 'click', '.add_to_cart_button:not(.product_type_variable,
 
     utag.link({
         'tealium_event': 'cart_add',
-        'currency_code': gtm4wp_currency,
-        'product_name':       productdata.data( 'teal_product_name' ),
-        'product_id':         productdata.data( 'teal_product_id' ),
-        'product_unit_price': productdata.data( 'teal_product_price' ),
-        'product_category':   productdata.data( 'teal_product_cat' ),
-        'product_stocklevel': productdata.data( 'teal_product_stocklevel' ),
+        'product_name':       [productdata.data( 'teal_product_name' )],
+        'product_id':         [productdata.data( 'teal_product_id' ).toString()],
+        'product_unit_price': [productdata.data( 'teal_product_price' ).toString()],
+        'product_category':   [productdata.data( 'teal_product_cat' )],
+        'product_stocklevel': [productdata.data( 'teal_product_stocklevel' )],
         'product_quantity':   ["1"]
     });
 });
