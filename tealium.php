@@ -542,7 +542,7 @@ function add_to_cart() {
 	);
 
 	foreach( $_temp_productdata as $_temp_productdata_key => $_temp_productdata_value ) {
-		echo '<input type="hidden" name="tealium' . esc_attr( $_temp_productdata_key ). '" value="' . esc_attr( $_temp_productdata_value ). '" />'."\n";
+		echo '<input type="hidden" name="tealium_' . esc_attr( $_temp_productdata_key ). '" value="' . esc_attr( $_temp_productdata_value ). '" />'."\n";
 	}
 }
 

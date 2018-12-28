@@ -21,13 +21,13 @@ jQuery( document ).on( 'click', '.add_to_cart_button:not(.product_type_variable,
 jQuery( document ).on( 'click', '.single_add_to_cart_button', function() {
     var _product_form       = jQuery( this ).closest( 'form.cart' );
     var _product_var_id     = jQuery( '[name=variation_id]', _product_form );
-    var _product_id         = jQuery( '[name=gtm4wp_id]', _product_form ).val();
-    var _product_name       = jQuery( '[name=gtm4wp_name]', _product_form ).val();
-    var _product_sku        = jQuery( '[name=gtm4wp_sku]', _product_form ).val();
-    var _product_category   = jQuery( '[name=gtm4wp_category]', _product_form ).val();
-    var _product_price      = jQuery( '[name=gtm4wp_price]', _product_form ).val();
-    var _product_currency   = jQuery( '[name=gtm4wp_currency]', _product_form ).val();
-    var _product_stocklevel = jQuery( '[name=gtm4wp_stocklevel]', _product_form ).val();
+    var _product_id         = jQuery( '[name=tealium_id]', _product_form ).val();
+    var _product_name       = jQuery( '[name=tealium_name]', _product_form ).val();
+    var _product_sku        = jQuery( '[name=tealium_sku]', _product_form ).val();
+    var _product_category   = jQuery( '[name=tealium_category]', _product_form ).val();
+    var _product_price      = jQuery( '[name=tealium_price]', _product_form ).val();
+    var _product_currency   = jQuery( '[name=tealium_currency]', _product_form ).val();
+    var _product_stocklevel = jQuery( '[name=tealium_stocklevel]', _product_form ).val();
 
     if ( _product_var_id.length > 0 ) {
         if ( teal_current_prod_variation ) {
