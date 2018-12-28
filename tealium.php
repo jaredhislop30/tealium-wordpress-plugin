@@ -531,7 +531,7 @@ function add_to_cart($cart_item_key, $product_id, $quantity, $variation_id, $var
 	print($variation);
 	?>
 	<script type="text/javascript">
-		teal_add_to_cart();
+		wp_teal_add_to_cart();
 	</script>
 	<?php
 }
