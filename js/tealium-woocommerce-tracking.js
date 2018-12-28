@@ -45,7 +45,7 @@ jQuery( document ).on( 'click', '.single_add_to_cart_button', function() {
         utag.link({
             tealium_event : "cart_add",
             product_name: [_product_name],
-            product_id: _product_id,
+            product_id: [_product_id],
             product_sku: [_product_sku],
             product_category: [_product_category],
             product_unit_price: [_product_unit_price],
