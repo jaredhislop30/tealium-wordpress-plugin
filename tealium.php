@@ -236,7 +236,7 @@ function getProductData($prodID,$productData,$cartItem){
 	$productData['product_quantity'][] = strval($cartItem['quantity']);
 	$productData['product_url'][] = get_permalink( $product->get_id() );
 	$productData['product_stocklevel'][] = $product->get_stock_quantity();
-    if($product->get_regular_price() != $product->get_price() && null !==$product->get_regular_price()){
+    if($product->get_regular_price() != $product->get_price() && ("" !==$product->get_regular_price() || null !==$product->get_regular_price())){
     	$productData['product_discount'][] = strval((float)$product->get_regular_price() - (float)$product->get_price());
     }else{
     	$productData['product_discount'][] = "0";

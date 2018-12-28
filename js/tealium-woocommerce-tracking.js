@@ -106,9 +106,10 @@ jQuery( document ).on( 'found_variation', function( event, product_variation ) {
     var _product_unit_price = jQuery( '[name=tealium_product_unit_price]', _product_form ).val();
     var _product_list_price = jQuery( '[name=tealium_product_list_price]', _product_form ).val();
     var _product_url        = jQuery( '[name=tealium_product_url]', _product_form ).val();
-    var _product_image_url    = jQuery( '[name=tealium_product_image_url]', _product_form ).val();
+    var _product_image_url  = jQuery( '[name=tealium_product_image_url]', _product_form ).val();
     var _product_currency   = jQuery( '[name=tealium_currency]', _product_form ).val();
     var _product_stocklevel = jQuery( '[name=tealium_stocklevel]', _product_form ).val();
+    var _product_discount   = jQuery( '[name=tealium_discount]', _product_form ).val();
 
     var current_product_detail_data   = {
         product_name: [_product_name],
@@ -120,7 +121,8 @@ jQuery( document ).on( 'found_variation', function( event, product_variation ) {
         product_stocklevel: [_product_stocklevel],
         product_url : [_product_url],
         product_image_url : [_product_image_url],
-        product_variant: '',
+        product_discount : [_product_discount],
+        product_variant: ''
     };
 
     current_product_detail_data.product_id = [product_variation.variation_id.toString()];
