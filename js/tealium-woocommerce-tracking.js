@@ -43,14 +43,17 @@ jQuery( document ).on( 'click', '.single_add_to_cart_button', function() {
         }
     } else {
         utag.link({
-            'tealium_event': 'cart_add',
-            'currency_code' : _product_currency,
-            'product_id': _product_id,
-            'product_name': _product_name,
-            'product_unit_price': _product_price,
-            // 'category': _product_category,
-            'product_quantity': jQuery( 'form.cart:first input[name=quantity]' ).val(),
-            'product_stocklevel': _product_stocklevel
+            tealium_event : "cart_add",
+            product_name: [_product_name],
+            product_id: _product_id,
+            product_sku: [_product_sku],
+            product_category: [_product_category],
+            product_unit_price: [_product_unit_price],
+            product_list_price: [_product_list_price],
+            product_stocklevel: [_product_stocklevel],
+            product_url : [_product_url],
+            product_image_url : [_product_image_url],
+            product_discount : [_product_discount]
         });
     }
 });
