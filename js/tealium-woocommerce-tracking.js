@@ -145,26 +145,26 @@ jQuery( document ).on( 'found_variation', function( event, product_variation ) {
     var _product_stocklevel = jQuery( '[name=tealium_stocklevel]', _product_form ).val();
 
     var current_product_detail_data   = {
-        name: _product_name,
-        id: 0,
-        price: 0,
-        category: _product_category,
-        stocklevel: _product_stocklevel,
-        variant: ''
+        product_name: [_product_name],
+        product_id: 0,
+        product_unit_price: 0,
+        product_category: [_product_category],
+        product_stocklevel: [_product_stocklevel],
+        product_variant: ''
     };
 
-    current_product_detail_data.id = product_variation.variation_id;
+    current_product_detail_data.id = [product_variation.variation_id];
 
     // Use Sku Instead Setting
     // if ( gtm4wp_use_sku_instead && product_variation.sku && ('' !== product_variation.sku) ) {
     //     current_product_detail_data.id = product_variation.sku;
     // }
 
-    current_product_detail_data.price = product_variation.display_price;
+    current_product_detail_data.price = [product_variation.display_price];
 
     var _tmp = [];
     for( var attrib_key in product_variation.attributes ) {
-        _tmp.push( product_variation.attributes[ attrib_key ] );
+        _tmp.push( [product_variation.attributes[ attrib_key ]] );
     }
     current_product_detail_data.variant = _tmp.join(',');
     teal_current_prod_variation = current_product_detail_data;
