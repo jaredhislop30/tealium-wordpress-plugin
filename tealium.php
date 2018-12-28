@@ -244,8 +244,8 @@ function getProductData($prodID,$productData,$cartItem){
     //Set Product Categories
     $cats = explode(",", wc_get_product_category_list($product->get_id()));
     $productData['product_category'][] = strip_tags($cats[0]);
-    $productData['product_subcategory'][] = strip_tags($cats[1]);
-    $productData['product_subcategory1'][] = strip_tags($cats[2]);
+    $productData['product_subcategory'][] = isset($cats[1])?strip_tags($cats[1]):"";
+    $productData['product_subcategory1'][] = isset($cats[2])?strip_tags($cats[2]):"";
 
     // Can add more categories if needed
     // $productData['product_subcategory2'][] = strip_tags($cats[3]);
