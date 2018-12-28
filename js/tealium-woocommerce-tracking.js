@@ -112,11 +112,15 @@ jQuery( document ).on( 'found_variation', function( event, product_variation ) {
 
     var current_product_detail_data   = {
         product_name: [_product_name],
-        product_id: 0,
-        product_unit_price: 0,
+        product_id: _product_id,
+        product_sku: [_product_sku],
         product_category: [_product_category],
+        product_unit_price: [_product_unit_price],
+        product_list_price: [_product_list_price],
         product_stocklevel: [_product_stocklevel],
-        product_variant: ''
+        product_url : [_product_url],
+        product_image_url : [_product_image_url],
+        product_variant: '',
     };
 
     current_product_detail_data.product_id = [product_variation.variation_id.toString()];
