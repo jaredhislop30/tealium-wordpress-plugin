@@ -536,7 +536,6 @@ function add_to_cart() {
 		"id"         => $remarketing_id,
 		"name"       => $product->get_title(),
 		"sku"        => $product_sku ? $product_sku : $product_id,
-		"category"   => $product_cat,
 		"price"      => $product->get_price(),
 		"currency"   => get_woocommerce_currency(),
 		"stocklevel" => $product->get_stock_quantity()
