@@ -151,6 +151,17 @@ jQuery( document ).on( 'found_variation', function( event, product_variation ) {
     }
 });
 
+// WooCommere Cart Quick View
+jQuery( document ).ajaxSuccess( function( event, xhr, settings ) {
+    if ( settings.url.indexOf( 'wc-api=WC_Quick_View' ) > -1 ) {
+      setTimeout( function() {
+            jQuery( ".woocommerce.quick-view" ).parent().find( "script" ).each( function(i) {
+                eval( jQuery( this ).text() );
+            });
+        }, 500);
+    }
+});
+
 function getProductData(data){
     var _product_form = data;
     var _product_var_id     = jQuery( '[name=variation_id]', _product_form ).length ? jQuery( '[name=variation_id]', _product_form ) : "";
