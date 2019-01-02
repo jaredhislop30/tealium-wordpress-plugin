@@ -143,6 +143,7 @@ jQuery( document ).on( 'found_variation', function( event, product_variation ) {
     teal_current_prod_variation = current_product_detail_data;
 
     // Event for changing the product details
+    current_product_detail_data['tealium_event'] = "product_variation";
     utag.link(current_product_detail_data);
 
     if ( document.readyState === "interactive" ) {
