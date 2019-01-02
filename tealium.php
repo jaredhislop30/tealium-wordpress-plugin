@@ -507,8 +507,10 @@ function tealiumDataObject() {
 	if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
 		add_action('wp_head', 'tealiumWoocommerceEnqueueJS');
 		// add_action('woocommerce_add_to_cart','add_to_cart',10,6);
-		add_action( "woocommerce_after_add_to_cart_button", "add_to_cart" );
+		add_action( "woocommerce_after_add_to_cart_button", "teal_add_to_cart" );
 		add_action( "woocommerce_before_shop_loop_item", "teal_product_data_on_list_page" );
+		add_filter( "woocommerce_cart_item_remove_link", "cart_item_remove_link_filter" );
+		add_filter( "woocommerce_cart_item_product",     "teal_cart_item_product_filter" );
 		$utagdata = apply_filters( 'tealium_wooCommerceData', $utagdata );
 	}
 
@@ -526,31 +528,12 @@ function tealiumDataObject() {
 	$utagdata = apply_filters( 'tealium_removeExclusions', $utagdata );
 
 	return $utagdata;
-
-	
-add_action('wp_footer','custom_jquery_add_to_cart_script');
-function custom_jquery_add_to_cart_script(){
-    if ( is_shop() || is_product_category() || is_product_tag() ): // Only for archives pages
-        ?>
-            <script type="text/javascript">
-                // Ready state
-                (function($){ 
-
-                    $( document.body ).on( 'added_to_cart', function(){
-                        console.log('EVENT: added_to_cart');
-                    });
-
-                })(jQuery); // "jQuery" Working with WP (added the $ alias as argument)
-            </script>
-        <?php
-    endif;
-}
 }
 
 /*
  * Add data to product page for tracking add to cart
  */
-function add_to_cart() {
+function teal_add_to_cart() {
 	global $product;
 
 	$product_id = $product->get_id();
@@ -604,7 +587,7 @@ function teal_product_data_on_list_page() {
 		"product_url"  => apply_filters( 'the_permalink', get_permalink(), 0),
 		"product_stocklevel"   => $product->get_stock_quantity()
 	);
-	// $eec_product_array = apply_filters( GTM4WP_WPFILTER_EEC_PRODUCT_ARRAY, $_temp_productdata, "productlist" );
+	// $eec_product_array = apply_filters( teal_WPFILTER_EEC_PRODUCT_ARRAY, $_temp_productdata, "productlist" );
 
 	printf('<span class="teal_productdata" style="display:none; visibility:hidden;" data-teal_product_id="%s" data-teal_product_name="%s" data-teal_product_price="%s" data-teal_product_cat="%s" data-teal_product_url="%s" data-teal_product_stocklevel="%s"></span>',
 		esc_attr( $_temp_productdata[ "product_id" ] ),
@@ -616,6 +599,62 @@ function teal_product_data_on_list_page() {
 		// esc_attr( $_temp_productdata[ "listname" ] ),
 		esc_attr( $_temp_productdata[ "product_stocklevel" ] )
 	);
+}
+function teal_cart_item_product_filter( $product, $cart_item="", $cart_id="" ) {
+
+	$product_id   = $product->get_id();
+	$product_type = $product->get_type();
+
+	if ( "variation" == $product_type ) {
+		$parent_product_id = $product->id;
+		$product_cat = get_product_category( $product_id );
+	} else {
+		$product_cat = get_product_category( $product_id );
+	}
+
+	$remarketing_id = $product_id;
+	$product_sku    = $product->get_sku();
+
+	$_temp_productdata = array(
+		"id"          => $remarketing_id,
+		"name"        => $product->get_title(),
+		"price"       => $product->get_price(),
+		"category"    => $product_cat,
+		"productlink" => apply_filters( 'the_permalink', get_permalink(), 0),
+		"variant"     => "",
+		"stocklevel"  => $product->get_stock_quantity()
+	);
+
+	if ( "variation" == $product_type ) {
+		$_temp_productdata[ "variant" ] = implode(",", $product->get_variation_attributes());
+	}
+
+	$teal_prod_data["teal_cart_item_proddata"] = $_temp_productdata;
+
+	return $product;
+}
+
+function teal_cart_item_remove_link_filter( $remove_from_cart_link ) {
+	// if ( ! isset( $GLOBALS["teal_cart_item_proddata"] ) ) {
+	// 	return $remove_from_cart_link;
+	// }
+
+	// if ( ! is_array( $GLOBALS["teal_cart_item_proddata"] ) ) {
+	// 	return $remove_from_cart_link;
+	// }
+
+	$cartlink_with_data = sprintf('data-teal_product_id="%s" data-teal_product_name="%s" data-teal_product_price="%s" data-teal_product_cat="%s" data-teal_product_url="%s" data-teal_product_variant="%s" data-teal_product_stocklevel="%s" href="',
+		esc_attr( $teal_prod_data["teal_cart_item_proddata"]["id"] ),
+		esc_attr( $teal_prod_data["teal_cart_item_proddata"]["name"] ),
+		esc_attr( $teal_prod_data["teal_cart_item_proddata"]["price"] ),
+		esc_attr( $teal_prod_data["teal_cart_item_proddata"]["category"] ),
+		esc_url(  $teal_prod_data["teal_cart_item_proddata"]["productlink"] ),
+		esc_attr( $teal_prod_data["teal_cart_item_proddata"]["variant"] ),
+		esc_attr( $teal_prod_data["teal_cart_item_proddata"]["stocklevel"] )
+	);
+	$teal_prod_data["teal_cart_item_proddata"] = '';
+
+	return teal_str_replace_first( 'href="', $cartlink_with_data, $remove_from_cart_link );
 }
 
 function get_product_category( $product_id) {
