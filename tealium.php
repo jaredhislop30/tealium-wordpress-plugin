@@ -396,7 +396,7 @@ function tealiumDataObject() {
 	$utagdata = array();
 
 	// Set Default Data. May be overwritten below / later
-	$utagdata['plugin_version'] = "0.0.3";
+	$utagdata['plugin_version'] = "0.0.4";
 	$utagdata['siteName'] = get_bloginfo( 'name' );
 	$utagdata['siteDescription'] = get_bloginfo( 'description' );
 	$utagdata['language_code'] = explode("_",get_locale())[0];
