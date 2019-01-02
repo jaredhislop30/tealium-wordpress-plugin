@@ -33,7 +33,7 @@ define( 'DIR_PATH',       plugin_dir_path( __FILE__ ) );
 
 $teal_plugin_url = plugin_dir_url( __FILE__ );
 $teal_plugin_basename = plugin_basename( __FILE__ );
-$teal_prod_data = (object) [];
+$teal_prod_data["teal_cart_item_proddata"] = '';
 
 function activate_tealium() {
 
@@ -601,7 +601,7 @@ function teal_product_data_on_list_page() {
 		esc_attr( $_temp_productdata[ "product_stocklevel" ] )
 	);
 }
-$teal_prod_data["teal_cart_item_proddata"] = '';
+
 function teal_cart_item_product_filter( $product, $cart_item="", $cart_id="" ) {
 
 	$product_id   = $product->get_id();
