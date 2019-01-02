@@ -33,7 +33,7 @@ define( 'DIR_PATH',       plugin_dir_path( __FILE__ ) );
 
 $teal_plugin_url = plugin_dir_url( __FILE__ );
 $teal_plugin_basename = plugin_basename( __FILE__ );
-$teal_prod_data = {};
+$teal_prod_data = (object) [];
 
 function activate_tealium() {
 
