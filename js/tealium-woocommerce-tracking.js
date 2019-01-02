@@ -152,7 +152,7 @@ jQuery( document ).on( 'found_variation', function( event, product_variation ) {
 
 function getProductData(data){
     var _product_form = data;
-    var _product_var_id     = jQuery( '[name=variation_id]', _product_form );
+    var _product_var_id     = jQuery( '[name=variation_id]', _product_form ) ? jQuery( '[name=variation_id]', _product_form ) : "";
     var _product_id         = jQuery( '[name=tealium_product_id]', _product_form ).val();
     var _product_name       = jQuery( '[name=tealium_product_name]', _product_form ).val();
     var _product_sku        = jQuery( '[name=tealium_product_sku]', _product_form ).val();
