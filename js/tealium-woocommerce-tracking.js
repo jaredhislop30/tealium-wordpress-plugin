@@ -18,21 +18,23 @@ jQuery( document ).on( 'click', '.add_to_cart_button:not(.product_type_variable,
 
 // track add to cart events for products on product detail pages
 jQuery( document ).on( 'click', '.single_add_to_cart_button', function() {
-    var _product_form       = jQuery( this ).closest( 'form.cart' );
-    var _product_var_id     = jQuery( '[name=variation_id]', _product_form );
-    var _product_id         = jQuery( '[name=tealium_product_id]', _product_form ).val();
-    var _product_name       = jQuery( '[name=tealium_product_name]', _product_form ).val();
-    var _product_sku        = jQuery( '[name=tealium_product_sku]', _product_form ).val();
-    var _product_category   = jQuery( '[name=tealium_product_category]', _product_form ).val();
-    var _product_unit_price = jQuery( '[name=tealium_product_unit_price]', _product_form ).val();
-    var _product_list_price = jQuery( '[name=tealium_product_list_price]', _product_form ).val();
-    var _product_url        = jQuery( '[name=tealium_product_url]', _product_form ).val();
-    var _product_image_url  = jQuery( '[name=tealium_product_image_url]', _product_form ).val();
-    var _product_currency   = jQuery( '[name=tealium_currency]', _product_form ).val();
-    var _product_stocklevel = jQuery( '[name=tealium_product_stocklevel]', _product_form ).val();
-    var _product_discount   = jQuery( '[name=tealium_product_discount]', _product_form ).val();
+    var prod_data_json = getProductData(jQuery( this ).closest( 'form.cart' ));
 
-    if ( _product_var_id.length > 0 ) {
+    // var _product_var_id     = jQuery( '[name=variation_id]', _product_form );
+    // var _product_id         = jQuery( '[name=tealium_product_id]', _product_form ).val();
+    // var _product_name       = jQuery( '[name=tealium_product_name]', _product_form ).val();
+    // var _product_sku        = jQuery( '[name=tealium_product_sku]', _product_form ).val();
+    // var _product_category   = jQuery( '[name=tealium_product_category]', _product_form ).val();
+    // var _product_unit_price = jQuery( '[name=tealium_product_unit_price]', _product_form ).val();
+    // var _product_list_price = jQuery( '[name=tealium_product_list_price]', _product_form ).val();
+    // var _product_url        = jQuery( '[name=tealium_product_url]', _product_form ).val();
+    // var _product_image_url  = jQuery( '[name=tealium_product_image_url]', _product_form ).val();
+    // var _product_currency   = jQuery( '[name=tealium_currency]', _product_form ).val();
+    // var _product_stocklevel = jQuery( '[name=tealium_product_stocklevel]', _product_form ).val();
+    // var _product_discount   = jQuery( '[name=tealium_product_discount]', _product_form ).val();
+
+
+    if ( prod_data_json.product_variant.length > 0 && prod_data_json.product_variant[0] !== "" ) {
         if ( teal_current_prod_variation ) {
             var teal_data = {}
             teal_data.tealium_event = "cart_add";
@@ -42,19 +44,9 @@ jQuery( document ).on( 'click', '.single_add_to_cart_button', function() {
             utag.link(prod_data);
         }
     } else {
-        utag.link({
-            tealium_event : "cart_add",
-            product_name: [_product_name],
-            product_id: [_product_id],
-            product_sku: [_product_sku],
-            product_category: [_product_category],
-            product_unit_price: [_product_unit_price],
-            product_list_price: [_product_list_price],
-            product_stocklevel: [_product_stocklevel],
-            product_url : [_product_url],
-            product_image_url : [_product_image_url],
-            product_discount : [_product_discount]
-        });
+        prod_data_json['tealium_event'] = "cart_add";
+        prod_data_json['currency_code'] = prod_data_json.product_currency;
+        utag.link(prod_data_json);
     }
 });
 
@@ -104,33 +96,35 @@ jQuery( document ).on( 'found_variation', function( event, product_variation ) {
         return;
     }
 
-    var _product_form       = event.target;
-    var _product_var_id     = jQuery( '[name=variation_id]', _product_form );
-    var _product_id         = jQuery( '[name=tealium_product_id]', _product_form ).val();
-    var _product_name       = jQuery( '[name=tealium_product_name]', _product_form ).val();
-    var _product_sku        = jQuery( '[name=tealium_product_sku]', _product_form ).val();
-    var _product_category   = jQuery( '[name=tealium_product_category]', _product_form ).val();
-    var _product_unit_price = jQuery( '[name=tealium_product_unit_price]', _product_form ).val();
-    var _product_list_price = jQuery( '[name=tealium_product_list_price]', _product_form ).val();
-    var _product_url        = jQuery( '[name=tealium_product_url]', _product_form ).val();
-    var _product_image_url  = jQuery( '[name=tealium_product_image_url]', _product_form ).val();
-    var _product_currency   = jQuery( '[name=tealium_currency]', _product_form ).val();
-    var _product_stocklevel = jQuery( '[name=tealium_product_stocklevel]', _product_form ).val();
-    var _product_discount   = jQuery( '[name=tealium_product_discount]', _product_form ).val();
 
-    var current_product_detail_data   = {
-        product_name: [_product_name],
-        product_id: _product_id,
-        product_sku: [_product_sku],
-        product_category: [_product_category],
-        product_unit_price: [_product_unit_price],
-        product_list_price: [_product_list_price],
-        product_stocklevel: [_product_stocklevel],
-        product_url : [_product_url],
-        product_image_url : [_product_image_url],
-        product_discount : [_product_discount],
-        product_variant: ''
-    };
+    current_product_detail_data = getProductData(event.target);
+
+    // var _product_var_id     = jQuery( '[name=variation_id]', _product_form );
+    // var _product_id         = jQuery( '[name=tealium_product_id]', _product_form ).val();
+    // var _product_name       = jQuery( '[name=tealium_product_name]', _product_form ).val();
+    // var _product_sku        = jQuery( '[name=tealium_product_sku]', _product_form ).val();
+    // var _product_category   = jQuery( '[name=tealium_product_category]', _product_form ).val();
+    // var _product_unit_price = jQuery( '[name=tealium_product_unit_price]', _product_form ).val();
+    // var _product_list_price = jQuery( '[name=tealium_product_list_price]', _product_form ).val();
+    // var _product_url        = jQuery( '[name=tealium_product_url]', _product_form ).val();
+    // var _product_image_url  = jQuery( '[name=tealium_product_image_url]', _product_form ).val();
+    // var _product_currency   = jQuery( '[name=tealium_currency]', _product_form ).val();
+    // var _product_stocklevel = jQuery( '[name=tealium_product_stocklevel]', _product_form ).val();
+    // var _product_discount   = jQuery( '[name=tealium_product_discount]', _product_form ).val();
+
+    // var current_product_detail_data   = {
+    //     product_name: [_product_name],
+    //     product_id: _product_id,
+    //     product_sku: [_product_sku],
+    //     product_category: [_product_category],
+    //     product_unit_price: [_product_unit_price],
+    //     product_list_price: [_product_list_price],
+    //     product_stocklevel: [_product_stocklevel],
+    //     product_url : [_product_url],
+    //     product_image_url : [_product_image_url],
+    //     product_discount : [_product_discount],
+    //     product_variant: ''
+    // };
 
     current_product_detail_data.product_id = [product_variation.variation_id.toString()];
 
@@ -149,20 +143,43 @@ jQuery( document ).on( 'found_variation', function( event, product_variation ) {
     teal_current_prod_variation = current_product_detail_data;
 
     // Event for changing the product details
-    // utag.link({
-    //     'event': 'gtm4wp.changeDetailViewEEC',
-    //     'ecommerce': {
-    //         'currencyCode': _product_currency,
-    //         'detail': {
-    //             'products': [current_product_detail_data]
-    //         },
-    //     },
-    //     'ecomm_prodid': gtm4wp_id_prefix + current_product_detail_data.id,
-    //     'ecomm_pagetype': 'product',
-    //     'ecomm_totalvalue': current_product_detail_data.price,
-    // });
+    utag.link(current_product_detail_data);
 
     if ( document.readyState === "interactive" ) {
         teal_variation_changed_pageload = true;
     }
 });
+
+function getProductData(data){
+    var _product_form = data;
+    var _product_var_id     = jQuery( '[name=variation_id]', _product_form );
+    var _product_id         = jQuery( '[name=tealium_product_id]', _product_form ).val();
+    var _product_name       = jQuery( '[name=tealium_product_name]', _product_form ).val();
+    var _product_sku        = jQuery( '[name=tealium_product_sku]', _product_form ).val();
+    var _product_category   = jQuery( '[name=tealium_product_category]', _product_form ).val();
+    var _product_unit_price = jQuery( '[name=tealium_product_unit_price]', _product_form ).val();
+    var _product_list_price = jQuery( '[name=tealium_product_list_price]', _product_form ).val();
+    var _product_url        = jQuery( '[name=tealium_product_url]', _product_form ).val();
+    var _product_image_url  = jQuery( '[name=tealium_product_image_url]', _product_form ).val();
+    var _product_currency   = jQuery( '[name=tealium_currency]', _product_form ).val();
+    var _product_stocklevel = jQuery( '[name=tealium_product_stocklevel]', _product_form ).val();
+    var _product_discount   = jQuery( '[name=tealium_product_discount]', _product_form ).val();
+
+    var product_data   = {
+        product_name: [_product_name],
+        product_id: _product_id,
+        product_sku: [_product_sku],
+        product_category: [_product_category],
+        product_unit_price: [_product_unit_price],
+        product_list_price: [_product_list_price],
+        product_stocklevel: [_product_stocklevel],
+        product_url : [_product_url],
+        product_image_url : [_product_image_url],
+        product_discount : [_product_discount],
+        product_variant: [_product_var_id],
+        product_currency : [_product_currency]
+    }
+
+    return product_data;
+
+}
