@@ -632,6 +632,8 @@ function teal_cart_item_product_filter( $product, $cart_item="", $cart_id="" ) {
 
 	if ( "variation" == $product_type ) {
 		$product_data_test[ "product_variant" ] = implode(",", $product->get_variation_attributes());
+	}else{
+		$product_data_test[ "product_variant" ] = [""];
 	}
 
 	$teal_prod_data["teal_cart_item_proddata"] = $product_data_test;
