@@ -603,7 +603,8 @@ function teal_product_data_on_list_page() {
 }
 
 function teal_cart_item_product_filter( $product, $cart_item="", $cart_id="" ) {
-
+	global $teal_prod_data;
+	
 	$product_id   = $product->get_id();
 	$product_type = $product->get_type();
 
