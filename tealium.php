@@ -397,7 +397,7 @@ function tealiumDataObject() {
 	$utagdata = array();
 
 	// Set Default Data. May be overwritten below / later
-	$utagdata['plugin_version'] = "0.0.7";
+	$utagdata['plugin_version'] = "0.0.8";
 	$utagdata['siteName'] = get_bloginfo( 'name' );
 	$utagdata['siteDescription'] = get_bloginfo( 'description' );
 	$utagdata['language_code'] = explode("_",get_locale())[0];
@@ -673,7 +673,7 @@ function teal_cart_item_remove_link_filter( $remove_from_cart_link, $cart_item_k
 }
 
 function teal_mini_cart_item_class_filter($class,$cart_item,$cart_item_key){
-	return "new_class_name";
+	return "cart_item new_class_name";
 }
 
 // utilizing the following source https://stackoverflow.com/questions/1252693/using-str-replace-so-that-it-only-acts-on-the-first-match
