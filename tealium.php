@@ -621,21 +621,21 @@ function teal_cart_item_product_filter( $product, $cart_item="", $cart_id="" ) {
 	$product_data_test = getProductData($product_id,null,null);
 	print_r($product_data_test);
 
-	$_temp_productdata = array(
-		"id"          => $remarketing_id,
-		"name"        => $product->get_title(),
-		"price"       => $product->get_price(),
-		"category"    => $product_cat,
-		"productlink" => apply_filters( 'the_permalink', get_permalink(), 0),
-		"variant"     => "",
-		"stocklevel"  => $product->get_stock_quantity()
-	);
+	// $_temp_productdata = array(
+	// 	"id"          => $remarketing_id,
+	// 	"name"        => $product->get_title(),
+	// 	"price"       => $product->get_price(),
+	// 	"category"    => $product_cat,
+	// 	"productlink" => apply_filters( 'the_permalink', get_permalink(), 0),
+	// 	"variant"     => "",
+	// 	"stocklevel"  => $product->get_stock_quantity()
+	// );
 
 	if ( "variation" == $product_type ) {
-		$_temp_productdata[ "variant" ] = implode(",", $product->get_variation_attributes());
+		$product_data_test[ "product_variant" ] = implode(",", $product->get_variation_attributes());
 	}
 
-	$teal_prod_data["teal_cart_item_proddata"] = $_temp_productdata;
+	$teal_prod_data["teal_cart_item_proddata"] = $product_data_test;
 
 	return $product;
 }
@@ -651,14 +651,19 @@ function teal_cart_item_remove_link_filter( $remove_from_cart_link ) {
 	// 	return $remove_from_cart_link;
 	// }
 
-	$cartlink_with_data = sprintf('data-teal_product_id="%s" data-teal_product_name="%s" data-teal_product_price="%s" data-teal_product_cat="%s" data-teal_product_url="%s" data-teal_product_variant="%s" data-teal_product_stocklevel="%s" href="',
-		esc_attr( $teal_prod_data["teal_cart_item_proddata"]["id"] ),
-		esc_attr( $teal_prod_data["teal_cart_item_proddata"]["name"] ),
-		esc_attr( $teal_prod_data["teal_cart_item_proddata"]["price"] ),
-		esc_attr( $teal_prod_data["teal_cart_item_proddata"]["category"] ),
-		esc_url(  $teal_prod_data["teal_cart_item_proddata"]["productlink"] ),
-		esc_attr( $teal_prod_data["teal_cart_item_proddata"]["variant"] ),
-		esc_attr( $teal_prod_data["teal_cart_item_proddata"]["stocklevel"] )
+	$cartlink_with_data = sprintf('data-teal_product_id="%s" data-teal_product_name="%s" data-teal_product_price="%s" data-teal_product_cat="%s" data-teal_product_url="%s" data-teal_product_variant="%s" data-teal_product_stocklevel="%s" data-teal_product_list_price="%s" data-teal_product_sku="%s" data-teal_product_brand="%s" data-teal_product_discount="%s" data-teal_product_image_url="%s" href="',
+		esc_attr( $teal_prod_data["teal_cart_item_proddata"]["product_id"] ),
+		esc_attr( $teal_prod_data["teal_cart_item_proddata"]["product_name"] ),
+		esc_attr( $teal_prod_data["teal_cart_item_proddata"]["product_unit_price"] ),
+		esc_attr( $teal_prod_data["teal_cart_item_proddata"]["product_category"] ),
+		esc_url(  $teal_prod_data["teal_cart_item_proddata"]["product_url"] ),
+		esc_attr( $teal_prod_data["teal_cart_item_proddata"]["product_variant"] ),
+		esc_attr( $teal_prod_data["teal_cart_item_proddata"]["product_stocklevel"] ),
+		esc_attr( $teal_prod_data["teal_cart_item_proddata"]["product_list_price"] ),
+		esc_attr( $teal_prod_data["teal_cart_item_proddata"]["product_sku"] ),
+		esc_attr( $teal_prod_data["teal_cart_item_proddata"]["product_brand"] ),
+		esc_attr( $teal_prod_data["teal_cart_item_proddata"]["product_discount"] ),
+		esc_attr( $teal_prod_data["teal_cart_item_proddata"]["product_image_url"] )
 	);
 	$teal_prod_data["teal_cart_item_proddata"] = '';
 
