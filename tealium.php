@@ -509,8 +509,10 @@ function tealiumDataObject() {
 		add_action('wp_head', 'tealiumWoocommerceEnqueueJS');
 		// add_action('woocommerce_add_to_cart','add_to_cart',10,6);
 		add_action( "woocommerce_after_add_to_cart_button", "teal_add_to_cart" );
-		add_action( "woocommerce_before_shop_loop_item", "teal_product_data_on_list_page" );
-		add_filter( "woocommerce_cart_item_product",     "teal_cart_item_product_filter" );
+		//add_action( "woocommerce_before_shop_loop_item", "teal_product_data_on_list_page" );
+		//add_filter( "woocommerce_cart_item_product",     "teal_cart_item_product_filter" );
+		add_filter( "woocommerce_cart_item_product",     "gtm4wp_woocommerce_cart_item_product_filter" );
+		add_filter( "woocommerce_cart_item_remove_link", "gtm4wp_woocommerce_cart_item_remove_link_filter" );
 		add_filter( "woocommerce_cart_item_remove_link", "teal_woocommerce_cart_item_remove_link_filter" );
 		$utagdata = apply_filters( 'tealium_wooCommerceData', $utagdata );
 	}
@@ -601,78 +603,51 @@ function teal_product_data_on_list_page() {
 		esc_attr( $_temp_productdata[ "product_stocklevel" ] )
 	);
 }
-
-function teal_cart_item_product_filter( $product, $cart_item="", $cart_id="" ) {
-	global $teal_prod_data;
-
+$GLOBALS["gtm4wp_cart_item_proddata"] = '';
+function gtm4wp_woocommerce_cart_item_product_filter( $product, $cart_item="", $cart_id="" ) {
+	global $GLOBALS;
 	$product_id   = $product->get_id();
 	$product_type = $product->get_type();
 
-	if ( "variation" == $product_type ) {
-		$parent_product_id = $product->id;
-		$product_cat = get_product_category( $product_id );
-	} else {
-		$product_cat = get_product_category( $product_id );
-	}
 
 	$remarketing_id = $product_id;
 	$product_sku    = $product->get_sku();
 
-	$product_data_test = getProductData($product_id,null,null);
-
-	// $_temp_productdata = array(
-	// 	"id"          => $remarketing_id,
-	// 	"name"        => $product->get_title(),
-	// 	"price"       => $product->get_price(),
-	// 	"category"    => $product_cat,
-	// 	"productlink" => apply_filters( 'the_permalink', get_permalink(), 0),
-	// 	"variant"     => "",
-	// 	"stocklevel"  => $product->get_stock_quantity()
-	// );
+	$_temp_productdata = array(
+		"id"          => $remarketing_id,
+		"name"        => $product->get_title(),
+		"price"       => $product->get_price(),
+		"productlink" => apply_filters( 'the_permalink', get_permalink(), 0),
+		"variant"     => "",
+		"stocklevel"  => $product->get_stock_quantity()
+	);
 
 	if ( "variation" == $product_type ) {
-		$product_data_test[ "product_variant" ] = implode(",", $product->get_variation_attributes());
-	}else{
-		$product_data_test[ "product_variant" ] = [""];
+		$_temp_productdata[ "variant" ] = implode(",", $product->get_variation_attributes());
 	}
 
-	$teal_prod_data["teal_cart_item_proddata"] = $product_data_test;
+	$GLOBALS["gtm4wp_cart_item_proddata"] = $_temp_productdata;
 
 	return $product;
 }
 
-function teal_woocommerce_cart_item_remove_link_filter( $remove_from_cart_link ) {
-	global $teal_prod_data;
-	// if ( ! isset( $GLOBALS["teal_cart_item_proddata"] ) ) {
-	// 	return $remove_from_cart_link;
-	// }
+function gtm4wp_woocommerce_cart_item_remove_link_filter( $remove_from_cart_link ) {
 
-	// if ( ! is_array( $GLOBALS["teal_cart_item_proddata"] ) ) {
-	// 	return $remove_from_cart_link;
-	// }
-
-	$cartlink_with_data = sprintf('data-teal_product_id="%s" data-teal_product_name="%s" data-teal_product_price="%s" data-teal_product_cat="%s" data-teal_product_url="%s" data-teal_product_variant="%s" data-teal_product_stocklevel="%s" data-teal_product_list_price="%s" data-teal_product_sku="%s" data-teal_product_brand="%s" data-teal_product_discount="%s" data-teal_product_image_url="%s" href="',
-		esc_attr( $teal_prod_data["teal_cart_item_proddata"]["product_id"][0] ),
-		esc_attr( $teal_prod_data["teal_cart_item_proddata"]["product_name"][0] ),
-		esc_attr( $teal_prod_data["teal_cart_item_proddata"]["product_unit_price"][0] ),
-		esc_attr( $teal_prod_data["teal_cart_item_proddata"]["product_category"][0] ),
-		esc_url(  $teal_prod_data["teal_cart_item_proddata"]["product_url"][0] ),
-		esc_attr( $teal_prod_data["teal_cart_item_proddata"]["product_variant"][0] ),
-		esc_attr( $teal_prod_data["teal_cart_item_proddata"]["product_stocklevel"][0] ),
-		esc_attr( $teal_prod_data["teal_cart_item_proddata"]["product_list_price"][0] ),
-		esc_attr( $teal_prod_data["teal_cart_item_proddata"]["product_sku"][0] ),
-		esc_attr( $teal_prod_data["teal_cart_item_proddata"]["product_brand"][0] ),
-		esc_attr( $teal_prod_data["teal_cart_item_proddata"]["product_discount"][0] ),
-		esc_attr( $teal_prod_data["teal_cart_item_proddata"]["product_image_url"][0] )
+	$cartlink_with_data = sprintf('data-gtm4wp_product_id="%s" data-gtm4wp_product_name="%s" data-gtm4wp_product_price="%s" data-gtm4wp_product_cat="%s" data-gtm4wp_product_url="%s"  data-gtm4wp_product_stocklevel="%s" href="',
+		esc_attr( $GLOBALS["gtm4wp_cart_item_proddata"]["id"] ),
+		esc_attr( $GLOBALS["gtm4wp_cart_item_proddata"]["name"] ),
+		esc_attr( $GLOBALS["gtm4wp_cart_item_proddata"]["price"] ),
+		esc_attr( $GLOBALS["gtm4wp_cart_item_proddata"]["category"] ),
+		esc_url(  $GLOBALS["gtm4wp_cart_item_proddata"]["productlink"] ),
+		esc_attr( $GLOBALS["gtm4wp_cart_item_proddata"]["stocklevel"] )
 	);
-	$teal_prod_data["teal_cart_item_proddata"] = '';
+	$GLOBALS["gtm4wp_cart_item_proddata"] = '';
 
-	return $remove_from_cart_link."this test";
-	// return teal_str_replace_first( 'href="', $cartlink_with_data, $remove_from_cart_link );
+	return gtm4wp_str_replace_first( 'href="', $cartlink_with_data, $remove_from_cart_link );
 }
 
 // utilizing the following source https://stackoverflow.com/questions/1252693/using-str-replace-so-that-it-only-acts-on-the-first-match
-function teal_str_replace_first($from, $to, $subject) {
+function gtm4wp_str_replace_first($from, $to, $subject) {
 	$from = '/'.preg_quote($from, '/').'/';
 
 	return preg_replace($from, $to, $subject, 1);
