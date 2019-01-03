@@ -640,7 +640,6 @@ function teal_cart_item_product_filter( $product, $cart_item="", $cart_id="" ) {
 }
 
 function teal_cart_item_remove_link_filter( $remove_from_cart_link ) {
-	print("Yassss!");
 	global $teal_prod_data;
 	// if ( ! isset( $GLOBALS["teal_cart_item_proddata"] ) ) {
 	// 	return $remove_from_cart_link;
