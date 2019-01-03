@@ -75,12 +75,12 @@ jQuery( document ).on( 'click', '.mini_cart_item a.remove,.product-remove a.remo
 
     utag.link({
         'tealium_event': 'cart_remove',
-        'name':       productdata.data( 'gtm4wp_product_name' ),
-        'id':         productdata.data( 'gtm4wp_product_id' ),
-        'price':      productdata.data( 'gtm4wp_product_price' ),
-        'category':   productdata.data( 'gtm4wp_product_cat' ),
-        'variant':    productdata.data( 'gtm4wp_product_variant' ),
-        'stocklevel': productdata.data( 'gtm4wp_product_stocklevel' ),
+        'name':       productdata.data( 'teal_product_name' ),
+        'id':         productdata.data( 'teal_product_id' ),
+        'price':      productdata.data( 'teal_product_price' ),
+        'category':   productdata.data( 'teal_product_cat' ),
+        'variant':    productdata.data( 'teal_product_variant' ),
+        'stocklevel': productdata.data( 'teal_product_stocklevel' ),
         'quantity':   qty
     });
 });
