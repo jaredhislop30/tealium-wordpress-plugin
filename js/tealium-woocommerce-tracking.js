@@ -54,34 +54,34 @@ jQuery( document ).on( 'click', '.single_add_to_cart_button', function() {
 jQuery( document ).on( 'click', '.mini_cart_item a.remove,.product-remove a.remove', function() {
     var productdata = jQuery( this );
 
-    var qty = 0;
+    var qty = ["0"];
     var qty_element = jQuery( this ).closest( '.cart_item' ).find( '.product-quantity input.qty' );
     if ( qty_element.length === 0 ) {
         qty_element = jQuery( this ).closest( '.mini_cart_item' ).find( '.quantity' );
         if ( qty_element.length > 0 ) {
-            qty = parseInt( qty_element.text() );
+            qty = qty_element.text();
 
             if ( Number.isNaN( qty ) ) {
-                qty = 0;
+                qty = ["0"];
             }
         }
     } else {
-        qty = qty_element.val();
+        qty = [qty_element.val()];
     }
 
-    if ( qty === 0 ) {
-        return true;
-    }
+    // if ( qty === 0 ) {
+    //     return true;
+    // }
 
     utag.link({
         'tealium_event': 'cart_remove',
-        'name':       productdata.data( 'teal_product_name' ),
-        'id':         productdata.data( 'teal_product_id' ),
-        'price':      productdata.data( 'teal_product_price' ),
-        'category':   productdata.data( 'teal_product_cat' ),
-        'variant':    productdata.data( 'teal_product_variant' ),
-        'stocklevel': productdata.data( 'teal_product_stocklevel' ),
-        'quantity':   qty
+        'product_name':       [productdata.data( 'teal_product_name' )],
+        'product_id':         [productdata.data( 'teal_product_id' ).toString()],
+        'product_unit_price': [productdata.data( 'teal_product_price' ).toString()],
+        'product_category':   [productdata.data( 'teal_product_cat' )],
+        'product_variant':    [productdata.data( 'teal_product_variant' )],
+        'product_stocklevel': [productdata.data( 'teal_product_stocklevel' ).toString()],
+        'product_quantity':   [qty.toString()]
     });
 });
 
@@ -98,33 +98,6 @@ jQuery( document ).on( 'found_variation', function( event, product_variation ) {
 
 
     current_product_detail_data = getProductData(event.target);
-
-    // var _product_var_id     = jQuery( '[name=variation_id]', _product_form );
-    // var _product_id         = jQuery( '[name=tealium_product_id]', _product_form ).val();
-    // var _product_name       = jQuery( '[name=tealium_product_name]', _product_form ).val();
-    // var _product_sku        = jQuery( '[name=tealium_product_sku]', _product_form ).val();
-    // var _product_category   = jQuery( '[name=tealium_product_category]', _product_form ).val();
-    // var _product_unit_price = jQuery( '[name=tealium_product_unit_price]', _product_form ).val();
-    // var _product_list_price = jQuery( '[name=tealium_product_list_price]', _product_form ).val();
-    // var _product_url        = jQuery( '[name=tealium_product_url]', _product_form ).val();
-    // var _product_image_url  = jQuery( '[name=tealium_product_image_url]', _product_form ).val();
-    // var _product_currency   = jQuery( '[name=tealium_currency]', _product_form ).val();
-    // var _product_stocklevel = jQuery( '[name=tealium_product_stocklevel]', _product_form ).val();
-    // var _product_discount   = jQuery( '[name=tealium_product_discount]', _product_form ).val();
-
-    // var current_product_detail_data   = {
-    //     product_name: [_product_name],
-    //     product_id: _product_id,
-    //     product_sku: [_product_sku],
-    //     product_category: [_product_category],
-    //     product_unit_price: [_product_unit_price],
-    //     product_list_price: [_product_list_price],
-    //     product_stocklevel: [_product_stocklevel],
-    //     product_url : [_product_url],
-    //     product_image_url : [_product_image_url],
-    //     product_discount : [_product_discount],
-    //     product_variant: ''
-    // };
 
     current_product_detail_data.product_id = [product_variation.variation_id.toString()];
 
