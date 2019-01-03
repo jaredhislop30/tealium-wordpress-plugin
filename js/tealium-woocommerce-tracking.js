@@ -79,7 +79,7 @@ jQuery( document ).on( 'click', '.mini_cart_item a.remove,.product-remove a.remo
         'product_id':         [productdata.data( 'teal_product_id' ).toString()],
         'product_unit_price': [productdata.data( 'teal_product_price' ).toString()],
         'product_category':   [productdata.data( 'teal_product_cat' )],
-        'product_variant':    [productdata.data( 'teal_product_variant' )],
+        'product_variant':    [productdata.data( 'teal_product_variant' ).toString()],
         'product_stocklevel': [productdata.data( 'teal_product_stocklevel' ).toString()],
         'product_quantity':   [qty.toString()]
     });

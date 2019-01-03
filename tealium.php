@@ -618,6 +618,9 @@ function teal_cart_item_product_filter( $product, $cart_item="", $cart_id="" ) {
 	$remarketing_id = $product_id;
 	$product_sku    = $product->get_sku();
 
+	$product_data_test = getProductData($product_id,null,null);
+	print($product_data_test);
+
 	$_temp_productdata = array(
 		"id"          => $remarketing_id,
 		"name"        => $product->get_title(),
