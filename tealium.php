@@ -650,18 +650,18 @@ function teal_cart_item_remove_link_filter( $remove_from_cart_link ) {
 	// }
 
 	$cartlink_with_data = sprintf('data-teal_product_id="%s" data-teal_product_name="%s" data-teal_product_price="%s" data-teal_product_cat="%s" data-teal_product_url="%s" data-teal_product_variant="%s" data-teal_product_stocklevel="%s" data-teal_product_list_price="%s" data-teal_product_sku="%s" data-teal_product_brand="%s" data-teal_product_discount="%s" data-teal_product_image_url="%s" href="',
-		esc_attr( $teal_prod_data["teal_cart_item_proddata"]["product_id"] ),
-		esc_attr( $teal_prod_data["teal_cart_item_proddata"]["product_name"] ),
-		esc_attr( $teal_prod_data["teal_cart_item_proddata"]["product_unit_price"] ),
-		esc_attr( $teal_prod_data["teal_cart_item_proddata"]["product_category"] ),
-		esc_url(  $teal_prod_data["teal_cart_item_proddata"]["product_url"] ),
-		esc_attr( $teal_prod_data["teal_cart_item_proddata"]["product_variant"] ),
-		esc_attr( $teal_prod_data["teal_cart_item_proddata"]["product_stocklevel"] ),
-		esc_attr( $teal_prod_data["teal_cart_item_proddata"]["product_list_price"] ),
-		esc_attr( $teal_prod_data["teal_cart_item_proddata"]["product_sku"] ),
-		esc_attr( $teal_prod_data["teal_cart_item_proddata"]["product_brand"] ),
-		esc_attr( $teal_prod_data["teal_cart_item_proddata"]["product_discount"] ),
-		esc_attr( $teal_prod_data["teal_cart_item_proddata"]["product_image_url"] )
+		esc_attr( $teal_prod_data["teal_cart_item_proddata"]["product_id"][0] ),
+		esc_attr( $teal_prod_data["teal_cart_item_proddata"]["product_name"][0] ),
+		esc_attr( $teal_prod_data["teal_cart_item_proddata"]["product_unit_price"][0] ),
+		esc_attr( $teal_prod_data["teal_cart_item_proddata"]["product_category"][0] ),
+		esc_url(  $teal_prod_data["teal_cart_item_proddata"]["product_url"][0] ),
+		esc_attr( $teal_prod_data["teal_cart_item_proddata"]["product_variant"][0] ),
+		esc_attr( $teal_prod_data["teal_cart_item_proddata"]["product_stocklevel"][0] ),
+		esc_attr( $teal_prod_data["teal_cart_item_proddata"]["product_list_price"][0] ),
+		esc_attr( $teal_prod_data["teal_cart_item_proddata"]["product_sku"][0] ),
+		esc_attr( $teal_prod_data["teal_cart_item_proddata"]["product_brand"][0] ),
+		esc_attr( $teal_prod_data["teal_cart_item_proddata"]["product_discount"][0] ),
+		esc_attr( $teal_prod_data["teal_cart_item_proddata"]["product_image_url"][0] )
 	);
 	$teal_prod_data["teal_cart_item_proddata"] = '';
 
