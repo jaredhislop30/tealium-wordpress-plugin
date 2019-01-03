@@ -642,7 +642,7 @@ function teal_cart_item_product_filter( $product, $cart_item="", $cart_id="" ) {
 	return $product;
 }
 
-function teal_cart_item_remove_link_filter( $remove_from_cart_link ) {
+function teal_cart_item_remove_link_filter( $remove_from_cart_link, $cart_item_key ) {
 	global $teal_prod_data;
 	// if ( ! isset( $GLOBALS["teal_cart_item_proddata"] ) ) {
 	// 	return $remove_from_cart_link;
@@ -672,7 +672,7 @@ function teal_cart_item_remove_link_filter( $remove_from_cart_link ) {
 	return teal_str_replace_first( 'href="', $cartlink_with_data, $remove_from_cart_link );
 }
 
-function teal_mini_cart_item_class_filter($class){
+function teal_mini_cart_item_class_filter($class,$cart_item,$cart_item_key){
 	return $class . " new_class_name";
 }
 
