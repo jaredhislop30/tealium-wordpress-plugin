@@ -511,7 +511,6 @@ function tealiumDataObject() {
 		add_action( "woocommerce_after_add_to_cart_button", "teal_add_to_cart" );
 		add_action( "woocommerce_before_shop_loop_item", "teal_product_data_on_list_page" );
 		add_filter( "woocommerce_cart_item_product",     "teal_cart_item_product_filter" );
-		add_filter( "woocommerce_cart_item_class",     "teal_mini_cart_item_class_filter" );
 		add_filter( "woocommerce_cart_item_remove_link", "teal_cart_item_remove_link_filter" );
 		$utagdata = apply_filters( 'tealium_wooCommerceData', $utagdata );
 	}
@@ -642,7 +641,7 @@ function teal_cart_item_product_filter( $product, $cart_item="", $cart_id="" ) {
 	return $product;
 }
 
-function teal_cart_item_remove_link_filter( $remove_from_cart_link, $cart_item_key ) {
+function teal_cart_item_remove_link_filter( $remove_from_cart_link ) {
 	global $teal_prod_data;
 	// if ( ! isset( $GLOBALS["teal_cart_item_proddata"] ) ) {
 	// 	return $remove_from_cart_link;
@@ -670,10 +669,6 @@ function teal_cart_item_remove_link_filter( $remove_from_cart_link, $cart_item_k
 
 
 	return teal_str_replace_first( 'href="', $cartlink_with_data, $remove_from_cart_link );
-}
-
-function teal_mini_cart_item_class_filter($class,$cart_item,$cart_item_key){
-	return "cart_item new_class_name";
 }
 
 // utilizing the following source https://stackoverflow.com/questions/1252693/using-str-replace-so-that-it-only-acts-on-the-first-match
