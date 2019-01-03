@@ -673,7 +673,7 @@ function teal_cart_item_remove_link_filter( $remove_from_cart_link, $cart_item_k
 }
 
 function teal_mini_cart_item_class_filter($class,$cart_item,$cart_item_key){
-	return $class . " new_class_name";
+	return "new_class_name";
 }
 
 // utilizing the following source https://stackoverflow.com/questions/1252693/using-str-replace-so-that-it-only-acts-on-the-first-match
