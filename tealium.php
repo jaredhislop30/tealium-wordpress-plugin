@@ -646,13 +646,6 @@ function teal_cart_item_product_filter( $product, $cart_item="", $cart_id="" ) {
 
 function teal_woocommerce_cart_item_remove_link_filter( $remove_from_cart_link ) {
     global $teal_globals;
-    // if ( ! isset( $GLOBALS["teal_cart_item_proddata"] ) ) {
-    //  return $remove_from_cart_link;
-    // }
-
-    // if ( ! is_array( $GLOBALS["teal_cart_item_proddata"] ) ) {
-    //  return $remove_from_cart_link;
-    // }
 
     $cartlink_with_data = sprintf('data-teal_product_id="%s" data-teal_product_name="%s" data-teal_product_price="%s" data-teal_product_cat="%s" data-teal_product_url="%s" data-teal_product_variant="%s" data-teal_product_stocklevel="%s" data-teal_product_list_price="%s" data-teal_product_sku="%s" data-teal_product_brand="%s" data-teal_product_discount="%s" data-teal_product_image_url="%s" href="',
         esc_attr( $teal_globals['teal_cart_item_proddata']["product_id"][0] ),
