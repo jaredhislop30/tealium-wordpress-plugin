@@ -31,9 +31,11 @@ Domain Path: /languages
 define( 'TEAL_FILE_VERSION',    '0.0.1' );
 define( 'DIR_PATH',       plugin_dir_path( __FILE__ ) );
 
-$teal_plugin_url = plugin_dir_url( __FILE__ );
-$teal_plugin_basename = plugin_basename( __FILE__ );
-$teal_prod_data["teal_cart_item_proddata"] = '';
+$teal_globals['plugin_url'] = plugin_dir_url( __FILE__ );
+$teal_globals['$teal_plugin_basename'] = plugin_basename( __FILE__ );
+$teal_globals['woo_enabled'] = in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) );
+$teal_globals['teal_cart_item_proddata'] = '';
+
 
 function activate_tealium() {
 
@@ -393,7 +395,7 @@ add_filter( 'tealium_wooCommerceData', 'tealiumWooCommerceData' );
  * Creates the data object as an array
  */
 function tealiumDataObject() {
-    global $utagdata;
+    global $utagdata,$teal_globals;
     $utagdata = array();
 
     // Set Default Data. May be overwritten below / later
@@ -505,7 +507,7 @@ function tealiumDataObject() {
         }
 
     // Add shop data if WooCommerce is installed
-    if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
+    if ( $teal_globals['woo_enabled'] ) {
         $utagdata = apply_filters( 'tealium_wooCommerceData', $utagdata );
     }
 
@@ -604,7 +606,7 @@ function teal_product_data_on_list_page() {
 }
 
 function teal_cart_item_product_filter( $product, $cart_item="", $cart_id="" ) {
-    global $teal_prod_data;
+    global $teal_globals;
 
     $product_id   = $product->get_id();
     $product_type = $product->get_type();
@@ -637,13 +639,13 @@ function teal_cart_item_product_filter( $product, $cart_item="", $cart_id="" ) {
         $product_data_test[ "product_variant" ] = [""];
     }
 
-    $teal_prod_data["teal_cart_item_proddata"] = $product_data_test;
+    $teal_globals['teal_cart_item_proddata'] = $product_data_test;
 
     return $product;
 }
 
 function teal_woocommerce_cart_item_remove_link_filter( $remove_from_cart_link ) {
-    global $teal_prod_data;
+    global $teal_globals;
     // if ( ! isset( $GLOBALS["teal_cart_item_proddata"] ) ) {
     //  return $remove_from_cart_link;
     // }
@@ -653,21 +655,20 @@ function teal_woocommerce_cart_item_remove_link_filter( $remove_from_cart_link )
     // }
 
     $cartlink_with_data = sprintf('data-teal_product_id="%s" data-teal_product_name="%s" data-teal_product_price="%s" data-teal_product_cat="%s" data-teal_product_url="%s" data-teal_product_variant="%s" data-teal_product_stocklevel="%s" data-teal_product_list_price="%s" data-teal_product_sku="%s" data-teal_product_brand="%s" data-teal_product_discount="%s" data-teal_product_image_url="%s" href="',
-        esc_attr( $teal_prod_data["teal_cart_item_proddata"]["product_id"][0] ),
-        esc_attr( $teal_prod_data["teal_cart_item_proddata"]["product_name"][0] ),
-        esc_attr( $teal_prod_data["teal_cart_item_proddata"]["product_unit_price"][0] ),
-        esc_attr( $teal_prod_data["teal_cart_item_proddata"]["product_category"][0] ),
-        esc_url(  $teal_prod_data["teal_cart_item_proddata"]["product_url"][0] ),
-        esc_attr( $teal_prod_data["teal_cart_item_proddata"]["product_variant"][0] ),
-        esc_attr( $teal_prod_data["teal_cart_item_proddata"]["product_stocklevel"][0] ),
-        esc_attr( $teal_prod_data["teal_cart_item_proddata"]["product_list_price"][0] ),
-        esc_attr( $teal_prod_data["teal_cart_item_proddata"]["product_sku"][0] ),
-        esc_attr( $teal_prod_data["teal_cart_item_proddata"]["product_brand"][0] ),
-        esc_attr( $teal_prod_data["teal_cart_item_proddata"]["product_discount"][0] ),
-        esc_attr( $teal_prod_data["teal_cart_item_proddata"]["product_image_url"][0] )
+        esc_attr( $teal_globals['teal_cart_item_proddata']["product_id"][0] ),
+        esc_attr( $teal_globals['teal_cart_item_proddata']["product_name"][0] ),
+        esc_attr( $teal_globals['teal_cart_item_proddata']["product_unit_price"][0] ),
+        esc_attr( $teal_globals['teal_cart_item_proddata']["product_category"][0] ),
+        esc_url(  $teal_globals['teal_cart_item_proddata']["product_url"][0] ),
+        esc_attr( $teal_globals['teal_cart_item_proddata']["product_variant"][0] ),
+        esc_attr( $teal_globals['teal_cart_item_proddata']["product_stocklevel"][0] ),
+        esc_attr( $teal_globals['teal_cart_item_proddata']["product_list_price"][0] ),
+        esc_attr( $teal_globals['teal_cart_item_proddata']["product_sku"][0] ),
+        esc_attr( $teal_globals['teal_cart_item_proddata']["product_brand"][0] ),
+        esc_attr( $teal_globals['teal_cart_item_proddata']["product_discount"][0] ),
+        esc_attr( $teal_globals['teal_cart_item_proddata']["product_image_url"][0] )
     );
-    $teal_prod_data["teal_cart_item_proddata"] = '';
-
+    $teal_globals['teal_cart_item_proddata'] = '';
     return teal_str_replace_first( 'href="', $cartlink_with_data, $remove_from_cart_link );
 }
 
@@ -694,8 +695,8 @@ function get_product_category( $product_id) {
  * Load JS Functions for Dynamic Event Tracking (Add to Cart, Remove from cart, etc)
  */
 function tealiumWoocommerceEnqueueJS() {
-    global $teal_plugin_url, $utagdata;
-    wp_enqueue_script( "tealium-woocommerce-tracking", $teal_plugin_url . "/js/tealium-woocommerce-tracking.js", array( "jquery" ), "0.0.1", false);
+    global $teal_globals;
+    wp_enqueue_script( "tealium-woocommerce-tracking", $teal_globals['plugin_url'] . "/js/tealium-woocommerce-tracking.js", array( "jquery" ), "0.0.1", false);
 }
 
 /*
@@ -1003,11 +1004,11 @@ if ( is_admin() ) {
     if ( get_option( 'tealiumTagLocation' ) != '3' ) {
         add_action( 'wp_head', 'tealiumEncodedDataObject', 1 );
     }
-	if ( function_exists ( "WC" ) ) {
-	    add_action('wp_head', 'tealiumWoocommerceEnqueueJS');
-        add_action( "woocommerce_after_add_to_cart_button", "teal_add_to_cart" );
-        add_action( "woocommerce_before_shop_loop_item", "teal_product_data_on_list_page" );
-        add_filter( "woocommerce_cart_item_product",     "teal_cart_item_product_filter" );
-        add_filter( "woocommerce_cart_item_remove_link", "teal_woocommerce_cart_item_remove_link_filter" );
-	}
+}
+if (  $teal_globals['woo_enabled']  ) {
+    add_action('wp_head', 'tealiumWoocommerceEnqueueJS');
+    add_action( "woocommerce_after_add_to_cart_button", "teal_add_to_cart" );
+    add_action( "woocommerce_before_shop_loop_item", "teal_product_data_on_list_page" );
+    add_filter( "woocommerce_cart_item_product",     "teal_cart_item_product_filter" );
+    add_filter( "woocommerce_cart_item_remove_link", "teal_woocommerce_cart_item_remove_link_filter" );
 }

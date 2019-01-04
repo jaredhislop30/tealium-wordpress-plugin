@@ -55,15 +55,20 @@ jQuery( document ).on( 'click', '.mini_cart_item a.remove,.product-remove a.remo
     var productdata = jQuery( this );
 
     var qty = ["0"];
-    var qty_element = jQuery( this ).closest( '.cart_item' ).find( '.product-quantity input.qty' );
-    if ( qty_element.length === 0 ) {
-        qty_element = jQuery( this ).closest( '.mini_cart_item' ).find( '.quantity' );
-        if ( qty_element.length > 0 ) {
-            qty = qty_element.text();
-
-            if ( Number.isNaN( qty ) ) {
-                qty = ["0"];
+    var qty_element = jQuery(this).closest('.cart_item').find('.product-quantity input.qty');
+    if (qty_element.length === 0) {
+        qty_element = jQuery(this).closest('.mini_cart_item').find('.quantity');
+        if (qty_element.length > 0) {
+            qty_text = qty_element.text();
+            // Account for some themes that have quantities like "N x $30.00" i.e. 1 x $35.00"
+            if(isNaN(qty_text) && qty_text.indexOf("$")>-1){
+                qty = qty_text.split(" ")[0]
+            }else{
+                qty = qty_element.text();
             }
+            if (isNaN(qty)) {
+                qty = ["1"];
+            } 
         }
     } else {
         qty = [qty_element.val()];
