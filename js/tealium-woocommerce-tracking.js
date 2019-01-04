@@ -24,7 +24,6 @@ jQuery( document ).on( 'click', '.single_add_to_cart_button', function() {
         if ( teal_current_prod_variation ) {
             var teal_data = {}
             teal_data.tealium_event = "cart_add";
-            teal_data.currency_code = _product_currency;
             teal_data.product_quantity = [jQuery( 'form.cart:first input[name=quantity]' ).val()];
             var prod_data = Object.assign({}, teal_data, teal_current_prod_variation);
             utag.link(prod_data);
