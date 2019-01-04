@@ -393,7 +393,6 @@ add_filter( 'tealium_wooCommerceData', 'tealiumWooCommerceData' );
  * Creates the data object as an array
  */
 function tealiumDataObject() {
-	add_filter( "woocommerce_cart_item_remove_link", "test_remove_func" );
     global $utagdata;
     $utagdata = array();
 
@@ -507,13 +506,6 @@ function tealiumDataObject() {
 
     // Add shop data if WooCommerce is installed
     if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
-        add_action('wp_head', 'tealiumWoocommerceEnqueueJS');
-        // add_action('woocommerce_add_to_cart','add_to_cart',10,6);
-        add_action( "woocommerce_after_add_to_cart_button", "teal_add_to_cart" );
-        add_action( "woocommerce_before_shop_loop_item", "teal_product_data_on_list_page" );
-        add_filter( "woocommerce_cart_item_product",     "teal_cart_item_product_filter" );
-        add_filter( "woocommerce_cart_item_remove_link", "teal_woocommerce_cart_item_remove_link_filter" );
-
         $utagdata = apply_filters( 'tealium_wooCommerceData', $utagdata );
     }
 
@@ -710,6 +702,7 @@ function tealiumWoocommerceEnqueueJS() {
  * Encodes the data object array as JSON, outputs script tag
  */
 function tealiumEncodedDataObject( $return = false ) {
+
     $utagdata = tealiumDataObject();
 
     // Encode data object
@@ -1000,8 +993,7 @@ if ( is_admin() ) {
     add_action( 'admin_init', 'admin_init_tealium' );
     add_action( 'admin_menu', 'admin_menu_tealium' );
     add_action( 'admin_notices', 'admin_notices_tealium' );
-}
-else {
+}else {
     if ( !tealiumAMP() ) {
         // Insert the Tealium tag
         add_action( 'init', 'insertTealiumTag' );
@@ -1011,4 +1003,11 @@ else {
     if ( get_option( 'tealiumTagLocation' ) != '3' ) {
         add_action( 'wp_head', 'tealiumEncodedDataObject', 1 );
     }
+	if ( function_exists ( "WC" ) ) {
+	    add_action('wp_head', 'tealiumWoocommerceEnqueueJS');
+        add_action( "woocommerce_after_add_to_cart_button", "teal_add_to_cart" );
+        add_action( "woocommerce_before_shop_loop_item", "teal_product_data_on_list_page" );
+        add_filter( "woocommerce_cart_item_product",     "teal_cart_item_product_filter" );
+        add_filter( "woocommerce_cart_item_remove_link", "teal_woocommerce_cart_item_remove_link_filter" );
+	}
 }
