@@ -512,7 +512,7 @@ function tealiumDataObject() {
         add_action( "woocommerce_before_shop_loop_item", "teal_product_data_on_list_page" );
         add_filter( "woocommerce_cart_item_product",     "teal_cart_item_product_filter" );
         add_filter( "woocommerce_cart_item_remove_link", "teal_woocommerce_cart_item_remove_link_filter" );
-        
+        add_filter( "woocommerce_cart_item_remove_link", "test_remove_func" );
         $utagdata = apply_filters( 'tealium_wooCommerceData', $utagdata );
     }
 
@@ -532,7 +532,7 @@ function tealiumDataObject() {
     return $utagdata;
 }
 
-add_filter( "woocommerce_cart_item_remove_link", "test_remove_func" );
+
 
 function test_remove_func($url){
     
