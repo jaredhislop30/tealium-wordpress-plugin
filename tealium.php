@@ -506,13 +506,12 @@ function tealiumDataObject() {
 
     // Add shop data if WooCommerce is installed
     if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
-    	add_filter( "woocommerce_cart_item_product",     "teal_cart_item_product_filter" );
-    	add_filter( "woocommerce_cart_item_remove_link", "teal_woocommerce_cart_item_remove_link_filter" );
         add_action('wp_head', 'tealiumWoocommerceEnqueueJS');
+        // add_action('woocommerce_add_to_cart','add_to_cart',10,6);
         add_action( "woocommerce_after_add_to_cart_button", "teal_add_to_cart" );
         add_action( "woocommerce_before_shop_loop_item", "teal_product_data_on_list_page" );
-        // add_filter( "woocommerce_cart_item_product",     "teal_cart_item_product_filter" );
-        // add_filter( "woocommerce_cart_item_remove_link", "teal_woocommerce_cart_item_remove_link_filter" );
+        add_filter( "woocommerce_cart_item_product",     "teal_cart_item_product_filter" );
+        add_filter( "woocommerce_cart_item_remove_link", "teal_woocommerce_cart_item_remove_link_filter" );
         $utagdata = apply_filters( 'tealium_wooCommerceData', $utagdata );
     }
 
@@ -643,8 +642,7 @@ function teal_cart_item_product_filter( $product, $cart_item="", $cart_id="" ) {
 }
 
 function teal_woocommerce_cart_item_remove_link_filter( $remove_from_cart_link ) {
-    // global $teal_prod_data;
-    return $remove_from_cart_link."this is a test";
+    global $teal_prod_data;
     // if ( ! isset( $GLOBALS["teal_cart_item_proddata"] ) ) {
     //  return $remove_from_cart_link;
     // }
@@ -653,23 +651,23 @@ function teal_woocommerce_cart_item_remove_link_filter( $remove_from_cart_link )
     //  return $remove_from_cart_link;
     // }
 
-    // $cartlink_with_data = sprintf('data-teal_product_id="%s" data-teal_product_name="%s" data-teal_product_price="%s" data-teal_product_cat="%s" data-teal_product_url="%s" data-teal_product_variant="%s" data-teal_product_stocklevel="%s" data-teal_product_list_price="%s" data-teal_product_sku="%s" data-teal_product_brand="%s" data-teal_product_discount="%s" data-teal_product_image_url="%s" href="',
-    //     esc_attr( $teal_prod_data["teal_cart_item_proddata"]["product_id"][0] ),
-    //     esc_attr( $teal_prod_data["teal_cart_item_proddata"]["product_name"][0] ),
-    //     esc_attr( $teal_prod_data["teal_cart_item_proddata"]["product_unit_price"][0] ),
-    //     esc_attr( $teal_prod_data["teal_cart_item_proddata"]["product_category"][0] ),
-    //     esc_url(  $teal_prod_data["teal_cart_item_proddata"]["product_url"][0] ),
-    //     esc_attr( $teal_prod_data["teal_cart_item_proddata"]["product_variant"][0] ),
-    //     esc_attr( $teal_prod_data["teal_cart_item_proddata"]["product_stocklevel"][0] ),
-    //     esc_attr( $teal_prod_data["teal_cart_item_proddata"]["product_list_price"][0] ),
-    //     esc_attr( $teal_prod_data["teal_cart_item_proddata"]["product_sku"][0] ),
-    //     esc_attr( $teal_prod_data["teal_cart_item_proddata"]["product_brand"][0] ),
-    //     esc_attr( $teal_prod_data["teal_cart_item_proddata"]["product_discount"][0] ),
-    //     esc_attr( $teal_prod_data["teal_cart_item_proddata"]["product_image_url"][0] )
-    // );
-    // $teal_prod_data["teal_cart_item_proddata"] = '';
-	
-    // return teal_str_replace_first( 'href="', $cartlink_with_data, $remove_from_cart_link );
+    $cartlink_with_data = sprintf('data-teal_product_id="%s" data-teal_product_name="%s" data-teal_product_price="%s" data-teal_product_cat="%s" data-teal_product_url="%s" data-teal_product_variant="%s" data-teal_product_stocklevel="%s" data-teal_product_list_price="%s" data-teal_product_sku="%s" data-teal_product_brand="%s" data-teal_product_discount="%s" data-teal_product_image_url="%s" href="',
+        esc_attr( $teal_prod_data["teal_cart_item_proddata"]["product_id"][0] ),
+        esc_attr( $teal_prod_data["teal_cart_item_proddata"]["product_name"][0] ),
+        esc_attr( $teal_prod_data["teal_cart_item_proddata"]["product_unit_price"][0] ),
+        esc_attr( $teal_prod_data["teal_cart_item_proddata"]["product_category"][0] ),
+        esc_url(  $teal_prod_data["teal_cart_item_proddata"]["product_url"][0] ),
+        esc_attr( $teal_prod_data["teal_cart_item_proddata"]["product_variant"][0] ),
+        esc_attr( $teal_prod_data["teal_cart_item_proddata"]["product_stocklevel"][0] ),
+        esc_attr( $teal_prod_data["teal_cart_item_proddata"]["product_list_price"][0] ),
+        esc_attr( $teal_prod_data["teal_cart_item_proddata"]["product_sku"][0] ),
+        esc_attr( $teal_prod_data["teal_cart_item_proddata"]["product_brand"][0] ),
+        esc_attr( $teal_prod_data["teal_cart_item_proddata"]["product_discount"][0] ),
+        esc_attr( $teal_prod_data["teal_cart_item_proddata"]["product_image_url"][0] )
+    );
+    $teal_prod_data["teal_cart_item_proddata"] = '';
+
+    return teal_str_replace_first( 'href="', $cartlink_with_data, $remove_from_cart_link );
 }
 
 // utilizing the following source https://stackoverflow.com/questions/1252693/using-str-replace-so-that-it-only-acts-on-the-first-match
