@@ -121,7 +121,7 @@ function getProductData(data){
     var _product_list_price = jQuery( '[name=tealium_product_list_price]', _product_form ).val();
     var _product_url        = jQuery( '[name=tealium_product_url]', _product_form ).val();
     var _product_image_url  = jQuery( '[name=tealium_product_image_url]', _product_form ).val();
-    var _product_currency   = jQuery( '[name=tealium_currency]', _product_form ).val();
+    var _product_currency   = jQuery( '[name=tealium_currency]', _product_form ).val() ? jQuery( '[name=tealium_currency]', _product_form ).val() : "";
     var _product_stocklevel = jQuery( '[name=tealium_product_stocklevel]', _product_form ).val();
     var _product_discount   = jQuery( '[name=tealium_product_discount]', _product_form ).val();
 
