@@ -667,8 +667,7 @@ function teal_woocommerce_cart_item_remove_link_filter( $remove_from_cart_link )
     );
     $teal_prod_data["teal_cart_item_proddata"] = '';
 
-    return $remove_from_cart_link."this test";
-    // return teal_str_replace_first( 'href="', $cartlink_with_data, $remove_from_cart_link );
+    return teal_str_replace_first( 'href="', $cartlink_with_data, $remove_from_cart_link );
 }
 
 // utilizing the following source https://stackoverflow.com/questions/1252693/using-str-replace-so-that-it-only-acts-on-the-first-match
