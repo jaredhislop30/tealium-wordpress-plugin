@@ -239,6 +239,7 @@ function getProductData($prodID,$productData,$cartItem){
     $productData['product_quantity'][] = strval($cartItem['quantity']);
     $productData['product_url'][] = get_permalink( $product->get_id() );
     $productData['product_stocklevel'][] = $product->get_stock_quantity();
+    $productData['product_currency'] = get_woocommerce_currency();
     if($product->get_regular_price() != $product->get_price() && ($product->get_regular_price() !== "" && null !==$product->get_regular_price())){
         $productData['product_discount'][] = strval((float)$product->get_regular_price() - (float)$product->get_price());
     }else{
@@ -622,16 +623,6 @@ function teal_cart_item_product_filter( $product, $cart_item="", $cart_id="" ) {
     $product_sku    = $product->get_sku();
 
     $product_data_test = getProductData($product_id,null,null);
-
-    // $_temp_productdata = array(
-    //  "id"          => $remarketing_id,
-    //  "name"        => $product->get_title(),
-    //  "price"       => $product->get_price(),
-    //  "category"    => $product_cat,
-    //  "productlink" => apply_filters( 'the_permalink', get_permalink(), 0),
-    //  "variant"     => "",
-    //  "stocklevel"  => $product->get_stock_quantity()
-    // );
 
     if ( "variation" == $product_type ) {
         $product_data_test[ "product_variant" ] = implode(",", $product->get_variation_attributes());
