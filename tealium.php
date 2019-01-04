@@ -239,7 +239,7 @@ function getProductData($prodID,$productData,$cartItem){
     $productData['product_quantity'][] = strval($cartItem['quantity']);
     $productData['product_url'][] = get_permalink( $product->get_id() );
     $productData['product_stocklevel'][] = $product->get_stock_quantity();
-    $productData['product_currency'] = get_woocommerce_currency();
+    $productData['product_currency'][] = get_woocommerce_currency();
     if($product->get_regular_price() != $product->get_price() && ($product->get_regular_price() !== "" && null !==$product->get_regular_price())){
         $productData['product_discount'][] = strval((float)$product->get_regular_price() - (float)$product->get_price());
     }else{
@@ -528,12 +528,6 @@ function tealiumDataObject() {
     return $utagdata;
 }
 
-
-
-function test_remove_func($url){
-    
-    return $url."test teal func";
-}
 
 /*
  * Add data to product page for tracking add to cart
