@@ -239,6 +239,7 @@ function getProductData($prodID,$productData,$cartItem){
     $productData['product_quantity'][] = strval($cartItem['quantity']);
     $productData['product_url'][] = get_permalink( $product->get_id() );
     $productData['product_stocklevel'][] = $product->get_stock_quantity();
+    $productData['product_currency'][] = get_woocommerce_currency();
     if($product->get_regular_price() != $product->get_price() && ($product->get_regular_price() !== "" && null !==$product->get_regular_price())){
         $productData['product_discount'][] = strval((float)$product->get_regular_price() - (float)$product->get_price());
     }else{
@@ -528,12 +529,6 @@ function tealiumDataObject() {
 }
 
 
-
-function test_remove_func($url){
-    
-    return $url."test teal func";
-}
-
 /*
  * Add data to product page for tracking add to cart
  */
@@ -623,16 +618,6 @@ function teal_cart_item_product_filter( $product, $cart_item="", $cart_id="" ) {
 
     $product_data_test = getProductData($product_id,null,null);
 
-    // $_temp_productdata = array(
-    //  "id"          => $remarketing_id,
-    //  "name"        => $product->get_title(),
-    //  "price"       => $product->get_price(),
-    //  "category"    => $product_cat,
-    //  "productlink" => apply_filters( 'the_permalink', get_permalink(), 0),
-    //  "variant"     => "",
-    //  "stocklevel"  => $product->get_stock_quantity()
-    // );
-
     if ( "variation" == $product_type ) {
         $product_data_test[ "product_variant" ] = implode(",", $product->get_variation_attributes());
     }else{
@@ -646,13 +631,6 @@ function teal_cart_item_product_filter( $product, $cart_item="", $cart_id="" ) {
 
 function teal_woocommerce_cart_item_remove_link_filter( $remove_from_cart_link ) {
     global $teal_globals;
-    // if ( ! isset( $GLOBALS["teal_cart_item_proddata"] ) ) {
-    //  return $remove_from_cart_link;
-    // }
-
-    // if ( ! is_array( $GLOBALS["teal_cart_item_proddata"] ) ) {
-    //  return $remove_from_cart_link;
-    // }
 
     $cartlink_with_data = sprintf('data-teal_product_id="%s" data-teal_product_name="%s" data-teal_product_price="%s" data-teal_product_cat="%s" data-teal_product_url="%s" data-teal_product_variant="%s" data-teal_product_stocklevel="%s" data-teal_product_list_price="%s" data-teal_product_sku="%s" data-teal_product_brand="%s" data-teal_product_discount="%s" data-teal_product_image_url="%s" href="',
         esc_attr( $teal_globals['teal_cart_item_proddata']["product_id"][0] ),

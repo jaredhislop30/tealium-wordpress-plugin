@@ -20,27 +20,12 @@ jQuery( document ).on( 'click', '.add_to_cart_button:not(.product_type_variable,
 jQuery( document ).on( 'click', '.single_add_to_cart_button', function() {
     var prod_data_json = getProductData(jQuery( this ).closest( 'form.cart' ));
 
-    // var _product_var_id     = jQuery( '[name=variation_id]', _product_form );
-    // var _product_id         = jQuery( '[name=tealium_product_id]', _product_form ).val();
-    // var _product_name       = jQuery( '[name=tealium_product_name]', _product_form ).val();
-    // var _product_sku        = jQuery( '[name=tealium_product_sku]', _product_form ).val();
-    // var _product_category   = jQuery( '[name=tealium_product_category]', _product_form ).val();
-    // var _product_unit_price = jQuery( '[name=tealium_product_unit_price]', _product_form ).val();
-    // var _product_list_price = jQuery( '[name=tealium_product_list_price]', _product_form ).val();
-    // var _product_url        = jQuery( '[name=tealium_product_url]', _product_form ).val();
-    // var _product_image_url  = jQuery( '[name=tealium_product_image_url]', _product_form ).val();
-    // var _product_currency   = jQuery( '[name=tealium_currency]', _product_form ).val();
-    // var _product_stocklevel = jQuery( '[name=tealium_product_stocklevel]', _product_form ).val();
-    // var _product_discount   = jQuery( '[name=tealium_product_discount]', _product_form ).val();
-
-
     if ( prod_data_json.product_variant.length > 0 && prod_data_json.product_variant[0] !== "" ) {
         if ( teal_current_prod_variation ) {
             var teal_data = {}
             teal_data.tealium_event = "cart_add";
-            teal_data.currency_code = _product_currency;
             teal_data.product_quantity = [jQuery( 'form.cart:first input[name=quantity]' ).val()];
-            var prod_data = Object.assign({}, teal_data, teal_current_prod_variation);
+            var prod_data = Object.assign({}, teal_current_prod_variation,teal_data);
             utag.link(prod_data);
         }
     } else {
@@ -106,11 +91,6 @@ jQuery( document ).on( 'found_variation', function( event, product_variation ) {
 
     current_product_detail_data.product_id = [product_variation.variation_id.toString()];
 
-    // Use Sku Instead Setting
-    // if ( gtm4wp_use_sku_instead && product_variation.sku && ('' !== product_variation.sku) ) {
-    //     current_product_detail_data.id = product_variation.sku;
-    // }
-
     current_product_detail_data.product_unit_price = [product_variation.display_price.toString()];
 
     var _tmp = [];
@@ -129,17 +109,6 @@ jQuery( document ).on( 'found_variation', function( event, product_variation ) {
     }
 });
 
-// WooCommere Cart Quick View
-jQuery( document ).ajaxSuccess( function( event, xhr, settings ) {
-    if ( settings.url.indexOf( 'wc-api=WC_Quick_View' ) > -1 ) {
-      setTimeout( function() {
-            jQuery( ".woocommerce.quick-view" ).parent().find( "script" ).each( function(i) {
-                eval( jQuery( this ).text() );
-            });
-        }, 500);
-    }
-});
-
 function getProductData(data){
     var _product_form = data;
     var _product_var_id     = jQuery( '[name=variation_id]', _product_form ).length ? jQuery( '[name=variation_id]', _product_form ) : "";
@@ -151,7 +120,7 @@ function getProductData(data){
     var _product_list_price = jQuery( '[name=tealium_product_list_price]', _product_form ).val();
     var _product_url        = jQuery( '[name=tealium_product_url]', _product_form ).val();
     var _product_image_url  = jQuery( '[name=tealium_product_image_url]', _product_form ).val();
-    var _product_currency   = jQuery( '[name=tealium_currency]', _product_form ).val();
+    var _product_currency   = jQuery( '[name=tealium_product_currency]', _product_form ).val() ? jQuery( '[name=tealium_currency]', _product_form ).val() : "";
     var _product_stocklevel = jQuery( '[name=tealium_product_stocklevel]', _product_form ).val();
     var _product_discount   = jQuery( '[name=tealium_product_discount]', _product_form ).val();
 
