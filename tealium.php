@@ -371,8 +371,8 @@ function tealiumWooCommerceData( $utagdata ) {
         
         // Set cart contents.
         //TODO Remove this line:
-        $utagdata['cartContents'] = $woocomCart['cart_contents'];
-        $utagdata['cartItems'] = $items;
+        // $utagdata['cartContents'] = $woocomCart['cart_contents'];
+        // $utagdata['cartItems'] = $items;
         if ( !empty( $woocomCart['cart_contents'] ) ) {
             $test = array();
             // Get cart product IDs, SKUs, Titles etc.
@@ -467,6 +467,7 @@ function tealiumDataObject() {
             }else if(get_post_type()=="product" && strpos(get_the_archive_title(),"Category")>-1){
                 $cat = explode(": ",strtolower(get_the_archive_title()));
                 $utagdata['pageName'] = $cat[1];
+                $utagdata['pageType'] = "archive";
                 $term = get_queried_object();
                 // Get product categories used for page section and categories
                 if($term && isset($term->term_id)){
