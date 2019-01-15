@@ -371,8 +371,8 @@ function tealiumWooCommerceData( $utagdata ) {
         
         // Set cart contents.
         //TODO Remove this line:
-        $utagdata['cartContents'] = $woocomCart['cart_contents'];
-        $utagdata['cartItems'] = $items;
+        // $utagdata['cartContents'] = $woocomCart['cart_contents'];
+        // $utagdata['cartItems'] = $items;
         if ( !empty( $woocomCart['cart_contents'] ) ) {
             $test = array();
             // Get cart product IDs, SKUs, Titles etc.
