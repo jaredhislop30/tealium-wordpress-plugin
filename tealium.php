@@ -98,7 +98,7 @@ function admin_init_tealium() {
     register_setting( 'tealiumTagAdvanced', 'tealiumDNSPrefetch' );
     register_setting( 'tealiumTagAdvanced', 'tealiumEUOnly' );
     register_setting( 'tealiumTagAdvanced', 'tealiumExcludeMetaData' );
-    register_setting( 'tealiumIncludeWooCommerceTracking', 'tealiumIncludeWooCommerceTracking');
+    register_setting( 'tealiumTagAdvanced', 'tealiumIncludeWooCommerceTracking');
     register_setting( 'tealiumTagAdvanced', 'tealiumNamespace' );
 
     wp_register_style( 'tealium-stylesheet', plugins_url( 'tealium.css', __FILE__ ) );
