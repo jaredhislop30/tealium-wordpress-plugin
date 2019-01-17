@@ -62,7 +62,7 @@ function activate_tealium() {
     add_option( 'tealiumEUOnly', '' );
     add_option( 'tealiumExcludeMetaData', '1' );
     add_option( 'tealiumIncludeWooCommerceTracking', '1' );
-    add_option( 'tealiumTrackCustomerData' );
+    add_option( 'tealiumTrackCustomerData', '1' );
     add_option( 'tealiumNamespace', '' );
 }
 
