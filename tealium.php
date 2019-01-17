@@ -33,7 +33,8 @@ define( 'DIR_PATH',       plugin_dir_path( __FILE__ ) );
 
 $teal_globals['plugin_url'] = plugin_dir_url( __FILE__ );
 $teal_globals['$teal_plugin_basename'] = plugin_basename( __FILE__ );
-$teal_globals['woo_enabled'] = in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) );
+// $teal_globals['woo_enabled'] = in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) );
+$teal_globals['woo_enabled'] = get_option( 'tealiumIncludeWooCommerceTracking' );
 $teal_globals['teal_cart_item_proddata'] = '';
 
 
@@ -60,6 +61,7 @@ function activate_tealium() {
     add_option( 'tealiumDNSPrefetch', '1' );
     add_option( 'tealiumEUOnly', '' );
     add_option( 'tealiumExcludeMetaData', '1' );
+    add_option( 'tealiumIncludeWooCommerceTracking', '1');
     add_option( 'tealiumNamespace', '' );
 }
 
@@ -78,6 +80,7 @@ function deactive_tealium() {
     delete_option( 'tealiumDNSPrefetch' );
     delete_option( 'tealiumEUOnly' );
     delete_option( 'tealiumExcludeMetaData' );
+    delete_option( 'tealiumIncludeWooCommerceTracking');
     delete_option( 'tealiumNamespace' );
 }
 
@@ -95,6 +98,7 @@ function admin_init_tealium() {
     register_setting( 'tealiumTagAdvanced', 'tealiumDNSPrefetch' );
     register_setting( 'tealiumTagAdvanced', 'tealiumEUOnly' );
     register_setting( 'tealiumTagAdvanced', 'tealiumExcludeMetaData' );
+    register_setting( 'tealiumIncludeWooCommerceTracking', 'tealiumIncludeWooCommerceTracking');
     register_setting( 'tealiumTagAdvanced', 'tealiumNamespace' );
 
     wp_register_style( 'tealium-stylesheet', plugins_url( 'tealium.css', __FILE__ ) );

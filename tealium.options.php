@@ -184,6 +184,15 @@ function tealiumGenerateBulkDataSourceList() {
 					</td>
 				</tr>
 				<tr>
+					<th scope="row"><?php _e( 'Exclude meta data', 'tealium' ); ?></th>
+					<td>
+						<label for="tealiumIncludeWooCommerceTracking">
+							<input type="checkbox" name="tealiumIncludeWooCommerceTracking" id="tealiumIncludeWooCommerceTracking" value="1"<?php checked( 1 == get_option( 'tealiumIncludeWooCommerceTracking' ) ); ?> />
+							<?php _e( 'Remove ALL WordPress meta data from data layer', 'tealium' ); ?>
+						</label>
+					</td>
+				</tr>
+				<tr>
 					<th scope="row"><label for="tealiumExclusions"><?php _e( 'Data layer exclusions', 'tealium' ); ?></label></th>
 					<td>
 						<input name='tealiumExclusions' id='tealiumExclusions' size='50' type='text' value='<?php echo get_option( 'tealiumExclusions' ); ?>' class='regular-text' />
