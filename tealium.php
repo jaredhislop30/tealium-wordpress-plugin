@@ -59,7 +59,7 @@ function activate_tealium() {
     add_option( 'tealiumUtagSync', '' );
     add_option( 'tealiumDNSPrefetch', '1' );
     add_option( 'tealiumEUOnly', '' );
-    add_option( 'tealiumExcludeMetaData', '' );
+    add_option( 'tealiumExcludeMetaData', '1' );
     add_option( 'tealiumNamespace', '' );
 }
 
@@ -446,12 +446,12 @@ function tealiumDataObject() {
         }
 
         // Get and merge post meta data
-        // if ( "1" !== get_option( 'tealiumExcludeMetaData' ) ) {
-        //  $meta = get_post_meta( get_the_ID() );
-        //  if ( $meta ) {
-        //      $utagdata = array_merge( $utagdata, $meta );
-        //  }
-        // }
+        if ( "1" !== get_option( 'tealiumExcludeMetaData' ) ) {
+            $meta = get_post_meta( get_the_ID() );
+            if ( $meta ) {
+                $utagdata = array_merge( $utagdata, $meta );
+            }
+        }
     }else if ( is_category() ) {
             $utagdata['pageName'] = "category-archive";
             $utagdata['postTitle'] = single_cat_title( 'Category archive: ', false );
