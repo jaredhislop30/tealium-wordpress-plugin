@@ -59,7 +59,7 @@ function activate_tealium() {
     add_option( 'tealiumUtagSync', '' );
     add_option( 'tealiumDNSPrefetch', '1' );
     add_option( 'tealiumEUOnly', '' );
-    add_option( 'tealiumExcludeMetaData', '' );
+    add_option( 'tealiumExcludeMetaData', '1' );
     add_option( 'tealiumNamespace', '' );
 }
 
@@ -399,7 +399,6 @@ function tealiumDataObject() {
     $utagdata = array();
 
     // Set Default Data. May be overwritten below / later
-    $utagdata['plugin_version'] = "0.0.8";
     $utagdata['siteName'] = get_bloginfo( 'name' );
     $utagdata['siteDescription'] = get_bloginfo( 'description' );
     $utagdata['language_code'] = explode("_",get_locale())[0];
@@ -439,6 +438,7 @@ function tealiumDataObject() {
         $utagdata['pageName'] = get_the_title();
         $utagdata['postAuthor'] = get_userdata( $post->post_author )->display_name;
         $utagdata['postDate'] = get_the_time( 'Y/m/d' );
+        $utagdata['postTitle'] = get_the_title();
 
         if ( ( is_home() ) || ( is_front_page() ) ) {
             $utagdata['pageName'] = "homepage";
@@ -446,12 +446,12 @@ function tealiumDataObject() {
         }
 
         // Get and merge post meta data
-        // if ( "1" !== get_option( 'tealiumExcludeMetaData' ) ) {
-        //  $meta = get_post_meta( get_the_ID() );
-        //  if ( $meta ) {
-        //      $utagdata = array_merge( $utagdata, $meta );
-        //  }
-        // }
+        if ( "1" !== get_option( 'tealiumExcludeMetaData' ) ) {
+            $meta = get_post_meta( get_the_ID() );
+            if ( $meta ) {
+                $utagdata = array_merge( $utagdata, $meta );
+            }
+        }
     }else if ( is_category() ) {
             $utagdata['pageName'] = "category-archive";
             $utagdata['postTitle'] = single_cat_title( 'Category archive: ', false );
