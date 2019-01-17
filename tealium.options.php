@@ -193,6 +193,15 @@ function tealiumGenerateBulkDataSourceList() {
 					</td>
 				</tr>
 				<tr>
+					<th scope="row"><?php _e( 'Track Customer Data', 'tealium' ); ?></th>
+					<td>
+						<label for="tealiumTrackCustomerData">
+							<input type="checkbox" name="tealiumTrackCustomerData" id="tealiumTrackCustomerData" value="1"<?php checked( 1 == get_option( 'tealiumTrackCustomerData' ) ); ?> />
+							<?php _e( 'If user is logged in, capture Email, User Login, Display Name, User ID and ', 'tealium' ); ?>
+						</label>
+					</td>
+				</tr>
+				<tr>
 					<th scope="row"><label for="tealiumExclusions"><?php _e( 'Data layer exclusions', 'tealium' ); ?></label></th>
 					<td>
 						<input name='tealiumExclusions' id='tealiumExclusions' size='50' type='text' value='<?php echo get_option( 'tealiumExclusions' ); ?>' class='regular-text' />

@@ -61,7 +61,8 @@ function activate_tealium() {
     add_option( 'tealiumDNSPrefetch', '1' );
     add_option( 'tealiumEUOnly', '' );
     add_option( 'tealiumExcludeMetaData', '1' );
-    add_option( 'tealiumIncludeWooCommerceTracking', '1');
+    add_option( 'tealiumIncludeWooCommerceTracking', '1' );
+    add_option( 'tealiumTrackCustomerData' );
     add_option( 'tealiumNamespace', '' );
 }
 
@@ -80,7 +81,8 @@ function deactive_tealium() {
     delete_option( 'tealiumDNSPrefetch' );
     delete_option( 'tealiumEUOnly' );
     delete_option( 'tealiumExcludeMetaData' );
-    delete_option( 'tealiumIncludeWooCommerceTracking');
+    delete_option( 'tealiumIncludeWooCommerceTracking' );
+    delete_option( 'tealiumTrackCustomerData' );
     delete_option( 'tealiumNamespace' );
 }
 
@@ -98,7 +100,8 @@ function admin_init_tealium() {
     register_setting( 'tealiumTagAdvanced', 'tealiumDNSPrefetch' );
     register_setting( 'tealiumTagAdvanced', 'tealiumEUOnly' );
     register_setting( 'tealiumTagAdvanced', 'tealiumExcludeMetaData' );
-    register_setting( 'tealiumTagAdvanced', 'tealiumIncludeWooCommerceTracking');
+    register_setting( 'tealiumTagAdvanced', 'tealiumIncludeWooCommerceTracking' );
+    register_setting( 'tealiumTagAdvanced', 'tealiumTrackCustomerData' ); 
     register_setting( 'tealiumTagAdvanced', 'tealiumNamespace' );
 
     wp_register_style( 'tealium-stylesheet', plugins_url( 'tealium.css', __FILE__ ) );
@@ -410,6 +413,19 @@ function tealiumDataObject() {
     $utagdata['pageName'] = get_the_title();
     $utagdata['tealium_event'] = "page_view";
     $utagdata['currency_code'] = get_woocommerce_currency();
+
+    //Track if user is logged in
+    if( "1" == get_option('tealiumTrackCustomerData' )){
+        if ( is_user_logged_in() ) {
+            $current_user = wp_get_current_user();
+             if ( $current_user->exists() ) {
+                $utagdata['userLogin'] = $current_user->user_login;
+                $utagdata['userEmail'] = $current_user->user_email;
+                $utagdata['userDisplayName'] = $current_user->display_name;
+                $utagdata['userId'] = $current_user->ID;
+             }
+        }
+    }
     
 
     if ( ( is_single() ) || is_page() ) {
@@ -512,7 +528,7 @@ function tealiumDataObject() {
         }
 
     // Add shop data if WooCommerce is installed
-    if ( $teal_globals['woo_enabled'] ) {
+    if ( "1" == $teal_globals['woo_enabled'] ) {
         $utagdata = apply_filters( 'tealium_wooCommerceData', $utagdata );
     }
 
@@ -987,7 +1003,7 @@ if ( is_admin() ) {
         add_action( 'wp_head', 'tealiumEncodedDataObject', 1 );
     }
 }
-if (  $teal_globals['woo_enabled']  ) {
+if ( "1" == $teal_globals['woo_enabled']  ) {
     add_action('wp_head', 'tealiumWoocommerceEnqueueJS');
     add_action( "woocommerce_after_add_to_cart_button", "teal_add_to_cart" );
     add_action( "woocommerce_before_shop_loop_item", "teal_product_data_on_list_page" );
