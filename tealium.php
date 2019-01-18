@@ -1,6 +1,6 @@
 <?php
 /**
- * Challenger Server Browser
+ * Tealium Data Layer Wordpress Plugin
  * @link              https://github.com/jaredhislop30
  * @since             0.1.0
  * @package           Tealium Plugin
@@ -9,8 +9,8 @@
  * Plugin Name:       Tealium
  * Plugin URI:        https://github.com/jaredhislop30/tealium-wordpress-plugin
  * Description:       Tealium Plugin
- * Version:           2.1.123
- * Author:            Jared Hislop
+ * Version:           3.0.0
+ * Author:            Ian Hampton
  * Author URI:        https://github.com/jaredhislop30
  * License:           Public
  * Text Domain:       Tealium
@@ -18,11 +18,11 @@
  *
  */
 /*
-Plugin Name: Tealium - Backup
+Plugin Name: Tealium
 Plugin URI: http://tealium.com
 Description: TEMP - Adds the Tealium tag and creates a data layer for your WordPress site.
-Version: 2.1.11
-Author: Jared Hislop
+Version: 3.0.0
+Author: Ian Hampton
 Author URI: http://tealium.com
 Text Domain: tealium
 Domain Path: /languages
@@ -408,11 +408,11 @@ function tealiumDataObject() {
     // Set Default Data. May be overwritten below / later
     $utagdata['siteName'] = get_bloginfo( 'name' );
     $utagdata['siteDescription'] = get_bloginfo( 'description' );
-    $utagdata['language_code'] = explode("_",get_locale())[0];
-    $utagdata['country_code'] = strtolower(explode("_",get_locale())[1]);
+    $utagdata['languageCode'] = explode("_",get_locale())[0];
+    $utagdata['countryCode'] = strtolower(explode("_",get_locale())[1]);
     $utagdata['pageName'] = get_the_title();
     $utagdata['tealium_event'] = "page_view";
-    $utagdata['currency_code'] = get_woocommerce_currency();
+    $utagdata['currencyCode'] = get_woocommerce_currency();
 
     //Track if user is logged in
     if( "1" == get_option('tealiumTrackCustomerData' )){
@@ -480,7 +480,7 @@ function tealiumDataObject() {
             $utagdata['postTitle'] = single_tag_title( 'Tag archive: ', false );
     }else if ( is_archive() ) {
             $utagdata['pageType'] = "category";
-            $utagdata['site_section'] = "shop";
+            $utagdata['siteSection'] = "shop";
             //Accounts for top level "Shop" page
             if(get_the_archive_title() == "Archives: Products"){
                 $utagdata['pageName'] = "shop";
@@ -497,16 +497,16 @@ function tealiumDataObject() {
                     $len = sizeof($parent_ids);
                     //If no parent categories then set top level category directly. 
                     if($len==0){
-                        $utagdata['category_name'] = $term->slug;
+                        $utagdata['categoryName'] = $term->slug;
                     }else{
                         // Reverse the order of categories so the variable hierarchy matches the category hiearchy
                         $parent_ids = array_reverse($parent_ids);
                         array_push($parent_ids,$term->term_id);
                         for($ind=0; $ind < sizeof($parent_ids); $ind++){
                             if($ind==0){
-                                $utagdata['category_name'] = get_term_by( 'id', $parent_ids[$ind], 'product_cat' )->slug;
+                                $utagdata['categoryName'] = get_term_by( 'id', $parent_ids[$ind], 'product_cat' )->slug;
                             }else{
-                                $utagdata['category_name_'.$ind] = get_term_by( 'id', $parent_ids[$ind], 'product_cat' )->slug; 
+                                $utagdata['categoryName_'.$ind] = get_term_by( 'id', $parent_ids[$ind], 'product_cat' )->slug; 
                             }
                         }
                     }           
@@ -522,7 +522,7 @@ function tealiumDataObject() {
 
             // Add to udo
             $utagdata['pageName'] = "search";
-            $utagdata['searchQuery'] = $searchQuery;
+            $utagdata['searchKeyword'] = $searchQuery;
             $utagdata['searchResults'] = $searchCount;
             $utagdata['tealium_event'] = "search";
         }
@@ -636,15 +636,15 @@ function teal_cart_item_product_filter( $product, $cart_item="", $cart_id="" ) {
     $remarketing_id = $product_id;
     $product_sku    = $product->get_sku();
 
-    $product_data_test = getProductData($product_id,null,null);
+    $product_data = getProductData($product_id,null,null);
 
     if ( "variation" == $product_type ) {
-        $product_data_test[ "product_variant" ] = implode(",", $product->get_variation_attributes());
+        $product_data[ "product_variant" ] = implode(",", $product->get_variation_attributes());
     }else{
-        $product_data_test[ "product_variant" ] = [""];
+        $product_data[ "product_variant" ] = [""];
     }
 
-    $teal_globals['teal_cart_item_proddata'] = $product_data_test;
+    $teal_globals['teal_cart_item_proddata'] = $product_data;
 
     return $product;
 }
