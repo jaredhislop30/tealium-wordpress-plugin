@@ -46,8 +46,50 @@ function tealiumGenerateBulkDataSourceList() {
 		"postTitle" => "Contains the post's title",
 		"postAuthor" => "Contains the post author",
 		"postDate" => "Contains the post date",
-		"searchQuery" => "Contains the search query conducted by user",
-		"searchResults" => "Contains the number of search results returned"
+		"searchKeyword" => "Value of search text entered by user. eg. 'long sleeve'",
+		"searchResults" => "Contains the number of search results returned",
+		"cartTotal_items" => "Total number of all items in the cart.",
+		"cartTotal_value" => "Total value for all items in the cart as a string with only digits and decimal",
+		"categoryId" => "A unique identifier for the category being viewed eg. '243', 'MENS_SHOES', etc.",
+		"categoryName" => "A user-friendly name for the category being viewed eg. 'Shoes: Boots'",
+		"checkoutStep" => "Specifies which step number the user is on during the checkout process",
+		"countryCode" => "Country Code eg. us, uk, mx, ca, jp, etc.",
+		"customerCity" => "Contains the customer's city of residence.",
+		"customerCountry" => "Contains the customer's country of residence.",
+		"customerEmail" => "Contains the customer's email address.",
+		"customerFirstName" => "The first name of the customer.",
+		"customerId" => "Contains the unique customer ID.",
+		"customerLastName" => "The last name of the customer.",
+		"customerPostalCode" => "Contains the customer's postal code.",
+		"customerState" => "Contains the customer's state of residence.",
+		"languageCode" => "Language Code eg.  us, es, fr, etc.",
+		"orderCurrencyCode" => "Currency code for the site eg. USD, GBP, EUR, CAD",
+		"orderDiscountAmount" => "Contains the order-level discount amount. eg. 10.00  as a string with only digits and decimal",
+		"orderTotal" => "Total Amount of the Order including tax and shipping but less all discounts as a string with only digits and decimal",
+		"orderId" => "Unique Identifier for an order, should only be populated on Order Confirmation page.",
+		"orderPaymentType" => "Contains the type of payment eg. visa, paypal",
+		"orderPromoCode" => "String list of comma separated promotion codes.",
+		"orderShippingAmount" => "Contains the total value for shipping as a string with only digits and decimal.",
+		"orderShippingType" => "Contains the type of shipping. eg. 'FedEx Priority'.",
+		"orderStore" => "Identifier of store type (i.e. web or mobile web)",
+		"orderSubtotal" => "Contains price of all items including any product or order level discounts, but excluding tax and shipping as a string with only digits and decimal",
+		"orderTaxAmount" => "Total tax amount for this order as a string with only digits and decimal.",
+		"orderType" => "The type of conversion that just took place or user that is on the site.",
+		"pageName" => "Tealium variable to identify the page name",
+		"productBrand" => "An array of product brands.",
+		"productCategory" => "An array of product categories",
+		"productDiscountAmount" => "An array of product discount amounts, usually as a result of product-level coupons as strings with only digits and decimal",
+		"productId" => "An array of product IDs",
+		"productImageUrl" => "URL to the main product image.",
+		"productName" => "An array of product names.",
+		"productOriginalPrice" => "An array of original suggested retail product prices as strings with only digits and decimal",
+		"productPrice" => "An array of product selling prices as strings with only digits and decimal",
+		"productPromoCode" => "An array of promo/coupon codes applied to specific products eg. SHOES10OFF",
+		"productQuantity" => "An array of quantities for each product.",
+		"productSku" => "An array of product skus",
+		"productSubcategory" => "An array of product sub-categories eg. Apparel",
+		"productUrl" => "URL to the individual product",
+		"siteSection" => "The high-level sections of your site eg. Apparel, Accessories, Help, etc."
 	);
 
 	if ( get_option( 'tealiumDataStyle' ) == '1' ) {
@@ -181,6 +223,24 @@ function tealiumGenerateBulkDataSourceList() {
 						echo tealiumSelectList( 'tealiumDataStyle', $options );
 						?>
 						<p class="description"><?php _e( 'CamelCase = <code>postDate, siteName</code> Underscore = <code>post_date, site_name</code>', 'tealium' ); ?></p>
+					</td>
+				</tr>
+				<tr>
+					<th scope="row"><?php _e( 'Track Woocommerce Data', 'tealium' ); ?></th>
+					<td>
+						<label for="tealiumIncludeWooCommerceTracking">
+							<input type="checkbox" name="tealiumIncludeWooCommerceTracking" id="tealiumIncludeWooCommerceTracking" value="1"<?php checked( 1 == get_option( 'tealiumIncludeWooCommerceTracking' ) ); ?> />
+							<?php _e( 'Track Product, Cart, and Order data', 'tealium' ); ?>
+						</label>
+					</td>
+				</tr>
+				<tr>
+					<th scope="row"><?php _e( 'Track Customer Data', 'tealium' ); ?></th>
+					<td>
+						<label for="tealiumTrackCustomerData">
+							<input type="checkbox" name="tealiumTrackCustomerData" id="tealiumTrackCustomerData" value="1"<?php checked( 1 == get_option( 'tealiumTrackCustomerData' ) ); ?> />
+							<?php _e( 'If user is logged in, capture Email, User Login, Display Name, User ID and ', 'tealium' ); ?>
+						</label>
 					</td>
 				</tr>
 				<tr>
